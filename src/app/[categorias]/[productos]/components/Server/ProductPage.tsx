@@ -1,7 +1,6 @@
 import Image from "next/image";
 import ProductClient from "../Client/ProductoClient";
 import ProductoNoEncontrado from "./ProductoNoEncontrado";
-import { div } from "framer-motion/client";
 // Mock server data fetching function (simulando búsqueda por nombre de producto)
 async function fetchProductData(productName: string) {
   // Aquí simulo una búsqueda, en la vida real esto vendría de una base de datos o API
