@@ -70,8 +70,11 @@ async function fetchProductData(productName: string) {
   };
 }
 
-// El parámetro `params` contiene los valores de la ruta dinámica
-export default async function ProductPage({ params }: { params: { productos: string } }) {
+interface ProductPageProps {
+  params: { productos: string };
+}
+
+export default async function ProductPage({ params }: ProductPageProps) {
   const productName = params.productos;
   const productData = await fetchProductData(productName);
 
