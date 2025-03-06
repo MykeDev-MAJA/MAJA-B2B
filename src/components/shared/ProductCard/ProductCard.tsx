@@ -4,6 +4,7 @@ import { useState } from "react"
 import Image from "next/image"
 import { motion } from "framer-motion"
 import { Heart, ShoppingBag } from "lucide-react"
+import Link from "next/link"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -14,12 +15,13 @@ interface ColorOption {
   class: string
   image: string
   stock: number
+  link: string
 }
 
 const colorOptions: ColorOption[] = [
-    { name: "Azul", class: "bg-[#004963]", image: "/images/Producto/azul.webp", stock: 500 },
-    { name: "Rojo", class: "bg-[#A91A26]", image: "/images/Producto/rojo.webp", stock: 1347 },
-    { name: "Verde", class: "bg-[#607C4C]", image: "/images/Producto/verde.jpg", stock: 621 },
+    { name: "Azul", class: "bg-[#004963]", image: "/images/Producto/azul.webp", stock: 500 , link: "/hombre/camisa-azul" },
+    { name: "Rojo", class: "bg-[#A91A26]", image: "/images/Producto/rojo.webp", stock: 1347 , link: "/hombre/camisa-roja" },
+    { name: "Verde", class: "bg-[#607C4C]", image: "/images/Producto/verde.jpg", stock: 621 , link: "/hombre/camisa-verde" },
 ]
 
 export default function ProductCard() {
@@ -54,14 +56,16 @@ export default function ProductCard() {
       <Badge className="absolute top-3 left-3 z-10 bg-primary/90 hover:bg-primary">Nuevo</Badge>
 
       <div className="relative h-92 overflow-hidden">
-        <Image
-          className="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-500"
-          src={selectedColor ? selectedColor.image : "/images/Producto/azul.webp"}
-          alt="Camisa manga larga outdoor"
-          width={500}
-          height={600}
-          priority
-        />
+        <Link href={selectedColor ? selectedColor.link : colorOptions[0].link}>
+          <Image
+            className="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-500"
+            src={selectedColor ? selectedColor.image : "/images/Producto/azul.webp"}
+            alt="Camisa manga larga outdoor"
+            width={500}
+            height={600}
+            priority
+          />
+        </Link>
       </div>
 
       <div className="p-5">
@@ -75,8 +79,8 @@ export default function ProductCard() {
           {selectedColor ? selectedColor.name : colorOptions[1].name}
         </p>
 
-        <p className="text-primary font-bold mb-1">
-          $1,799.00
+        <p className="text-primary text-sm font-bold mb-1">
+          <span className="font-light">Desde</span> $1,799.00 <span className="font-light">hasta</span> $1,199.00
         </p>
 
         <p className="text-sm text-gray-600 font-extralight mb-3">
@@ -112,10 +116,12 @@ export default function ProductCard() {
         </div>
 
         <div className="mt-5">
+        <Link href={selectedColor ? selectedColor.link : colorOptions[0].link}>
           <Button className="w-full gap-2 group">
             <ShoppingBag className="h-4 w-4 group-hover:scale-110 transition-transform" />
             Realizar pedido
           </Button>
+          </Link>
         </div>
       </div>
     </div>
