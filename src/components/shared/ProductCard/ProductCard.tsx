@@ -133,6 +133,7 @@ export default function ProductCard({ product }: { product: Product }) {
             Realizar pedido
           </Button>
           </Link>
+          </Link>
         </div>
       </div>
     </div>
