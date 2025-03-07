@@ -132,7 +132,7 @@ export default function ProductCard({ product }: { product: Product }) {
             <ShoppingBag className="h-4 w-4 group-hover:scale-110 transition-transform" />
             Realizar pedido
           </Button>
-          </Link>
+         
           </Link>
         </div>
       </div>
