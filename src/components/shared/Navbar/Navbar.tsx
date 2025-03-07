@@ -7,6 +7,7 @@ const Navbar = () => {
   return (
     <nav className="sticky top-0 z-50 flex h-15 items-center justify-between p-4 border-b px-8 bg-white">
       <div className="flex-shrink-0">
+        <Link href="/">
         <Image
           src="/images/maja_corp_logo.svg"
           alt="MAJA Corp Logo"
@@ -14,6 +15,8 @@ const Navbar = () => {
           height={20.9}
           
         />
+        </Link>
+      
       </div>
       <div className="flex items-center space-x-6">
         <div className="flex items-center space-x-2">
