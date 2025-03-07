@@ -30,7 +30,8 @@ export const metadata: Metadata = {
         url: "https://b2b-maja-corp.netlify.app/images/ImagesOg/Home/capibara_nadando.webp", 
         width: 800,
         height: 600,
-        alt: "Descripción de la imagen",
+        alt: "Imagen de capibara nadando",
+
       },
     ],
     locale: "es_ES",
