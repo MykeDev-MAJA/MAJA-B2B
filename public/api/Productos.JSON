@@ -1,0 +1,94 @@
+{
+  "hombres": [
+    {
+      "id": 1,
+      "name": "Camisa Outdoor EquipCamisa Fishing JEEP® x MAJA® Outdoor Cherokee Manga Corta",
+      "price": 1799.00,
+      "categoria": "Hombre",
+      "agrupado": true,
+      "colors": [
+        {
+          "name": "Cafe",
+          "class": "bg-[#C5BEA8]",
+          "image": "/images/Producto/Jeep_cafe.jpg",
+          "stock": 500
+        },
+        {
+          "name": "Negro",
+          "class": "bg-[#000000]",
+          "image": "/images/Producto/Jeep_negro.jpg",
+          "stock": 1347
+        },
+        {
+          "name": "Verde",
+          "class": "bg-[#607C4C]",
+          "image": "/images/Producto/Jeep_verde.jpg",
+          "stock": 621
+        }
+      ],
+      "isNew": true
+    },
+    {
+      "id": 2,
+      "name": "Camisa Outdoor Equipo",
+      "price": 1799.00,
+      "categoria": "Hombre",
+      "agrupado": false,
+      "colors": [
+        {
+          "name": "Azul",
+          "class": "bg-[#004963]",
+          "image": "/images/Producto/azul.webp",
+          "stock": 500
+        },
+        {
+          "name": "Rojo",
+          "class": "bg-[#A91A26]",
+          "image": "/images/Producto/rojo.webp",
+          "stock": 1347
+        },
+        {
+          "name": "Verde",
+          "class": "bg-[#607C4C]",
+          "image": "/images/Producto/verde.jpg",
+          "stock": 621
+        }
+      ],
+      "isNew": true
+    },
+    {
+      "id": 3,
+      "name": "Polo Dri Fit JEEP® x MAJA®Jeepster",
+      "price": 1799.00,
+      "categoria": "Hombre",
+      "agrupado": true,
+      "colors": [
+        {
+          "name": "Azul",
+          "class": "bg-[#A5CFE8]",
+          "image": "/images/Producto/polo_azul.jpg",
+          "stock": 765
+        }
+      ],
+      "isNew": true
+    }
+  ],
+  "mujeres": [
+    {
+      "id": 4,
+      "name": "Camisa Outdoor EquipCamisa Fishing JEEP® x MAJA® Outdoor Cherokee Manga Corta",
+      "price": 1799.00,
+      "categoria": "Mujer",
+      "agrupado": true,
+      "colors": [
+        {
+          "name": "Cafe",
+          "class": "bg-[#C5BEA8]",
+          "image": "/images/Producto/Jeep_cafe.jpg",
+          "stock": 500
+        }
+      ],
+      "isNew": true
+    }
+  ]
+}

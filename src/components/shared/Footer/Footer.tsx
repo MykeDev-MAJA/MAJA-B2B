@@ -1,13 +1,15 @@
 import React from 'react'
 import { FaFacebookF, FaInstagram, FaWhatsapp } from 'react-icons/fa'
-
+import Image from 'next/image'
 export const Footer = () => {
   return (
     <div className='bg-[#1F1F21] text-white h-fit py-12 '>
       <div className='flex flex-col  container mx-auto px-4 '>
-      <img 
+      <Image 
               src="https://majasportswear.com/wp-content/uploads/2024/09/maja_footer_logo_d.svg" 
               alt="Maja Sportswear Logo" 
+              width={128}
+              height={32}
               className="w-32 h-auto mb-4 px-2"
             />
       <div className='container flex  px-4'>

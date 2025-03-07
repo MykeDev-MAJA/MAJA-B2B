@@ -1,11 +1,11 @@
 import FullScreenContent from "@/components/Home/FullScreenContent";
-import { Products } from "@/components/Home/Products";
+import { ServerProducts } from "@/components/Home/ServerProducts";
 
 export default function Home() {
   return (
     <>
       <FullScreenContent />
-      <Products />
+      <ServerProducts />
     </>
   );
 }
