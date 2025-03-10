@@ -42,9 +42,17 @@ export async function generateMetadata(props: {
     title: `${productName} | Categoría: ${params.productosCategorias}`,
     description: `Encuentra ${productName} en nuestra tienda online. Calidad garantizada.`,
     openGraph: {
+      title: `${productName} | Maja Corp`,
+      description: `Encuentra ${productName} en nuestra tienda online. Producto de alta calidad en la categoría ${params.productosCategorias}. Envíos a todo México.`,
+      type: "website",
+      locale: 'es_MX',
+      siteName: 'Maja Corp',
       images: [
         {
           url: `https://b2b-maja-corp.netlify.app/images/Producto/azul.webp`,
+          width: 800,
+          height: 800,
+          alt: `${productName} - Vista principal`,
         },
       ],
     },
