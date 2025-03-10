@@ -23,11 +23,11 @@ export const metadata: Metadata = {
   },
   description: 'Un catálogo con la mejor selección de nuestras prendas, especiales para tu empresa y equipo de trabajo',
   keywords: "B2B, negocio, MAJA Corp, soluciones empresariales",
-  authors: [{ name: "MAJA Corp", url: "https://majasportswear.com" }],
+  authors: [{ name: "MAJA Corp", url: "https://b2b-maja-corp.netlify.app" }],
   openGraph: {
     title: "MAJA Corp",
     description: "El mejor B2B para tu negocio",
-    url: "https://majasportswear.com",
+    url: "https://b2b-maja-corp.netlify.app",
     siteName: "MAJA Corp",
     images: [ 
       {

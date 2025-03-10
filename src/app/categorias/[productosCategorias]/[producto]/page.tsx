@@ -44,7 +44,7 @@ export async function generateMetadata(props: {
     openGraph: {
       images: [
         {
-          url: `/images/Producto/masProducto/C-CO10-9-camisa-manga-larga-outdoor-equipo-verde-oscuro-maja-sportswear-01-scaled.webp`,
+          url: `https://b2b-maja-corp.netlify.app/images/Producto/masProducto/C-CO10-9-camisa-manga-larga-outdoor-equipo-verde-oscuro-maja-sportswear-01-scaled.webp`,
         },
       ],
     },
