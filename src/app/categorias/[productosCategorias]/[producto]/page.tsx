@@ -40,7 +40,14 @@ export async function generateMetadata(props: {
   
   return {
     title: `${productName} | Categoría: ${params.productosCategorias}`,
-    description: `Encuentra ${productName} en nuestra tienda online. Calidad garantizada.`
+    description: `Encuentra ${productName} en nuestra tienda online. Calidad garantizada.`,
+    openGraph: {
+      images: [
+        {
+          url: `/images/Producto/masProducto/C-CO10-9-camisa-manga-larga-outdoor-equipo-verde-oscuro-maja-sportswear-01-scaled.webp`,
+        },
+      ],
+    },
   }
 }
 
@@ -103,8 +110,8 @@ export default async function Page(props: {
               </TabsContent>
               <TabsContent value="negro" className="h-full mt-0">
                 <Image
-                  src="/placeholder.svg?height=800&width=800"
-                  alt={`${productName} - Negro`}
+                  src="/images/Producto/masProducto/C-CO10-9-camisa-manga-larga-outdoor-equipo-verde-oscuro-maja-sportswear-02-scaled.webp"
+                  alt={`${productName}`}
                   width={800}
                   height={800}
                   className="object-contain w-full h-full"
@@ -112,7 +119,7 @@ export default async function Page(props: {
               </TabsContent>
               <TabsContent value="rojo" className="h-full mt-0">
                 <Image
-                  src="/placeholder.svg?height=800&width=800"
+                  src="/images/Producto/masProducto/C-CO10-9-camisa-manga-larga-outdoor-equipo-verde-oscuro-maja-sportswear-03-scaled.webp"
                   alt={`${productName} - Rojo`}
                   width={800}
                   height={800}
@@ -121,7 +128,7 @@ export default async function Page(props: {
               </TabsContent>
               <TabsContent value="verde" className="h-full mt-0">
                 <Image
-                  src="/placeholder.svg?height=800&width=800"
+                  src="/images/Producto/masProducto/C-CO10-9-camisa-manga-larga-outdoor-equipo-verde-oscuro-maja-sportswear-04-scaled.webp"
                   alt={`${productName} - Verde`}
                   width={800}
                   height={800}
@@ -130,29 +137,73 @@ export default async function Page(props: {
               </TabsContent>
             </div>
             <TabsList className="grid grid-cols-4 h-24 bg-transparent">
-              {colors.map((color) => (
-                <TabsTrigger
-                  key={color.value}
-                  value={color.value}
-                  className="p-0 data-[state=active]:border-2 data-[state=active]:border-primary rounded-md overflow-hidden"
-                >
-                  <div className="w-full h-full p-1">
-                    <div className="relative rounded-md overflow-hidden">
-                      <Image
-                        src={
-                          color.value === "azul"
-                            ? "/images/Producto/azul.webp"
-                            : `/images/Producto/azul.webp`
-                        }
-                        alt={`${color.name} thumbnail`}
-                        height={100}
-                        width={100}
-                        className="object-contain"
-                      />
-                    </div>
+              <TabsTrigger
+                value="azul"
+                className="p-0 data-[state=active]:border-2 data-[state=active]:border-primary rounded-md overflow-hidden"
+              >
+                <div className="w-full h-full p-1">
+                  <div className="relative rounded-md overflow-hidden">
+                    <Image
+                      src="/images/Producto/azul.webp"
+                      alt="Azul thumbnail"
+                      height={100}
+                      width={100}
+                      className="object-contain"
+                    />
                   </div>
-                </TabsTrigger>
-              ))}
+                </div>
+              </TabsTrigger>
+              
+              <TabsTrigger
+                value="negro"
+                className="p-0 data-[state=active]:border-2 data-[state=active]:border-primary rounded-md overflow-hidden"
+              >
+                <div className="w-full h-full p-1">
+                  <div className="relative rounded-md overflow-hidden">
+                    <Image
+                  src="/images/Producto/masProducto/C-CO10-9-camisa-manga-larga-outdoor-equipo-verde-oscuro-maja-sportswear-02-scaled.webp"
+                  alt="Negro thumbnail"
+                      height={100}
+                      width={100}
+                      className="object-contain"
+                    />
+                  </div>
+                </div>
+              </TabsTrigger>
+              
+              <TabsTrigger
+                value="rojo"
+                className="p-0 data-[state=active]:border-2 data-[state=active]:border-primary rounded-md overflow-hidden"
+              >
+                <div className="w-full h-full p-1">
+                  <div className="relative rounded-md overflow-hidden">
+                    <Image
+                  src="/images/Producto/masProducto/C-CO10-9-camisa-manga-larga-outdoor-equipo-verde-oscuro-maja-sportswear-03-scaled.webp"
+                  alt="Rojo thumbnail"
+                      height={100}
+                      width={100}
+                      className="object-contain"
+                    />
+                  </div>
+                </div>
+              </TabsTrigger>
+              
+              <TabsTrigger
+                value="verde"
+                className="p-0 data-[state=active]:border-2 data-[state=active]:border-primary rounded-md overflow-hidden"
+              >
+                <div className="w-full h-full p-1">
+                  <div className="relative rounded-md overflow-hidden">
+                    <Image
+                  src="/images/Producto/masProducto/C-CO10-9-camisa-manga-larga-outdoor-equipo-verde-oscuro-maja-sportswear-04-scaled.webp"
+                  alt="Verde thumbnail"
+                      height={100}
+                      width={100}
+                      className="object-contain"
+                    />
+                  </div>
+                </div>
+              </TabsTrigger>
             </TabsList>
           </Tabs>
         </div>
@@ -253,7 +304,7 @@ export default async function Page(props: {
                 Agregar a cotización
               </Button>
               <Button size="lg" variant="outline" className="w-full">
-                Consultar disponibilidad
+                Contactar a un asesor
               </Button>
             </div>
           </div>

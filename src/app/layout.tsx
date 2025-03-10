@@ -16,8 +16,12 @@ import { Footer } from "@/components/shared/Footer/Footer";
 // });
 
 export const metadata: Metadata = {
-  title: "MAJA Corp",
-  description: "El mejor B2B para tu negocio",
+  metadataBase: new URL('https://b2b-maja-corp.netlify.app'),
+  title: {
+    template: '%s | MAJA Corp',
+    default: 'MAJA Corp - Representa el valor de tu empresa',
+  },
+  description: 'Un catálogo con la mejor selección de nuestras prendas, especiales para tu empresa y equipo de trabajo',
   keywords: "B2B, negocio, MAJA Corp, soluciones empresariales",
   authors: [{ name: "MAJA Corp", url: "https://majasportswear.com" }],
   openGraph: {

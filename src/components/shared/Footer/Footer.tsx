@@ -32,7 +32,7 @@ Culiacán, Sinaloa México
 667 690 3738  ext. 130
             </p>
           </div>
-          <div id='horario' className='space-y-2 text-left mx-auto'>
+          <div id='horario' className='space-y-2 text-left md:mx-auto'>
            
            <p className='text-lg font-semibold'>Horario atención al cliente</p>
            <p className='text-gray-400'>
@@ -46,7 +46,7 @@ Culiacán, Sinaloa México
 
       
          </div>
-         <div id='contact' className='space-y-2 text-left mx-auto'>
+         <div id='contact' className='space-y-2 text-left md:mx-auto'>
            <p className='text-lg font-semibold'>Correo</p>
            <p className='text-gray-400'>
            <span className='font-medium text-gray-200'>Información en general: </span> <br />
