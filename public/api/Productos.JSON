@@ -4,14 +4,14 @@
       "id": 1,
       "name": "Camisa Outdoor EquipCamisa Fishing JEEP® x MAJA® Outdoor Cherokee Manga Corta",
       "price": 1799.00,
-      "categoria": "Hombre",
+      "categoria": "hombres",
       "agrupado": true,
       "colors": [
         {
           "name": "Cafe",
           "class": "bg-[#C5BEA8]",
           "image": "/images/Producto/Jeep_cafe.jpg",
-          "stock": 500
+          "stock": 4
         },
         {
           "name": "Negro",
@@ -26,13 +26,13 @@
           "stock": 621
         }
       ],
-      "isNew": true
+      "isNew": false
     },
     {
       "id": 2,
       "name": "Camisa Outdoor Equipo",
       "price": 1799.00,
-      "categoria": "Hombre",
+      "categoria": "hombres",
       "agrupado": false,
       "colors": [
         {
@@ -60,7 +60,7 @@
       "id": 3,
       "name": "Polo Dri Fit JEEP® x MAJA®Jeepster",
       "price": 1799.00,
-      "categoria": "Hombre",
+      "categoria": "hombres",
       "agrupado": true,
       "colors": [
         {
@@ -70,24 +70,37 @@
           "stock": 765
         }
       ],
-      "isNew": true
+      "isNew": false
     }
   ],
   "mujeres": [
     {
       "id": 4,
-      "name": "Camisa Outdoor EquipCamisa Fishing JEEP® x MAJA® Outdoor Cherokee Manga Corta",
+      "name": "Camiseta Manga Larga Outdoor Signature",
       "price": 1799.00,
-      "categoria": "Mujer",
-      "agrupado": true,
+      "categoria": "mujeres",
+      "agrupado": false,
       "colors": [
         {
-          "name": "Cafe",
-          "class": "bg-[#C5BEA8]",
-          "image": "/images/Producto/Jeep_cafe.jpg",
+          "name": "Azul",
+          "class": "bg-[#004963]",
+          "image": "/images/Producto/D-CO1-3-camiseta-manga-larga-outdoor-signature-azul-marino-maja-sportswear-01-scaled-700x933.webp",
           "stock": 500
+        },
+        {
+          "name": "Rojo",
+          "class": "bg-[#A91A26]",
+          "image": "/images/Producto/D-CO1-9-camisa-manga-larga-outdoor-signature-tinta-maja-sportswear-01-scaled.jpg",
+          "stock": 1347
+        },
+        {
+          "name": "Verde",
+          "class": "bg-[#607C4C]",
+          "image": "/images/Producto/D-CO1-4-camiseta-manga-larga-outdoor-signature-verde-maja-sportswear-01-scaled.webp",
+          "stock": 621
         }
       ],
+
       "isNew": true
     }
   ]

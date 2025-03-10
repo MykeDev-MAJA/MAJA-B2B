@@ -19,6 +19,7 @@ export interface Product {
 }
 
 export interface ProductsData {
+  [category: string]: Product[];
   hombres: Product[];
   mujeres: Product[];
 }

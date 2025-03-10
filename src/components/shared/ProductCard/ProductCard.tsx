@@ -3,11 +3,11 @@
 import { useState } from "react"
 import Image from "next/image"
 import { motion } from "framer-motion"
-import {  ShoppingBag } from "lucide-react"
+import { ShoppingBag } from "lucide-react"
+import Link from "next/link"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
 
 interface Product {
@@ -26,16 +26,22 @@ interface ColorOption {
   stock: number;
 }
 
+// Create a motion button by extending the Button component
+const MotionButton = motion(Button);
+
 export default function ProductCard({ product }: { product: Product }) {
   const [selectedColor, setSelectedColor] = useState<ColorOption | null>(product.colors[0]);
-  // const [isFavorite, setIsFavorite] = useState(false);
-
-  // const handleFavoriteClick = () => {
-  //   setIsFavorite(!isFavorite);
-  // };
+  
+  const colorName = selectedColor ? selectedColor.name : product.colors[0].name;
+  const productUrl = `/categorias/${product.categoria}/${product.name}-${colorName}`.replace(/\s+/g, '-');
+  
+  const minPrice = (product.price * 0.85).toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const maxPrice = (product.price * 0.65).toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  
+  // const currentStock = selectedColor ? selectedColor.stock : product.colors[0].stock;
 
   return (
-    <div className="group relative max-w-sm rounded-lg overflow-hidden shadow-lg bg-white hover:shadow-2xl transition-all duration-200">
+    <div className="group relative max-w-[340px] rounded-lg overflow-hidden shadow-lg bg-white hover:shadow-2xl transition-all duration-200">
 
       {/* ESTE ES EL BOTON PARA AÑADIR A FAVORITOS */}
 
@@ -57,6 +63,7 @@ export default function ProductCard({ product }: { product: Product }) {
           <span className="sr-only">Añadir a favoritos</span>
         </Button>
       </div> */}
+      
 
       {/* ESTE ES EL BOTON PARA AÑADIR A NUEVOS */}
 
@@ -64,18 +71,24 @@ export default function ProductCard({ product }: { product: Product }) {
         <Badge className="absolute rounded-[35px] top-3 left-3 z-10 bg-primary/90 hover:bg-primary">Nuevo</Badge>
       )}
 
+
+{selectedColor && selectedColor.stock <= 5 && (
+          <Badge className="absolute top-3 right-3 text-xs text-white bg-primary/90 z-10 font-medium ">
+            ¡Últimas unidades disponibles!
+          </Badge>
+        )}
+
       <div className="relative h-92 overflow-hidden">
-        <Link href={`/${product.categoria}/${selectedColor ? `${product.name}-${selectedColor.name}`.replace(/\s+/g, '-') : `${product.name}-${product.colors[0].name}`.replace(/\s+/g, '-')}`}>
-        <Image
-          className="w-full h-full object-fit object-center transform group-hover:scale-105 transition-transform duration-500"
-          src={selectedColor ? selectedColor.image : product.colors[0].image}
-          alt={product.name}
-          width={500}
-          height={600}
-          priority
-        />
+        <Link href={productUrl}>
+          <Image
+            className="w-full h-full object-fit object-center transform group-hover:scale-105 transition-transform duration-500"
+            src={selectedColor ? selectedColor.image : product.colors[0].image}
+            alt={`${product.name} en color ${selectedColor ? selectedColor.name : product.colors[0].name}`}
+            width={500}
+            height={600}
+            priority
+          />
         </Link>
-      
       </div>
 
       <div className="p-5">
@@ -89,15 +102,16 @@ export default function ProductCard({ product }: { product: Product }) {
           {selectedColor ? selectedColor.name : product.colors[0].name}
         </p>
 
-        <p className="text-primary font-bold mb-1">
-          ${product.price.toFixed(2)}
+        <p className="text-primary mb-1">
+          Desde <span className="font-bold">${minPrice}</span> hasta <span className="font-bold">${maxPrice}</span>
         </p>
 
-        <p className="text-sm text-gray-600 font-extralight mb-3">
+        {/* <p className="text-sm text-gray-600 font-extralight mb-3">
           {selectedColor ? selectedColor.stock : product.colors[0].stock} unidades disponibles
-        </p>
+        </p> */}
 
-        <div className="space-y-3">
+
+        <div className="space-y-2 mt-3">
           <p className="text-xs font-medium text-gray-700">Colores disponibles</p>
           <div className="flex gap-2">
             {product.colors.map((color) => (
@@ -110,6 +124,7 @@ export default function ProductCard({ product }: { product: Product }) {
                   selectedColor?.name === color.name ? "ring-2 ring-offset-2 ring-primary" : "hover:scale-110"
                 )}
                 aria-label={`Color ${color.name}`}
+                title={`${color.name} - ${color.stock} disponibles`}
               >
                 {selectedColor?.name === color.name && (
                   <motion.div
@@ -125,14 +140,19 @@ export default function ProductCard({ product }: { product: Product }) {
           </div>
         </div>
 
-        <div className="absolute bottom-3 right-3">
-        <Link href={`/${product.categoria}/${selectedColor ? `${product.name}-${selectedColor.name}`.replace(/\s+/g, '-') : `${product.name}-${product.colors[0].name}`.replace(/\s+/g, '-')}`}>
+    
 
-          <Button className="w-full gap-2 group rounded-[35px]">
-            <ShoppingBag className="h-4 w-4 group-hover:scale-110 transition-transform" />
-            Realizar pedido
-          </Button>
-         
+        <div className="absolute bottom-3 right-3">
+          <Link href={productUrl}>
+            <MotionButton
+              className="w-full gap-2 group rounded-[35px] hover:cursor-pointer"
+              whileHover={{ y: [0, -3, 0] }}
+              transition={{ duration: 0.8, repeat: Infinity, repeatType: 'reverse', ease: 'easeInOut' }}
+              aria-label={`Ver detalles de ${product.name}`}
+            >
+              <ShoppingBag className="h-4 w-4 group-hover:scale-110 transition-transform" />
+              Ver producto
+            </MotionButton>
           </Link>
         </div>
       </div>
