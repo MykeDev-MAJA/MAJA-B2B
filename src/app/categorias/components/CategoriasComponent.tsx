@@ -22,6 +22,16 @@ const CategoriasComponent = () => {
       nombre: 'Mujeres',
       imagen: '/images/Categorias/mujeres.jpg' 
     },
+    {
+      id: 'chalecos',
+      nombre: 'Chalecos',
+      imagen: '/images/Categorias/chalecos.jpg' 
+    },
+    {
+      id: 'sombreros',
+      nombre: 'Sombreros',
+      imagen: '/images/Categorias/sombreros.jpg' 
+    },
 
   ];
 
@@ -42,6 +52,7 @@ const CategoriasComponent = () => {
                   src={categoria.imagen} 
                   alt={categoria.nombre}
                   fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   className="object-cover"
                 />
               </div>

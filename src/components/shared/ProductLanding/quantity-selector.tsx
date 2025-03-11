@@ -7,7 +7,6 @@ import { Minus, Plus } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 
 export default function QuantitySelector() {
   const [quantity, setQuantity] = useState(1)
@@ -31,7 +30,7 @@ export default function QuantitySelector() {
 
   return (
     <div className="space-y-2">
-      <Label htmlFor="quantity">Cantidad</Label>
+      {/* <Label htmlFor="quantity">Cantidad</Label> */}
       <div className="flex items-center">
         <Button
           variant="outline"

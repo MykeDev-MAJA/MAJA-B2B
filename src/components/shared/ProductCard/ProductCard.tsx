@@ -41,7 +41,7 @@ export default function ProductCard({ product }: { product: Product }) {
   // const currentStock = selectedColor ? selectedColor.stock : product.colors[0].stock;
 
   return (
-    <div className="group relative max-w-[340px] rounded-lg overflow-hidden shadow-lg bg-white hover:shadow-2xl transition-all duration-200">
+    <div className="group relative max-w-[320px] rounded-lg overflow-hidden shadow-lg bg-white hover:shadow-2xl transition-all duration-200">
 
       {/* ESTE ES EL BOTON PARA AÑADIR A FAVORITOS */}
 

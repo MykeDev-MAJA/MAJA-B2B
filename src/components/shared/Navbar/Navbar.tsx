@@ -1,4 +1,4 @@
-import { FiShoppingCart } from "react-icons/fi";
+import { FiShoppingCart, FiUser } from "react-icons/fi";
 import Image from "next/image";
 import Link from "next/link"
 
@@ -19,13 +19,14 @@ const Navbar = () => {
       
       </div>
       <div className="flex items-center space-x-6">
-        {/* <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2 cursor-pointer">
           <FiUser className="h-6 w-6 text-gray-700" />
-          <div className="flex flex-col text-sm"> */}
+          <div className="flex flex-col text-sm">
             {/* <span className="hidden sm:block">Nombre de usuario</span> */}
-            {/* <span className="hidden sm:block">Iniciar Sesión</span>
+            
+            <span className="hidden sm:block">Iniciar Sesión</span>
           </div>
-        </div> */}
+        </div>
         <div className="relative">
           <FiShoppingCart className="h-6 w-6 text-gray-700" />
           <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">

@@ -9,18 +9,21 @@
       "colors": [
         {
           "name": "Cafe",
+          "SKU": "X-CO1-10",
           "class": "bg-[#C5BEA8]",
           "image": "/images/Producto/Jeep_cafe.jpg",
           "stock": 4
         },
         {
           "name": "Negro",
+          "SKU": "X-CO1-11",
           "class": "bg-[#000000]",
           "image": "/images/Producto/Jeep_negro.jpg",
           "stock": 1347
         },
         {
           "name": "Verde",
+          "SKU": "X-CO1-12",
           "class": "bg-[#607C4C]",
           "image": "/images/Producto/Jeep_verde.jpg",
           "stock": 621
@@ -37,18 +40,22 @@
       "colors": [
         {
           "name": "Azul",
+          "SKU": "C-C61-10",
+
           "class": "bg-[#004963]",
           "image": "/images/Producto/azul.webp",
           "stock": 500
         },
         {
           "name": "Rojo",
+          "SKU": "C-C61-11",
           "class": "bg-[#A91A26]",
           "image": "/images/Producto/rojo.webp",
           "stock": 1347
         },
         {
           "name": "Verde",
+          "SKU": "C-C61-12",
           "class": "bg-[#607C4C]",
           "image": "/images/Producto/verde.jpg",
           "stock": 621
@@ -65,6 +72,8 @@
       "colors": [
         {
           "name": "Azul",
+          "SKU": "C-CO1-13",
+
           "class": "bg-[#A5CFE8]",
           "image": "/images/Producto/polo_azul.jpg",
           "stock": 765
@@ -78,23 +87,27 @@
       "id": 4,
       "name": "Camiseta Manga Larga Outdoor Signature",
       "price": 1799.00,
+   
       "categoria": "mujeres",
       "agrupado": false,
       "colors": [
         {
           "name": "Azul",
+          "SKU": "C-CO5-11",
           "class": "bg-[#004963]",
           "image": "/images/Producto/D-CO1-3-camiseta-manga-larga-outdoor-signature-azul-marino-maja-sportswear-01-scaled-700x933.webp",
           "stock": 500
         },
         {
           "name": "Rojo",
+          "SKU": "C-CO5-12",
           "class": "bg-[#A91A26]",
           "image": "/images/Producto/D-CO1-9-camisa-manga-larga-outdoor-signature-tinta-maja-sportswear-01-scaled.jpg",
           "stock": 1347
         },
         {
           "name": "Verde",
+          "SKU": "C-CO5-13",
           "class": "bg-[#607C4C]",
           "image": "/images/Producto/D-CO1-4-camiseta-manga-larga-outdoor-signature-verde-maja-sportswear-01-scaled.webp",
           "stock": 621

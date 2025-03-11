@@ -11,10 +11,12 @@ import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import QuantitySelector from "@/components/shared/ProductLanding/quantity-selector"
+import { Dialog } from "@/components/shared/Dialog/Dialog"
+import Customizer from "./components/Customizer"
 
 // Función para convertir el slug a nombre de producto
 function slugToProductName(slug: string): string {
-  // Primero decodificamos la URL para manejar caracteres especiales como ®
+  // Decodificar la URL para manejar caracteres especiales como ®
   const decodedSlug = decodeURIComponent(slug)
 
   // Luego reemplazamos los guiones por espacios
@@ -27,10 +29,13 @@ const sizes = ["ECH", "CH", "M", "G", "EG", "EEG"]
 // Colores disponibles
 const colors = [
   { name: "Azul", value: "azul", hex: "#1e40af" },
-  { name: "Negro", value: "negro", hex: "#171717" },
-  { name: "Rojo", value: "rojo", hex: "#b91c1c" },
-  { name: "Verde", value: "verde", hex: "#15803d" },
+  // { name: "Negro", value: "negro", hex: "#171717" },
+  // { name: "Rojo", value: "rojo", hex: "#b91c1c" },
+  // { name: "Verde", value: "verde", hex: "#15803d" },
 ]
+
+// Agregar el array de productos relacionados
+const productosRelacionados = ["Azul.webp", "Rojo.webp", "verde.jpg", "Jeep_verde.jpg"]
 
 export async function generateMetadata(props: {
   params: Promise<{ producto: string; productosCategorias: string }>
@@ -278,9 +283,14 @@ export default async function Page(props: {
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="font-medium">Talla</h3>
-              <Button variant="link" className="p-0 h-auto text-sm">
-                Guía de bordado
-              </Button>
+              <Dialog 
+                trigger={<Button variant="link" className="p-0 overflow-auto h-auto text-sm">
+                  Guía de bordado
+                </Button>}
+                title="Guía de bordado"
+              >
+              <Customizer />
+              </Dialog>
             </div>
             <RadioGroup defaultValue="M" className="flex flex-wrap gap-3">
               {sizes.map((size) => (
@@ -289,8 +299,9 @@ export default async function Page(props: {
                   <Label
                     htmlFor={`size-${size}`}
                     className="flex h-10 w-14 cursor-pointer items-center justify-center rounded-md border border-muted bg-background 
-                              text-sm font-medium ring-offset-background transition-colors hover:bg-muted/50
-                              peer-data-[state=checked]:bg-primary peer-data-[state=checked]:text-primary-foreground"
+                              text-sm font-medium ring-offset-background transition-colors hover:bg-muted/80
+                              peer-data-[state=checked]:bg-primary peer-data-[state=checked]:text-primary-foreground
+                              peer-data-[state=checked]:hover:bg-primary"
                   >
                     {size}
                   </Label>
@@ -368,19 +379,19 @@ export default async function Page(props: {
       <div className="mt-16">
         <h2 className="text-2xl font-bold mb-6">Productos relacionados</h2>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {[1, 2, 3, 4].map((item) => (
-            <Card key={item} className="overflow-hidden">
+          {productosRelacionados.map((producto) => (
+            <Card key={producto} className="overflow-hidden">
               <div className="aspect-square relative">
                 <Image
-                  src="/images/Producto/azul.webp"
+                  src={`/images/Producto/${producto}`}
                   width={300}
                   height={300}
-                  alt="Producto relacionado"
+                  alt={`Producto relacionado - ${producto}`}
                   className="object-cover"
                 />
               </div>
               <CardContent className="p-4">
-                <h3 className="font-medium truncate">Producto relacionado {item}</h3>
+                <h3 className="font-medium truncate">Producto {producto}</h3>
                 <p className="text-sm text-muted-foreground">$499.99</p>
               </CardContent>
             </Card>
