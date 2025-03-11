@@ -3,6 +3,7 @@ import "./globals.css";
 import React from 'react';
 import Navbar from '@/components/shared/Navbar/Navbar';
 import { Footer } from "@/components/shared/Footer/Footer";
+import { Toaster } from 'sonner'
 
 
 // const geistSans = Geist({
@@ -53,6 +54,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => (
       <Navbar />
       {children}
       <Footer />
+      <Toaster position="top-right" richColors />
     </body>
   </html>
 );

@@ -1,9 +1,10 @@
-import { FiShoppingCart, FiUser } from "react-icons/fi";
+
+import { FiUser } from "react-icons/fi";
 import Image from "next/image";
 import Link from "next/link"
-
-
+import Cart from "./Cart";
 const Navbar = () => {
+  
   return (
     <nav className="sticky top-0 z-50 flex h-15 items-center justify-between p-4 border-b px-8 bg-white">
       <div className="flex-shrink-0">
@@ -27,12 +28,8 @@ const Navbar = () => {
             <span className="hidden sm:block">Iniciar Sesión</span>
           </div>
         </div>
-        <div className="relative">
-          <FiShoppingCart className="h-6 w-6 text-gray-700" />
-          <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-            0
-          </span>
-        </div>
+        <Cart />
+
       </div>
     </nav>
   );
