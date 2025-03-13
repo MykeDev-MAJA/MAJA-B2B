@@ -8,6 +8,12 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Separator } from "@/components/ui/separator"
 import useCartStore from "@/contexts/useCartStore"
 import Link from "next/link"
+import { Dialog } from "@/components/shared/Dialog/Dialog"
+
+import { useState } from "react"
+
+import { toast } from "sonner"
+import DialogContentCotizacion from "@/app/carrito/components/DialogContentCotizacion"
 
 export default function CartPage() {
   const { 
@@ -45,10 +51,29 @@ export default function CartPage() {
   const currentDiscount = getDiscount(totalItems)
   const discountedTotal = subtotal * (1 - currentDiscount)
   const nextDiscountInfo = getNextDiscountThreshold(totalItems)
+  
+  // Estado para el correo electrónico
+  const [email, setEmail] = useState("")
+  
+  // Función para manejar el envío del formulario
+  const handleSubmitQuote = (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    if (!email.trim() || !/\S+@\S+\.\S+/.test(email)) {
+      toast.error("Por favor ingresa un correo electrónico válido")
+      return
+    }
+    
+    // Aquí iría la lógica para enviar la cotización al correo
+    // Por ahora solo mostramos un mensaje de éxito
+    toast.success(`Cotización enviada a ${email}`)
+    
+    // Cerrar el modal solo si el envío es exitoso
+    // setEmail("") // Limpiar el email
+  }
 
   return (
     <div className="container mx-auto py-8">
-      <h1 className="text-2xl font-bold mb-6">Mi Carrito de Compras</h1>
 
       {items.length === 0 ? (
         <div className="text-center py-10">
@@ -67,8 +92,8 @@ export default function CartPage() {
             <div className="space-y-4">
               {items.map((item) => (
                 <div key={item.id} className="flex items-center space-x-4">
-                  <div className="relative h-20 w-20 overflow-hidden rounded-md">
-                    <Image src={item.image || "/placeholder.svg"} alt={item.name} fill className="object-cover" />
+                  <div className="relative h-18 w-16 overflow-hidden rounded-md"> 
+                    <Image src={item.image || "/placeholder.svg"} alt={item.name} fill className="object-fit" />
                   </div>
 
                   <div className="flex-1">
@@ -152,30 +177,42 @@ export default function CartPage() {
               )}
               
               {nextDiscountInfo && (
+                
                 <p className="text-sm text-blue-600 mt-1">
-                  {nextDiscountInfo.threshold - totalItems} productos más para obtener un 
-                  {' '}{(nextDiscountInfo.discount * 100).toFixed(0)}% de descuento
+                  
+                  Agrega {nextDiscountInfo.threshold - totalItems} productos más para obtener un
+                  {' '}{(nextDiscountInfo.discount * 100).toFixed(0)}% de descuento. 
                 </p>
               )}
             </div>
-            <Button size="lg">Proceder al Pago</Button>
+
+           <span className="text-muted-foreground">Total de productos: {totalItems}</span>
+
+            <div className="flex items-center gap-2">
+              <Dialog 
+                trigger={<Button size="lg">Enviar Cotización</Button>}
+                title="Enviar Cotización"
+                className="max-w-md"
+            >
+              <DialogContentCotizacion 
+                totalItems={totalItems} 
+                subtotal={subtotal} 
+                discountedTotal={discountedTotal} 
+                currentDiscount={currentDiscount} 
+                onSubmit={handleSubmitQuote} 
+                email={email} 
+                setEmail={setEmail} 
+              />
+            </Dialog>
+            </div>
           </CardFooter>
         </Card>
       )}
       
-      {/* {items.length > 0 && (
-        <div className="mt-6 text-sm text-muted-foreground">
-          <p>Descuentos por volumen:</p>
-          <ul className="list-disc pl-5 mt-2">
-            <li className={totalItems >= 15 ? "font-medium" : ""}>15-49 productos: 15% de descuento</li>
-            <li className={totalItems >= 50 && totalItems < 100 ? "font-medium" : ""}>50-99 productos: 20% de descuento</li>
-            <li className={totalItems >= 100 && totalItems < 200 ? "font-medium" : ""}>100-199 productos: 25% de descuento</li>
-            <li className={totalItems >= 200 && totalItems < 500 ? "font-medium" : ""}>200-499 productos: 30% de descuento</li>
-            <li className={totalItems >= 500 ? "font-medium" : ""}>500+ productos: 35% de descuento</li>
-          </ul>
-        </div>
-      )} */}
+   
     </div>
   )
 }
+
+
 
