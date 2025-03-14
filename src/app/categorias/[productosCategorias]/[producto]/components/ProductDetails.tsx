@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { Heart, Share2 } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -24,6 +24,11 @@ interface ColorOption {
   hex: string
 }
 
+interface SizeQuantity {
+  size: string
+  quantity: number
+}
+
 const SIZES = ["ECH", "CH", "M", "G", "EG", "EEG"]
 const COLORS: ColorOption[] = [
   { name: "Azul", value: "azul", hex: "#1e40af" },
@@ -31,16 +36,29 @@ const COLORS: ColorOption[] = [
 
 export default function ProductDetails({ productName, price, sku }: ProductDetailsProps) {
   const [selectedColor, setSelectedColor] = useState<string>(COLORS[0].value)
-  const [selectedSize, setSelectedSize] = useState<string>("M")
-  const [quantity, setQuantity] = useState(1)
+  // Instead of a single size, we now keep track of quantity for each size
+  const [sizeQuantities, setSizeQuantities] = useState<SizeQuantity[]>(
+    SIZES.map(size => ({ size, quantity: 0 }))
+  )
 
-  // Esta función se pasará al componente QuantitySelector
-  const handleQuantityChange = (newQuantity: number) => {
-    setQuantity(newQuantity)
+  // Calculate total quantity of all sizes
+  const totalQuantity = useMemo(() => {
+    return sizeQuantities.reduce((sum, { quantity }) => sum + quantity, 0)
+  }, [sizeQuantities])
+
+  // Handle quantity change for a specific size
+  const handleQuantityChange = (size: string, newQuantity: number) => {
+    setSizeQuantities(prev => 
+      prev.map(item => 
+        item.size === size ? { ...item, quantity: newQuantity } : item
+      )
+    )
   }
 
-  // Generar ID único para el producto basado en sus características
-  const productId = `${sku}-${selectedColor}-${selectedSize}`
+  // Filter sizes with quantity > 0 for cart
+  const sizesForCart = useMemo(() => {
+    return sizeQuantities.filter(item => item.quantity > 0)
+  }, [sizeQuantities])
 
   return (
     <div className="flex flex-col gap-6">
@@ -106,58 +124,70 @@ export default function ProductDetails({ productName, price, sku }: ProductDetai
         </RadioGroup>
       </div>
 
-      {/* Selector de tallas */}
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h3 className="font-medium">Talla</h3>
-          <Dialog 
-            trigger={<Button variant="link" className="p-0 overflow-auto h-auto text-sm">
+      {/* Selector de tallas con cantidades */}
+      <div className="bg-white dark:bg-gray-950 rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden">
+      {/* Header */}
+      <div className="px-4 py-3 flex items-center justify-between border-b border-gray-100 dark:border-gray-800">
+        <h3 className="font-medium text-sm">Tallas y cantidades</h3>
+        <Dialog
+          trigger={
+            <Button variant="ghost" size="sm" className="text-xs font-medium text-primary hover:bg-primary/5">
               Guía de bordado
-            </Button>}
-            title="Guía de bordado"
-          >
-            <Customizer />
-          </Dialog>
-        </div>
-        <RadioGroup 
-          value={selectedSize} 
-          onValueChange={setSelectedSize} 
-          className="flex flex-wrap gap-3"
+            </Button>
+          }
+          title="Guía de bordado"
         >
-          {SIZES.map((size) => (
-            <div key={size} className="flex items-center">
-              <RadioGroupItem value={size} id={`size-${size}`} className="peer sr-only" />
-              <Label
-                htmlFor={`size-${size}`}
-                className="flex h-10 w-14 cursor-pointer items-center justify-center rounded-md border border-muted bg-background 
-                          text-sm font-medium ring-offset-background transition-colors hover:bg-muted/80
-                          peer-data-[state=checked]:bg-primary peer-data-[state=checked]:text-primary-foreground
-                          peer-data-[state=checked]:hover:bg-primary"
-              >
-                {size}
-              </Label>
-            </div>
-          ))}
-        </RadioGroup>
+          <Customizer />
+        </Dialog>
       </div>
 
-      {/* Selector de cantidad y botones de acción */}
-      <div className="space-y-4 pt-4">
-        <div className="flex items-center justify-between">
-          <h3 className="font-medium">Cantidad</h3>
+      {/* Size Grid */}
+      <div className="p-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          {SIZES.map((size) => (
+            <div
+              key={size}
+              className="flex items-center justify-between p-2.5 rounded-lg border border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors"
+            >
+              <div className="flex items-center space-x-2">
+                <div className="w-7 h-7 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800">
+                  <span className="text-xs font-medium">{size}</span>
+                </div>
+                <span className="text-xs font-medium">Stock {123}</span>
+              </div>
+              <QuantitySelector
+                initialValue={sizeQuantities.find((sq) => sq.size === size)?.quantity || 0}
+                min={0}
+                onChange={(quantity) => handleQuantityChange(size, quantity)}
+              />
+            </div>
+          ))}
         </div>
-        <QuantitySelector onChange={handleQuantityChange} initialValue={1} />
+      </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+      {/* Footer */}
+      <div className="px-4 py-3 bg-gray-50 dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800">
+        <div className="flex justify-between items-center">
+          <span className="text-xs text-gray-500 dark:text-gray-400">Selecciona las cantidades</span>
+          <div className="flex items-center space-x-1.5">
+            <span className="text-xs text-gray-500 dark:text-gray-400">Total:</span>
+            <span className="text-sm font-semibold">{totalQuantity} unidades</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+      {/* Botones de acción */}
+      <div className="pt-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <AddToCartButton 
-            id={productId}
+            id={`${sku}-${selectedColor}-multiple`}
             name={productName}
             price={price}
             sku={sku}
             image={`/images/Producto/${selectedColor}.webp`}
             color={selectedColor}
-            size={selectedSize}
-            quantity={quantity}
+            sizesWithQuantities={sizesForCart}
           />
           <Button size="lg" variant="outline" className="w-full">
             Contactar a un asesor

@@ -106,8 +106,9 @@ export default async function Page(props: {
       <div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
         {/* Galería de imágenes */}
         <div className="space-y-4">
+          <div className="sticky top-20">
           <Tabs defaultValue="azul" className="w-full">
-            <div className="aspect-square rounded-xl border overflow-hidden bg-background mb-4">
+            <div className="aspect-square max-h-96 rounded-xl border overflow-hidden bg-background mb-4">
               <TabsContent value="azul" className="h-full mt-0">
                 <Image
                   src="/images/Producto/azul.webp"
@@ -216,6 +217,8 @@ export default async function Page(props: {
               </TabsTrigger>
             </TabsList>
           </Tabs>
+          </div>
+        
         </div>
 
         {/* Detalles del producto */}

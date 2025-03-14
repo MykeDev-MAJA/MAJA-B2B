@@ -3,6 +3,9 @@ import { FiUser } from "react-icons/fi";
 import Image from "next/image";
 import Link from "next/link"
 import Cart from "./Cart";
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { AuthModal } from "@/components/shared/Dialog/Auth/auth-modal";
+
 const Navbar = () => {
   
   return (
@@ -21,15 +24,34 @@ const Navbar = () => {
       </div>
       <div className="flex items-center space-x-6">
         <div className="flex items-center space-x-2 cursor-pointer">
-          <FiUser className="h-6 w-6 text-gray-700" />
           <div className="flex flex-col text-sm">
             {/* <span className="hidden sm:block">Nombre de usuario</span> */}
-            
-            <span className="hidden sm:block">Iniciar Sesión</span>
+            <Dialog>
+              <DialogTrigger asChild>
+                <div className="flex items-center space-x-2 cursor-pointer">
+                <FiUser className="h-6 w-6 text-gray-700" />
+                <span className="hidden sm:block">Iniciar Sesión</span>
+                </div>
+              </DialogTrigger>
+              <DialogContent
+              className="w-full max-w-md bg-transparent border-none absolute top-20 left-50%"
+              >
+                <DialogTitle></DialogTitle>
+                <AuthModal />
+              </DialogContent>
+            </Dialog>
+
+           
+         
+
+           
+
+           
           </div>
         </div>
         <Cart />
 
+ 
       </div>
     </nav>
   );
