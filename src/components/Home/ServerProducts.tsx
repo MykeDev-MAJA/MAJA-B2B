@@ -17,8 +17,8 @@ export async function ServerProducts({ filterCategory }: ServerProductsProps = {
     : products;
 
   return (
-    <div id="productsSeccion" className="min-h-screen flex flex-col items-center py-8 px-8 bg-gray-100">
-      <h1 className="text-4xl font-bold">
+    <div id="productsSeccion" className="min-h-screen flex flex-col items-center py-8 px-8">
+      <h1 className="text-4xl font-normal">
         {filterCategory ? `${filterCategory.charAt(0).toUpperCase() + filterCategory.slice(1)}` : 'Nuestros Productos'}
       </h1>
 

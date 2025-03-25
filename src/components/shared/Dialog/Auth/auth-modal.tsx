@@ -18,6 +18,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { toast } from "sonner";
+import styles from "./auth-modal.module.css";
 
 const loginSchema = z.object({
   email: z.string().email("Por favor, ingrese una dirección de correo electrónico válida"),
@@ -42,8 +43,6 @@ const registerSchema = z.object({
 
 type LoginFormData = z.infer<typeof loginSchema>;
 type RegisterFormData = z.infer<typeof registerSchema>;
-
-
 
 export function AuthModal() {
   const [isFlipped, setIsFlipped] = useState(false);
@@ -101,76 +100,226 @@ export function AuthModal() {
   };
 
   return (
-    <div className="perspective-1000 w-full max-w-md mx-auto">
-      <div
-        className={`relative transition-transform duration-700 transform-style-3d ${
-          isFlipped ? "rotate-y-180" : ""
-        }`}
-      >
-        {/* Login Form */}
-        <Card className="absolute w-full backface-hidden">
-          <CardHeader>
-            <CardTitle>Bienvenido de nuevo</CardTitle>
-            <CardDescription>
-Ingresa a tu cuenta para continuar            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={loginForm.handleSubmit(onLoginSubmit)} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="trizoneitor@gmail.com"
-                  autoComplete="email"
-                  {...loginForm.register("email")}
-                />
-                {loginForm.formState.errors.email && (
-                  <p className="text-sm text-red-500">
-                    {loginForm.formState.errors.email.message}
-                  </p>
-                )}
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="password">Contraseña</Label>
-                <div className="relative">
+    <div className="fixed inset-0 flex items-center justify-center z-50">
+      <div className={`w-full max-w-md ${styles.perspective1000}`}>
+        <div
+          className={`relative ${styles.cardContainer} ${styles.transformStyle3d} ${
+            isFlipped ? styles.flipped : ""
+          }`}
+        >
+          {/* Login Form */}
+          <Card className={`absolute w-full ${styles.backfaceHidden}`}>
+            <CardHeader>
+              <CardTitle>Bienvenido de nuevo</CardTitle>
+              <CardDescription>
+                Ingresa a tu cuenta para continuar
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={loginForm.handleSubmit(onLoginSubmit)} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email</Label>
                   <Input
-                    id="password"
-                    type={showPassword ? "text" : "password"}
-                    autoComplete="current-password"
-                    {...loginForm.register("password")}
+                    id="email"
+                    type="email"
+                    placeholder="trizoneitor@gmail.com"
+                    autoComplete="email"
+                    {...loginForm.register("email")}
                   />
+                  {loginForm.formState.errors.email && (
+                    <p className="text-sm text-red-500">
+                      {loginForm.formState.errors.email.message}
+                    </p>
+                  )}
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="password">Contraseña</Label>
+                  <div className="relative">
+                    <Input
+                      id="password"
+                      type={showPassword ? "text" : "password"}
+                      autoComplete="current-password"
+                      {...loginForm.register("password")}
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="absolute right-0 top-0 h-full px-3"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? (
+                        <EyeOff className="h-4 w-4" />
+                      ) : (
+                        <Eye className="h-4 w-4" />
+                      )}
+                    </Button>
+                  </div>
+                  {loginForm.formState.errors.password && (
+                    <p className="text-sm text-red-500">
+                      {loginForm.formState.errors.password.message}
+                    </p>
+                  )}
+                </div>
+
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="rememberMe"
+                    {...loginForm.register("rememberMe")}
+                  />
+                  <Label htmlFor="rememberMe">Recuerdame</Label>
+                </div>
+
+                <div className="space-y-4">
                   <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    className="absolute right-0 top-0 h-full px-3"
-                    onClick={() => setShowPassword(!showPassword)}
+                    type="submit"
+                    className="w-full"
+                    disabled={isLoading}
                   >
-                    {showPassword ? (
-                      <EyeOff className="h-4 w-4" />
+                    {isLoading ? (
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     ) : (
-                      <Eye className="h-4 w-4" />
+                      "Iniciar sesión"
                     )}
                   </Button>
+
+                  <div className="relative">
+                    <div className="absolute inset-0 flex items-center">
+                      <span className="w-full border-t" />
+                    </div>
+                    <div className="relative flex justify-center text-xs uppercase">
+                      <span className="bg-background px-2 text-muted-foreground">
+                        O continua con
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <Button variant="outline" type="button">
+                      <Facebook className="mr-2 h-4 w-4" />
+                      Facebook
+                    </Button>
+                    <Button variant="outline" type="button">
+                      <Mail className="mr-2 h-4 w-4" />
+                      Google
+                    </Button>
+                  </div>
                 </div>
-                {loginForm.formState.errors.password && (
-                  <p className="text-sm text-red-500">
-                    {loginForm.formState.errors.password.message}
-                  </p>
-                )}
-              </div>
+              </form>
+            </CardContent>
+            <CardFooter>
+              <Button
+                variant="ghost"
+                className="w-full"
+                onClick={() => setIsFlipped(true)}
+              >
+                No tienes una cuenta? Registrate
+              </Button>
+            </CardFooter>
+          </Card>
 
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="rememberMe"
-                  {...loginForm.register("rememberMe")}
-                />
-                <Label htmlFor="rememberMe">Recuerdame</Label>
-              </div>
+          {/* Register Form */}
+          <Card className={`absolute w-full ${styles.backfaceHidden} ${styles.rotateY180}`}>
+            <CardHeader>
+              <CardTitle>Crea una cuenta</CardTitle>
+              <CardDescription>
+                Ingresa tus datos para crear tu cuenta
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={registerForm.handleSubmit(onRegisterSubmit)} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="fullName">Nombre completo</Label>
+                  <Input
+                    id="fullName"
+                    placeholder="John Doe"
+                    autoComplete="name"
+                    {...registerForm.register("fullName")}
+                  />
+                  {registerForm.formState.errors.fullName && (
+                    <p className="text-sm text-red-500">
+                      {registerForm.formState.errors.fullName.message}
+                    </p>
+                  )}
+                </div>
 
-              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="registerEmail">Email</Label>
+                  <Input
+                    id="registerEmail"
+                    type="email"
+                    placeholder="alanJefe@hotmail.com"
+                    autoComplete="email"
+                    {...registerForm.register("email")}
+                  />
+                  {registerForm.formState.errors.email && (
+                    <p className="text-sm text-red-500">
+                      {registerForm.formState.errors.email.message}
+                    </p>
+                  )}
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="registerPassword">Contraseña</Label>
+                  <div className="relative">
+                    <Input
+                      id="registerPassword"
+                      type={showPassword ? "text" : "password"}
+                      autoComplete="new-password"
+                      {...registerForm.register("password")}
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="absolute right-0 top-0 h-full px-3"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? (
+                        <EyeOff className="h-4 w-4" />
+                      ) : (
+                        <Eye className="h-4 w-4" />
+                      )}
+                    </Button>
+                  </div>
+                  {registerForm.formState.errors.password && (
+                    <p className="text-sm text-red-500">
+                      {registerForm.formState.errors.password.message}
+                    </p>
+                  )}
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="confirmPassword">Confirmar contraseña</Label>
+                  <div className="relative">
+                    <Input
+                      id="confirmPassword"
+                      type={showConfirmPassword ? "text" : "password"}
+                      autoComplete="new-password"
+                      {...registerForm.register("confirmPassword")}
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="absolute right-0 top-0 h-full px-3"
+                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    >
+                      {showConfirmPassword ? (
+                        <EyeOff className="h-4 w-4" />
+                      ) : (
+                        <Eye className="h-4 w-4" />
+                      )}
+                    </Button>
+                  </div>
+                  {registerForm.formState.errors.confirmPassword && (
+                    <p className="text-sm text-red-500">
+                      {registerForm.formState.errors.confirmPassword.message}
+                    </p>
+                  )}
+                </div>
+
                 <Button
                   type="submit"
                   className="w-full"
@@ -179,169 +328,22 @@ Ingresa a tu cuenta para continuar            </CardDescription>
                   {isLoading ? (
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   ) : (
-                    "Iniciar sesión"
+                    "Crear cuenta"
                   )}
                 </Button>
-
-                <div className="relative">
-                  <div className="absolute inset-0 flex items-center">
-                    <span className="w-full border-t" />
-                  </div>
-                  <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-background px-2 text-muted-foreground">
-                      O continua con
-                    </span>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <Button variant="outline" type="button">
-                    <Facebook className="mr-2 h-4 w-4" />
-                    Facebook
-                  </Button>
-                  <Button variant="outline" type="button">
-                    <Mail className="mr-2 h-4 w-4" />
-                    Google
-                  </Button>
-                </div>
-              </div>
-            </form>
-          </CardContent>
-          <CardFooter>
-            <Button
-              variant="ghost"
-              className="w-full"
-              onClick={() => setIsFlipped(true)}
-            >
-              No tienes una cuenta? Registrate
-            </Button>
-          </CardFooter>
-        </Card>
-
-        {/* Register Form */}
-        <Card className="absolute w-full backface-hidden rotate-y-180">
-          <CardHeader>
-            <CardTitle>Crea una cuenta</CardTitle>
-            <CardDescription>
-              Ingresa tus datos para crear tu cuenta
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={registerForm.handleSubmit(onRegisterSubmit)} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="fullName">Nombre completo</Label>
-                <Input
-                  id="fullName"
-                  placeholder="John Doe"
-                  autoComplete="name"
-                  {...registerForm.register("fullName")}
-                />
-                {registerForm.formState.errors.fullName && (
-                  <p className="text-sm text-red-500">
-                    {registerForm.formState.errors.fullName.message}
-                  </p>
-                )}
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="registerEmail">Email</Label>
-                <Input
-                  id="registerEmail"
-                  type="email"
-                  placeholder="alanJefe@hotmail.com"
-                  autoComplete="email"
-                  {...registerForm.register("email")}
-                />
-                {registerForm.formState.errors.email && (
-                  <p className="text-sm text-red-500">
-                    {registerForm.formState.errors.email.message}
-                  </p>
-                )}
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="registerPassword">Contraseña</Label>
-                <div className="relative">
-                  <Input
-                    id="registerPassword"
-                    type={showPassword ? "text" : "password"}
-                    autoComplete="new-password"
-                    {...registerForm.register("password")}
-                  />
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    className="absolute right-0 top-0 h-full px-3"
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    {showPassword ? (
-                      <EyeOff className="h-4 w-4" />
-                    ) : (
-                      <Eye className="h-4 w-4" />
-                    )}
-                  </Button>
-                </div>
-                {registerForm.formState.errors.password && (
-                  <p className="text-sm text-red-500">
-                    {registerForm.formState.errors.password.message}
-                  </p>
-                )}
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="confirmPassword">Confirmar contraseña</Label>
-                <div className="relative">
-                  <Input
-                    id="confirmPassword"
-                    type={showConfirmPassword ? "text" : "password"}
-                    autoComplete="new-password"
-                    {...registerForm.register("confirmPassword")}
-                  />
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    className="absolute right-0 top-0 h-full px-3"
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  >
-                    {showConfirmPassword ? (
-                      <EyeOff className="h-4 w-4" />
-                    ) : (
-                      <Eye className="h-4 w-4" />
-                    )}
-                  </Button>
-                </div>
-                {registerForm.formState.errors.confirmPassword && (
-                  <p className="text-sm text-red-500">
-                    {registerForm.formState.errors.confirmPassword.message}
-                  </p>
-                )}
-              </div>
-
+              </form>
+            </CardContent>
+            <CardFooter>
               <Button
-                type="submit"
+                variant="ghost"
                 className="w-full"
-                disabled={isLoading}
+                onClick={() => setIsFlipped(false)}
               >
-                {isLoading ? (
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                ) : (
-                  "Crear cuenta"
-                )}
+                Ya tienes una cuenta? Inicia sesión
               </Button>
-            </form>
-          </CardContent>
-          <CardFooter>
-            <Button
-              variant="ghost"
-              className="w-full"
-              onClick={() => setIsFlipped(false)}
-            >
-              Ya tienes una cuenta? Inicia sesión
-            </Button>
-          </CardFooter>
-        </Card>
+            </CardFooter>
+          </Card>
+        </div>
       </div>
     </div>
   );

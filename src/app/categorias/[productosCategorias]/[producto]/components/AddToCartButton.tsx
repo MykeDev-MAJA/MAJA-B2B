@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { ShoppingCart } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import useCartStore from '@/contexts/useCartStore'
-import { toast } from 'sonner' // Asumiendo que usas toast para notificaciones
+import { toast } from 'sonner'
 
 interface SizeQuantity {
   size: string
@@ -39,22 +39,25 @@ export default function AddToCartButton({
     try {
       // No hay productos seleccionados
       if (sizesWithQuantities.length === 0) {
-        toast.error('Por favor selecciona al menos una talla y cantidad')
+        toast.error('Por favor selecciona al menos una talla y cantidad', {
+          dismissible: true
+        })
         return
       }
       
       // Añadir cada talla con su cantidad como un item separado
       sizesWithQuantities.forEach(({ size, quantity }) => {
-        const productId = `${id}-${size}`
+        const productId = `${id}-${size}-${color}`
         
         // Crear objeto de producto para el carrito
         const cartItem = {
           id: productId,
           SKU: sku,
-          name: `${name} - ${color} / ${size}`,
+          name: `${name} / ${size} `,
           price,
           quantity,
-          image
+          image,
+          color
         }
         
         console.log('Añadiendo al carrito:', cartItem);
@@ -65,10 +68,14 @@ export default function AddToCartButton({
       
       // Mostrar mensaje de éxito con el número total de productos
       const totalItems = sizesWithQuantities.reduce((sum, { quantity }) => sum + quantity, 0)
-      toast.success(`${totalItems} productos agregados a la cotización`)
+      toast.success(`${totalItems} ${totalItems === 1 ? 'producto agregado' : 'productos agregados'} a la cotización`, {
+        dismissible: true
+      })
     } catch (error) {
       console.error('Error al agregar productos:', error)
-      toast.error('No se pudieron agregar los productos')
+      toast.error('No se pudieron agregar los productos', {
+        dismissible: true
+      })
     } finally {
       setIsLoading(false)
     }

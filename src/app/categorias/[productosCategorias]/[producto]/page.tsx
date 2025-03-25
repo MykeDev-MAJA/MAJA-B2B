@@ -8,7 +8,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 import ProductDetails from "./components/ProductDetails"
-
+import ProductInfo from "./components/ProductInfo"
 // Función para convertir el slug a nombre de producto
 function slugToProductName(slug: string): string {
   // Decodificar la URL para manejar caracteres especiales como ®
@@ -104,122 +104,126 @@ export default async function Page(props: {
       </nav>
 
       <div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
-        {/* Galería de imágenes */}
-        <div className="space-y-4">
-          <div className="sticky top-20">
-          <Tabs defaultValue="azul" className="w-full">
-            <div className="aspect-square max-h-96 rounded-xl border overflow-hidden bg-background mb-4">
-              <TabsContent value="azul" className="h-full mt-0">
+{/* Galería de imágenes */}
+<div className="space-y-4 max-w-full">
+      <div className="sticky top-20">
+        <Tabs defaultValue="azul" className="flex flex-col md:flex-row gap-4">
+          {/* Thumbnails - vertical on desktop, horizontal on mobile */}
+          <TabsList className="order-2 md:order-1 flex md:flex-col h-20 md:h-[500px] bg-transparent space-x-2 md:space-x-0 md:space-y-2 p-0 overflow-x-auto md:overflow-x-visible">
+            <TabsTrigger
+              value="azul"
+              className="p-0 border-2 border-transparent data-[state=active]:border-primary rounded-md overflow-hidden min-w-[80px] w-20 md:w-24 flex-shrink-0"
+            >
+              <div className="relative w-full h-full aspect-square">
                 <Image
                   src="/images/Producto/azul.webp"
-                  alt={`${productName} - Azul`}
-                  width={800}
-                  height={800}
-                  className="object-contain w-full h-full"
-                  priority
+                  alt="Azul thumbnail"
+                  fill
+                  sizes="100px"
+                  className="object-cover"
                 />
-              </TabsContent>
-              <TabsContent value="negro" className="h-full mt-0">
+              </div>
+            </TabsTrigger>
+
+            <TabsTrigger
+              value="negro"
+              className="p-0 border-2 border-transparent data-[state=active]:border-primary rounded-md overflow-hidden min-w-[80px] w-20 md:w-24 flex-shrink-0"
+            >
+              <div className="relative w-full h-full aspect-square">
                 <Image
-                  src="/images/Producto/masProducto/C-CO10-9-camisa-manga-larga-outdoor-equipo-verde-oscuro-maja-sportswear-02-scaled.webp"
-                  alt={`${productName}`}
-                  width={800}
-                  height={800}
-                  className="object-contain w-full h-full"
-                />
-              </TabsContent>
-              <TabsContent value="rojo" className="h-full mt-0">
-                <Image
-                  src="/images/Producto/masProducto/C-CO10-9-camisa-manga-larga-outdoor-equipo-verde-oscuro-maja-sportswear-03-scaled.webp"
-                  alt={`${productName} - Rojo`}
-                  width={800}
-                  height={800}
-                  className="object-contain w-full h-full"
-                />
-              </TabsContent>
-              <TabsContent value="verde" className="h-full mt-0">
-                <Image
-                  src="/images/Producto/masProducto/C-CO10-9-camisa-manga-larga-outdoor-equipo-verde-oscuro-maja-sportswear-04-scaled.webp"
-                  alt={`${productName} - Verde`}
-                  width={800}
-                  height={800}
-                  className="object-contain w-full h-full"
-                />
-              </TabsContent>
-            </div>
-            <TabsList className="grid grid-cols-4 h-24 bg-transparent">
-              <TabsTrigger
-                value="azul"
-                className="p-0 data-[state=active]:border-2 data-[state=active]:border-primary rounded-md overflow-hidden"
-              >
-                <div className="w-full h-full p-1">
-                  <div className="relative rounded-md overflow-hidden">
-                    <Image
-                      src="/images/Producto/azul.webp"
-                      alt="Azul thumbnail"
-                      height={100}
-                      width={100}
-                      className="object-contain"
-                    />
-                  </div>
-                </div>
-              </TabsTrigger>
-              
-              <TabsTrigger
-                value="negro"
-                className="p-0 data-[state=active]:border-2 data-[state=active]:border-primary rounded-md overflow-hidden"
-              >
-                <div className="w-full h-full p-1">
-                  <div className="relative rounded-md overflow-hidden">
-                    <Image
                   src="/images/Producto/masProducto/C-CO10-9-camisa-manga-larga-outdoor-equipo-verde-oscuro-maja-sportswear-02-scaled.webp"
                   alt="Negro thumbnail"
-                      height={100}
-                      width={100}
-                      className="object-contain"
-                    />
-                  </div>
-                </div>
-              </TabsTrigger>
-              
-              <TabsTrigger
-                value="rojo"
-                className="p-0 data-[state=active]:border-2 data-[state=active]:border-primary rounded-md overflow-hidden"
-              >
-                <div className="w-full h-full p-1">
-                  <div className="relative rounded-md overflow-hidden">
-                    <Image
+                  fill
+                  sizes="100px"
+                  className="object-cover"
+                />
+              </div>
+            </TabsTrigger>
+
+            <TabsTrigger
+              value="rojo"
+              className="p-0 border-2 border-transparent data-[state=active]:border-primary rounded-md overflow-hidden min-w-[80px] w-20 md:w-24 flex-shrink-0"
+            >
+              <div className="relative w-full h-full aspect-square">
+                <Image
                   src="/images/Producto/masProducto/C-CO10-9-camisa-manga-larga-outdoor-equipo-verde-oscuro-maja-sportswear-03-scaled.webp"
                   alt="Rojo thumbnail"
-                      height={100}
-                      width={100}
-                      className="object-contain"
-                    />
-                  </div>
-                </div>
-              </TabsTrigger>
-              
-              <TabsTrigger
-                value="verde"
-                className="p-0 data-[state=active]:border-2 data-[state=active]:border-primary rounded-md overflow-hidden"
-              >
-                <div className="w-full h-full p-1">
-                  <div className="relative rounded-md overflow-hidden">
-                    <Image
+                  fill
+                  sizes="100px"
+                  className="object-cover"
+                />
+              </div>
+            </TabsTrigger>
+
+            <TabsTrigger
+              value="verde"
+              className="p-0 border-2 border-transparent data-[state=active]:border-primary rounded-md overflow-hidden min-w-[80px] w-20 md:w-24 flex-shrink-0"
+            >
+              <div className="relative w-full h-full aspect-square">
+                <Image
                   src="/images/Producto/masProducto/C-CO10-9-camisa-manga-larga-outdoor-equipo-verde-oscuro-maja-sportswear-04-scaled.webp"
                   alt="Verde thumbnail"
-                      height={100}
-                      width={100}
-                      className="object-contain"
-                    />
-                  </div>
+                  fill
+                  sizes="100px"
+                  className="object-cover"
+                />
+              </div>
+            </TabsTrigger>
+          </TabsList>
+
+          {/* Main image */}
+          <div className="order-1 md:order-2 flex-1 w-full">
+            <div className="w-full h-[400px] sm:h-[500px]">
+              <TabsContent value="azul" className="h-full mt-0">
+                <div className="relative w-full h-full">
+                  <Image
+                    src="/images/Producto/azul.webp"
+                    alt={`${productName} - Azul`}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 800px"
+                    className="object-contain"
+                    priority
+                  />
                 </div>
-              </TabsTrigger>
-            </TabsList>
-          </Tabs>
+              </TabsContent>
+              <TabsContent value="negro" className="h-full mt-0">
+                <div className="relative w-full h-full">
+                  <Image
+                    src="/images/Producto/masProducto/C-CO10-9-camisa-manga-larga-outdoor-equipo-verde-oscuro-maja-sportswear-02-scaled.webp"
+                    alt={`${productName}`}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 800px"
+                    className="object-contain"
+                  />
+                </div>
+              </TabsContent>
+              <TabsContent value="rojo" className="h-full mt-0">
+                <div className="relative w-full h-full">
+                  <Image
+                    src="/images/Producto/masProducto/C-CO10-9-camisa-manga-larga-outdoor-equipo-verde-oscuro-maja-sportswear-03-scaled.webp"
+                    alt={`${productName} - Rojo`}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 800px"
+                    className="object-contain"
+                  />
+                </div>
+              </TabsContent>
+              <TabsContent value="verde" className="h-full mt-0">
+                <div className="relative w-full h-full">
+                  <Image
+                    src="/images/Producto/masProducto/C-CO10-9-camisa-manga-larga-outdoor-equipo-verde-oscuro-maja-sportswear-04-scaled.webp"
+                    alt={`${productName} - Verde`}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 800px"
+                    className="object-contain"
+                  />
+                </div>
+              </TabsContent>
+            </div>
           </div>
-        
-        </div>
+        </Tabs>
+      </div>
+    </div>
 
         {/* Detalles del producto */}
         <ProductDetails 
@@ -228,6 +232,8 @@ export default async function Page(props: {
           sku={sku}
         />
       </div>
+
+      <ProductInfo />
 
       {/* Productos relacionados - se podría implementar en un componente separado */}
       <div className="mt-16">
@@ -245,8 +251,8 @@ export default async function Page(props: {
                 />
               </div>
               <CardContent className="p-4">
-                <h3 className="font-medium truncate">Producto {producto}</h3>
-                <p className="text-sm text-muted-foreground">$499.99</p>
+                <h3 className="font-medium truncate">Producto Relacionado</h3>
+                <p className="text-sm text-muted-foreground">$1,700.00</p>
               </CardContent>
             </Card>
           ))}

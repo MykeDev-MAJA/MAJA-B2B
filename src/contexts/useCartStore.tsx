@@ -9,6 +9,7 @@ interface CartItem {
   price: number;
   quantity: number;
   image: string;
+  color: string;
 }
 
 // Definir la interfaz para el estado del carrito

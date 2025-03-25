@@ -4,12 +4,20 @@ import React from 'react';
 import Navbar from '@/components/shared/Navbar/Navbar';
 import { Footer } from "@/components/shared/Footer/Footer";
 import { Toaster } from 'sonner'
+import { Inter } from 'next/font/google';
+
 
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
 //   subsets: ["latin"],
 // });
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+});
 
 // const geistMono = Geist_Mono({
 //   variable: "--font-geist-mono",
@@ -43,18 +51,15 @@ export const metadata: Metadata = {
   },
 };
 
-export const viewport = {
-  width: "device-width",
-  initialScale: 1.0,
-};
+
 
 const Layout = ({ children }: { children: React.ReactNode }) => (
-  <html lang="es">
+  <html lang="es" className={inter.className}>
     <body>
       <Navbar />
       {children}
       <Footer />
-      <Toaster position="top-right" richColors />
+      <Toaster position="top-right" richColors closeButton />
     </body>
   </html>
 );
