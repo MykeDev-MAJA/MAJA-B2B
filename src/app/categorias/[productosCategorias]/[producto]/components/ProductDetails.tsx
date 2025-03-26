@@ -30,12 +30,13 @@ interface SizeQuantity {
 
 const SIZES = ["EECH","ECH", "CH", "M", "G", "EG", "EEG"]
 const COLORS: ColorOption[] = [
-  { name: "Azul", value: "azul", hex: "#1e40af" },
+  { name: "Azul", value: "azul", hex: "#385861" },
   { name: "Rojo", value: "rojo", hex: "#dc2626" },
-  { name: "Verde", value: "verde", hex: "#16a34a" },
-  { name: "Amarillo", value: "amarillo", hex: "#f59e0b" },
+  { name: "Verde", value: "verde", hex: "#B4A681" },
+  // { name: "Amarillo", value: "amarillo", hex: "#f59e0b" },
   { name: "Blanco", value: "blanco", hex: "#ffffff" },
   { name: "Negro", value: "negro", hex: "#000000" },
+  { name: "Gris", value: "gris", hex: "#808080" },
   
 ]
 
@@ -77,6 +78,8 @@ export default function ProductDetails({ productName, price, sku }: ProductDetai
     return sizeQuantities.filter(item => item.quantity > 0)
   }, [sizeQuantities])
 
+ 
+
   return (
     <div className="flex flex-col gap-6">
       <div className="space-y-2">
@@ -103,7 +106,7 @@ export default function ProductDetails({ productName, price, sku }: ProductDetai
           <p className="text-sm font-extralight">SKU: {sku}</p>
           <div className="flex items-center">
             <Truck className="h-4 w-4 mr-2" />
-            <p className="text-sm font-normal">Envio gratis en la compra de $1,500</p>
+            <p className="text-sm font-normal">Envio gratis</p>
           </div>
         </div>
       </div>
@@ -133,7 +136,7 @@ export default function ProductDetails({ productName, price, sku }: ProductDetai
               <RadioGroupItem value={color.value} id={`color-${color.value}`} className="peer sr-only" />
               <Label
                 htmlFor={`color-${color.value}`}
-                className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border-2 border-muted 
+                className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border-2 
                           ring-offset-background peer-data-[state=checked]:border-primary"
               >
                 <span

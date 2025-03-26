@@ -1,7 +1,6 @@
 import React from 'react';
 import { getProducts, Product, ColorOption } from '@/lib/products';
 import ProductCard from '../shared/ProductCard/ProductCard';
-import Link from 'next/link';
 
 interface ServerProductsProps {
   filterCategory?: string; // Parámetro opcional para filtrar por categoría
@@ -46,13 +45,13 @@ export async function ServerProducts({ filterCategory }: ServerProductsProps = {
       </div>
 
       {/* {!filterCategory && ( */}
-        <Link href={"/categorias"}>
+        {/* <Link href={"/categorias"}>
           <button
             className="bg-black text-white mt-8 py-2 px-4 font-semibold cursor-pointer rounded"
           >
             Ver más
           </button>
-        </Link>
+        </Link> */}
       {/* )} */}
     </div>
   );

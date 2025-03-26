@@ -16,43 +16,25 @@ const ProductInfo = () => {
       <Tabs defaultValue="descripcion" value={activeTab} onValueChange={handleTabChange} className="relative">
         <div className="relative">
           <TabsList className="grid w-full grid-cols-3 relative z-10">
-            <TabsTrigger value="descripcion" className="relative z-20 transition-all duration-500">
+            <TabsTrigger 
+              value="descripcion" 
+              className="relative z-20 transition-all duration-500 data-[state=active]:bg-black data-[state=active]:text-white"
+            >
               Descripción
-              {activeTab === "descripcion" && (
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-zinc-950 via-zinc-800 to-zinc-900 rounded-md opacity-30 -z-10"
-                  layoutId="activeTabBackground"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 0.5 }}
-                  transition={{ type: "spring", bounce: 0.1, duration: 0.6 }}
-                />
-              )}
             </TabsTrigger>
-            <TabsTrigger value="caracteristicas" className="relative z-20 transition-all duration-500">
+            <TabsTrigger 
+              value="caracteristicas" 
+              className="relative z-20 transition-all duration-500 data-[state=active]:bg-black data-[state=active]:text-white"
+            >
               Características
-              {activeTab === "caracteristicas" && (
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-zinc-950 via-zinc-800 to-zinc-900 rounded-md opacity-30 -z-10"
-                  layoutId="activeTabBackground"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 0.5 }}
-                  transition={{ type: "spring", bounce: 0.1, duration: 0.6 }}
-                />
-              )}
             </TabsTrigger>
-            <TabsTrigger value="envio" className="relative z-20 transition-all duration-500">
+            <TabsTrigger 
+              value="envio" 
+              className="relative z-20 transition-all duration-500 data-[state=active]:bg-black data-[state=active]:text-white"
+            >
               Envío
-              {activeTab === "envio" && (
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-zinc-950 via-zinc-800 to-zinc-900 rounded-md opacity-30 -z-10"
-                  layoutId="activeTabBackground"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 0.5 }}
-                  transition={{ type: "spring", bounce: 0.1, duration: 0.6 }}
-                />
-              )}
             </TabsTrigger>
-            </TabsList>        
+          </TabsList>        
         </div>
 
         <div className="relative mt-6 overflow-hidden">

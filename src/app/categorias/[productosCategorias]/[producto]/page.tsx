@@ -74,7 +74,7 @@ export default async function Page(props: {
   const productName = slugToProductName(params.producto);
 
   // Precio de ejemplo
-  const price = 1529.15
+  const price = 1799.00
 
   // SKU del producto
   const sku = "C-CO1-14"

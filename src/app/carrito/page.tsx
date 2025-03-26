@@ -72,7 +72,8 @@ function CartPage() {
             ) : (
               <div className="bg-white rounded-lg shadow-sm">
                 {items.map((item) => (
-                  <div key={item.id + item.color} className="p-4 flex items-center gap-4 border-b last:border-b-0 hover:bg-gray-50 transition-colors">
+                  <div key={item.id + item.color} className='border-b last:border-b-0'>
+                     <div  className="p-4 flex items-center gap-4  hover:bg-gray-50 transition-colors">
                     <Link href={`/categorias/hombres/${item.name.split('/')[0].trim().replace(/\s+/g, '-')}`}>
                     <Image
                       width={80}
@@ -84,12 +85,21 @@ function CartPage() {
                     />
                     </Link>
                  
+               
                     <div className="flex-grow">
-                      <h3 className="font-medium text-gray-800">{item.name}</h3>
-                      <p className="text-sm text-gray-500">SKU: {item.SKU}</p>
-                      <p className="text-sm text-gray-500">Color: {item.color}</p> 
+                      <h3 className="font-medium text-sm md:text-base text-gray-800">
+                        {item.name.replace(/\s+[^\s/]+\s*\//, ' /')}
+                      </h3>
+                      <p className="text-xs md:text-sm text-gray-500">SKU: {item.SKU}</p>
+                      <p className="text-xs md:text-sm text-gray-500">Color: {item.color}</p> 
                     </div>
-                    <div className="flex items-center gap-2">
+
+
+
+                    
+              
+                    <div className='hidden md:flex items-center gap-4'>
+      <div className="flex items-center gap-2">
                       <button
                         onClick={() => updateQuantity(item.id, Math.max(1, item.quantity - 1))}
                         className="p-1 rounded-full hover:bg-gray-100"
@@ -104,14 +114,15 @@ function CartPage() {
                         <Plus className="h-4 w-4" />
                       </button>
                     </div>
-                    <div className="text-right min-w-[100px]">
-                      <div className="font-medium">
+                    <div className="text-right min-w-[100pfx]">
+                   
+                      <div className="text-sm text-gray-500">
                         {new Intl.NumberFormat('es-MX', {
                           style: 'currency',
                           currency: 'MXN'
                         }).format(item.price)}
                       </div>
-                      <div className="text-sm text-gray-500">
+                      <div className="font-medium">
                         {new Intl.NumberFormat('es-MX', {
                           style: 'currency',
                           currency: 'MXN'
@@ -124,13 +135,57 @@ function CartPage() {
                     >
                       <Trash2 className="h-5 w-5" />
                     </button>
+                    </div>
                   </div>
+
+
+
+{/* ESTA SECCION SOLO SE MUESTRA EN CELULAR */}
+                  <div className='flex items-center md:hidden gap-1 justify-between px-3 pb-2 '>
+                  <div className="flex items-center">
+                      <button
+                        onClick={() => updateQuantity(item.id, Math.max(1, item.quantity - 1))}
+                        className="p-1 rounded-full hover:bg-gray-100"
+                      >
+                        <Minus className="h-4 w-4" />
+                      </button>
+                      <span className="w-8 text-center">{item.quantity}</span>
+                      <button
+                        onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                        className="p-1 rounded-full hover:bg-gray-100"
+                      >
+                        <Plus className="h-4 w-4" />
+                      </button>
+                    </div>
+                    <div className="text-right min-w-[100px] flex items-center justify-center">
+                      <div className="font-medium">
+                        {new Intl.NumberFormat('es-MX', {
+                          style: 'currency',
+                          currency: 'MXN'
+                        }).format(item.price * item.quantity)}
+                      </div>
+                    
+                    </div>
+                    <button
+                      onClick={() => removeItem(item.id)}
+                      className="p-2 text-red-500 hover:bg-red-50 rounded-full transition-colors"
+                    >
+                      <Trash2 className="h-5 w-5" />
+                    </button>
+                  </div>
+                  </div>
+               
+
+
+
+
+
                 ))}
               </div>
             )}
           </div>
 
-          {/* Cart Summary */}
+          {/* RESUMEN DEL CARRITO */}
           {items?.length > 0 && (
             <div className="lg:w-80">
               <div className="bg-white rounded-lg shadow-sm p-6 sticky top-24">

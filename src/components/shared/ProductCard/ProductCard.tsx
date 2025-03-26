@@ -109,9 +109,11 @@ export default function ProductCard({ product }: { product: Product }) {
           {selectedColor ? selectedColor.stock : product.colors[0].stock} unidades disponibles
         </p> */}
 
+        
+
 
         <div className="space-y-2 mt-3">
-          <p className="text-xs font-medium text-gray-700">Colores disponibles</p>
+          <p className="text-xs font-medium text-gray-700">Color seleccionado</p>
           <div className="flex gap-2">
             {product.colors.map((color) => (
               <button

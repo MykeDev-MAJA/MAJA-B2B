@@ -56,9 +56,11 @@ const TecnoBanner = () => {
             <Image
               src={TECHNOLOGIES[currentIndex].src}
               alt={`Tecnología ${TECHNOLOGIES[currentIndex].id}`}
-              width={200}
-              height={200}
-              className="object-cover"
+              width={100}
+              height={100}
+              className={`object-cover h-[100px] w-[auto] ${
+                TECHNOLOGIES[currentIndex].id === 4 ? 'brightness-0' : ''
+              }`}
             />
           </div>
           <div className="w-3/4 pl-4">

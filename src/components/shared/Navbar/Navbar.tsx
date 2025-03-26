@@ -37,7 +37,7 @@ const Navbar = () => {
         />
      
 
-      <div className="flex items-center space-x-6">
+      <div className="flex items-center md:space-x-6">
         <div className="flex items-center space-x-2 cursor-pointer">
           <div className="flex flex-col text-sm">
             {/* <span className="hidden sm:block">Nombre de usuario</span> */}
