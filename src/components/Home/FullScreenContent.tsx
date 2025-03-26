@@ -8,12 +8,22 @@ const FullScreenContent = () => {
                 autoPlay 
                 loop 
                 muted 
+                preload="auto"
                 style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover' }} 
             />
             <div className="relative z-10 flex flex-col items-center justify-center gap-12 h-full">
-                {/* Contenido que deseas mostrar */}
-                <h1 className="text-white py-3 sm:py-0 text-4xl sm:text-7xl md:text-7xl font-semibold text-center w-1/2">Representa el valor de tu empresa</h1>
-                <h2 className="text-white py-3 sm:py-0 text-xl sm:text-2xl md:text-2xl font-light text-center w-1/2">Un catálogo con la mejor selección de nuestras prendas, especiales para tu empresa y equipo de trabajo</h2>
+                <h1 
+                    className="text-white py-3 sm:py-0 text-4xl sm:text-7xl md:text-7xl font-semibold text-center w-1/2"
+                    style={{ textRendering: 'optimizeLegibility' }}
+                >
+                    Representa el valor de tu empresa
+                </h1>
+                <h2 
+                    className="text-white py-3 sm:py-0 text-xl sm:text-2xl md:text-2xl font-light text-center w-1/2"
+                    style={{ textRendering: 'optimizeLegibility' }}
+                >
+                    Un catálogo con la mejor selección de nuestras prendas, especiales para tu empresa y equipo de trabajo
+                </h2>
                 <NavigationButtonInApp scrollTo="productsSeccion" buttonText="CONÓCENOS" />
             </div>
         </div>
