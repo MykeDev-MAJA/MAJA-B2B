@@ -1,4 +1,3 @@
-
 import { FiUser } from "react-icons/fi";
 import Image from "next/image";
 import Link from "next/link"
@@ -22,7 +21,23 @@ const Navbar = () => {
         </Link>
       
       </div>
-      <div className="flex items-center space-x-6">
+
+        <Image
+          className="absolute right-1/2 hidden md:block"
+          src="/images/Iconos/Propela_Negro.svg"
+          alt="Propela"
+          style={{
+            transformOrigin: 'center',
+            width: 'auto',
+            height: '40px',
+            transform: 'translate(50%)'
+          }}
+          width={50}
+          height={50}
+        />
+     
+
+      <div className="flex items-center md:space-x-6">
         <div className="flex items-center space-x-2 cursor-pointer">
           <div className="flex flex-col text-sm">
             {/* <span className="hidden sm:block">Nombre de usuario</span> */}
@@ -53,6 +68,9 @@ const Navbar = () => {
 
  
       </div>
+
+
+      
     </nav>
   );
 };

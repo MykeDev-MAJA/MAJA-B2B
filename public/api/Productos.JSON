@@ -2,7 +2,7 @@
   "hombres": [
     {
       "id": 1,
-      "name": "Camisa Outdoor EquipCamisa Fishing JEEP® x MAJA® Outdoor Cherokee Manga Corta",
+      "name": "Camisa MAJA corp",
       "price": 1799.00,
       "categoria": "hombres",
       "agrupado": true,
@@ -33,7 +33,7 @@
     },
     {
       "id": 2,
-      "name": "Camisa Outdoor Equipo",
+      "name": "Camisa MAJA corp",
       "price": 1799.00,
       "categoria": "hombres",
       "agrupado": false,

@@ -1,12 +1,11 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { Heart, Share2 } from 'lucide-react'
+import { Heart, Share2, Truck } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Label } from '@/components/ui/label'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Dialog } from '@/components/shared/Dialog/Dialog'
 import Customizer from './Customizer'
 import QuantitySelector from '@/components/shared/ProductLanding/quantity-selector'
@@ -29,13 +28,21 @@ interface SizeQuantity {
   quantity: number
 }
 
-const SIZES = ["ECH", "CH", "M", "G", "EG", "EEG"]
+const SIZES = ["EECH","ECH", "CH", "M", "G", "EG", "EEG"]
 const COLORS: ColorOption[] = [
-  { name: "Azul", value: "azul", hex: "#1e40af" },
+  { name: "Azul", value: "azul", hex: "#385861" },
+  { name: "Rojo", value: "rojo", hex: "#dc2626" },
+  { name: "Verde", value: "verde", hex: "#B4A681" },
+  // { name: "Amarillo", value: "amarillo", hex: "#f59e0b" },
+  { name: "Blanco", value: "blanco", hex: "#ffffff" },
+  { name: "Negro", value: "negro", hex: "#000000" },
+  { name: "Gris", value: "gris", hex: "#808080" },
+  
 ]
 
 export default function ProductDetails({ productName, price, sku }: ProductDetailsProps) {
   const [selectedColor, setSelectedColor] = useState<string>(COLORS[0].value)
+  const [resetCounter, setResetCounter] = useState(0)
   // Instead of a single size, we now keep track of quantity for each size
   const [sizeQuantities, setSizeQuantities] = useState<SizeQuantity[]>(
     SIZES.map(size => ({ size, quantity: 0 }))
@@ -55,10 +62,23 @@ export default function ProductDetails({ productName, price, sku }: ProductDetai
     )
   }
 
+  const handleReset = () => {
+    setSizeQuantities(SIZES.map(size => ({ size, quantity: 0 })))
+    setResetCounter(prev => prev + 1)
+  }
+
+  // Handle color change
+  const handleColorChange = (color: string) => {
+    setSelectedColor(color)
+    console.log("Color actualizado a:", color) // Para debugging
+  }
+
   // Filter sizes with quantity > 0 for cart
   const sizesForCart = useMemo(() => {
     return sizeQuantities.filter(item => item.quantity > 0)
   }, [sizeQuantities])
+
+ 
 
   return (
     <div className="flex flex-col gap-6">
@@ -78,11 +98,17 @@ export default function ProductDetails({ productName, price, sku }: ProductDetai
             </Button>
           </div>
         </div>
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">{productName}</h1>
-        <p className="text-xl sm:text-2xl font-semibold text-primary">
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">{productName.toUpperCase()}</h1>
+        <p className="text-xl sm:text-2xl font-normal text-primary">
           {new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(price)}
         </p>
-        <p className="text-sm text-muted-foreground">SKU: {sku}</p>
+        <div className="flex mt-6 justify-between">
+          <p className="text-sm font-extralight">SKU: {sku}</p>
+          <div className="flex items-center">
+            <Truck className="h-4 w-4 mr-2" />
+            <p className="text-sm font-normal">Envio gratis</p>
+          </div>
+        </div>
       </div>
 
       <div className="prose prose-sm max-w-none">
@@ -102,7 +128,7 @@ export default function ProductDetails({ productName, price, sku }: ProductDetai
         </div>
         <RadioGroup 
           value={selectedColor} 
-          onValueChange={setSelectedColor} 
+          onValueChange={handleColorChange} 
           className="flex flex-wrap gap-2"
         >
           {COLORS.map((color) => (
@@ -110,7 +136,7 @@ export default function ProductDetails({ productName, price, sku }: ProductDetai
               <RadioGroupItem value={color.value} id={`color-${color.value}`} className="peer sr-only" />
               <Label
                 htmlFor={`color-${color.value}`}
-                className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border-2 border-muted 
+                className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border-2 
                           ring-offset-background peer-data-[state=checked]:border-primary"
               >
                 <span
@@ -147,11 +173,11 @@ export default function ProductDetails({ productName, price, sku }: ProductDetai
           {SIZES.map((size) => (
             <div
               key={size}
-              className="flex items-center justify-between p-2.5 rounded-lg border border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors"
+              className="flex items-center justify-between p-2.5 rounded-lg border border-black-600 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors"
             >
               <div className="flex items-center space-x-2">
-                <div className="w-7 h-7 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800">
-                  <span className="text-xs font-medium">{size}</span>
+                <div className="w-9 h-9 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800">
+                  <span className="text-xs font-light">{size}</span>
                 </div>
                 <span className="text-xs font-medium">Stock {123}</span>
               </div>
@@ -159,6 +185,7 @@ export default function ProductDetails({ productName, price, sku }: ProductDetai
                 initialValue={sizeQuantities.find((sq) => sq.size === size)?.quantity || 0}
                 min={0}
                 onChange={(quantity) => handleQuantityChange(size, quantity)}
+                resetValue={resetCounter}
               />
             </div>
           ))}
@@ -168,10 +195,27 @@ export default function ProductDetails({ productName, price, sku }: ProductDetai
       {/* Footer */}
       <div className="px-4 py-3 bg-gray-50 dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800">
         <div className="flex justify-between items-center">
-          <span className="text-xs text-gray-500 dark:text-gray-400">Selecciona las cantidades</span>
+          {totalQuantity > 0 ? (
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="text-xs font-medium text-primary hover:bg-primary/5"
+              onClick={handleReset}
+            >
+              Resetear formulario
+            </Button>
+          ) : (
+            <Button 
+            variant="ghost" 
+            size="sm" 
+            className="text-xs font-light text-primary hover:bg-transparent"
+          >
+            Selecciona cantidades
+          </Button>
+          )}
           <div className="flex items-center space-x-1.5">
             <span className="text-xs text-gray-500 dark:text-gray-400">Total:</span>
-            <span className="text-sm font-semibold">{totalQuantity} unidades</span>
+            <span className="text-sm font-semibold">{totalQuantity} {totalQuantity === 1 ? 'unidad' : 'unidades'}</span>
           </div>
         </div>
       </div>
@@ -181,7 +225,7 @@ export default function ProductDetails({ productName, price, sku }: ProductDetai
       <div className="pt-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <AddToCartButton 
-            id={`${sku}-${selectedColor}-multiple`}
+            id={`${sku}-${productName}-multiple`}
             name={productName}
             price={price}
             sku={sku}
@@ -195,50 +239,7 @@ export default function ProductDetails({ productName, price, sku }: ProductDetai
         </div>
       </div>
 
-      {/* Información adicional */}
-      <div className="border-t pt-6 mt-2">
-        <Tabs defaultValue="descripcion">
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="descripcion">Descripción</TabsTrigger>
-            <TabsTrigger value="caracteristicas">Características</TabsTrigger>
-            <TabsTrigger value="envio">Envío</TabsTrigger>
-          </TabsList>
-          <TabsContent value="descripcion" className="pt-4">
-            <div className="prose prose-sm max-w-none">
-              <p>
-                Este producto está diseñado con los más altos estándares de calidad para garantizar durabilidad y
-                comodidad. Ideal para uso diario y ocasiones especiales.
-              </p>
-              <p>
-                La tela de alta calidad proporciona una sensación suave al tacto mientras mantiene su forma incluso
-                después de múltiples lavados.
-              </p>
-            </div>
-          </TabsContent>
-          <TabsContent value="caracteristicas" className="pt-4">
-            <ul className="list-disc pl-5 space-y-2 text-sm">
-              <li>Material: 100% algodón premium</li>
-              <li>Diseño ergonómico para mayor comodidad</li>
-              <li>Disponible en múltiples colores</li>
-              <li>Lavable a máquina</li>
-              <li>Fabricado en México</li>
-            </ul>
-          </TabsContent>
-          <TabsContent value="envio" className="pt-4">
-            <div className="prose prose-sm max-w-none">
-              <p>Envío disponible a todo México. Los tiempos de entrega varían según la ubicación:</p>
-              <ul>
-                <li>Ciudad de México: 1-2 días hábiles</li>
-                <li>Resto del país: 3-5 días hábiles</li>
-              </ul>
-              <p>
-                Para consultas sobre envíos internacionales, por favor contacte a nuestro equipo de atención al
-                cliente.
-              </p>
-            </div>
-          </TabsContent>
-        </Tabs>
-      </div>
+   
     </div>
   )
 } 

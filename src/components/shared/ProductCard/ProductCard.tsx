@@ -35,8 +35,7 @@ export default function ProductCard({ product }: { product: Product }) {
   const colorName = selectedColor ? selectedColor.name : product.colors[0].name;
   const productUrl = `/categorias/${product.categoria}/${product.name}-${colorName}`.replace(/\s+/g, '-');
   
-  const minPrice = (product.price * 0.85).toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  const maxPrice = (product.price * 0.65).toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
   
   // const currentStock = selectedColor ? selectedColor.stock : product.colors[0].stock;
 
@@ -78,14 +77,14 @@ export default function ProductCard({ product }: { product: Product }) {
           </Badge>
         )}
 
-      <div className="relative h-92 overflow-hidden">
+      <div className="relative aspect-[4/5] overflow-hidden">
         <Link href={productUrl}>
           <Image
-            className="w-full h-full object-fit object-center transform group-hover:scale-105 transition-transform duration-500"
+            className="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-500"
             src={selectedColor ? selectedColor.image : product.colors[0].image}
             alt={`${product.name} en color ${selectedColor ? selectedColor.name : product.colors[0].name}`}
-            width={500}
-            height={600}
+            fill
+            sizes="(max-width: 320px) 100vw"
             priority
           />
         </Link>
@@ -102,17 +101,19 @@ export default function ProductCard({ product }: { product: Product }) {
           {selectedColor ? selectedColor.name : product.colors[0].name}
         </p>
 
-        <p className="text-primary mb-1">
-          Desde <span className="font-bold">${minPrice}</span> hasta <span className="font-bold">${maxPrice}</span>
+        <p className="text-primary font-light mb-1">
+          {product.price.toLocaleString('es-MX', { style: 'currency', currency: 'MXN' })}
         </p>
 
         {/* <p className="text-sm text-gray-600 font-extralight mb-3">
           {selectedColor ? selectedColor.stock : product.colors[0].stock} unidades disponibles
         </p> */}
 
+        
+
 
         <div className="space-y-2 mt-3">
-          <p className="text-xs font-medium text-gray-700">Colores disponibles</p>
+          <p className="text-xs font-medium text-gray-700">Color seleccionado</p>
           <div className="flex gap-2">
             {product.colors.map((color) => (
               <button

@@ -1,7 +1,6 @@
 import React from 'react';
 import { getProducts, Product, ColorOption } from '@/lib/products';
 import ProductCard from '../shared/ProductCard/ProductCard';
-import Link from 'next/link';
 
 interface ServerProductsProps {
   filterCategory?: string; // Parámetro opcional para filtrar por categoría
@@ -17,8 +16,8 @@ export async function ServerProducts({ filterCategory }: ServerProductsProps = {
     : products;
 
   return (
-    <div id="productsSeccion" className="min-h-screen flex flex-col items-center py-8 px-8 bg-gray-100">
-      <h1 className="text-4xl font-bold">
+    <div id="productsSeccion" className="min-h-screen flex flex-col items-center py-8 px-8">
+      <h1 className="text-4xl font-normal">
         {filterCategory ? `${filterCategory.charAt(0).toUpperCase() + filterCategory.slice(1)}` : 'Nuestros Productos'}
       </h1>
 
@@ -46,13 +45,13 @@ export async function ServerProducts({ filterCategory }: ServerProductsProps = {
       </div>
 
       {/* {!filterCategory && ( */}
-        <Link href={"/categorias"}>
+        {/* <Link href={"/categorias"}>
           <button
             className="bg-black text-white mt-8 py-2 px-4 font-semibold cursor-pointer rounded"
           >
             Ver más
           </button>
-        </Link>
+        </Link> */}
       {/* )} */}
     </div>
   );
