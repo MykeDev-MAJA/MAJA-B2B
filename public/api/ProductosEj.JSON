@@ -1,0 +1,94 @@
+{
+    "products": [
+      {
+        "id": 1,
+        "name": "Camisa MAJA corp",
+        "price": 1799.00,
+        "category": "hombres",
+        "isGrouped": true,
+        "isNew": false,
+        "variants": [
+          {
+            "color": {
+              "name": "Cafe",
+              "class": "bg-[#C5BEA8]"
+            },
+            "image": "/images/Producto/Jeep_cafe.jpg",
+            "sizes": [
+              { "size": "EECH", "sku": "X-CO1-10-EECH", "stock": 4 },
+              { "size": "ECH", "sku": "X-CO1-10-ECH", "stock": 10 },
+              { "size": "CH", "sku": "X-CO1-10-CH", "stock": 15 },
+              { "size": "M", "sku": "X-CO1-10-M", "stock": 20 },
+              { "size": "G", "sku": "X-CO1-10-G", "stock": 18 },
+              { "size": "EG", "sku": "X-CO1-10-EG", "stock": 12 },
+              { "size": "EEG", "sku": "X-CO1-10-EEG", "stock": 5 }
+            ]
+          },
+          {
+            "color": {
+              "name": "Negro",
+              "class": "bg-[#000000]"
+            },
+            "image": "/images/Producto/Jeep_negro.jpg",
+            "sizes": [
+              { "size": "EECH", "sku": "X-CO1-11-EECH", "stock": 50 },
+              { "size": "ECH", "sku": "X-CO1-11-ECH", "stock": 100 },
+              { "size": "CH", "sku": "X-CO1-11-CH", "stock": 300 },
+              { "size": "M", "sku": "X-CO1-11-M", "stock": 500 },
+              { "size": "G", "sku": "X-CO1-11-G", "stock": 400 },
+              { "size": "EG", "sku": "X-CO1-11-EG", "stock": 150 },
+              { "size": "EEG", "sku": "X-CO1-11-EEG", "stock": 47 }
+            ]
+          }
+        ],
+        "metadata": {
+          "tags": ["casual", "hombres", "camisa"]
+        }
+      },
+      {
+        "id": 4,
+        "name": "Camiseta Manga Larga Outdoor Signature",
+        "price": 1799.00,
+        "category": "mujeres",
+        "isGrouped": false,
+        "isNew": true,
+        "variants": [
+          {
+            "color": {
+              "name": "Azul",
+              "class": "bg-[#004963]"
+            },
+            "image": "/images/Producto/D-CO1-3-camiseta-manga-larga-outdoor-signature-azul-marino-maja-sportswear-01-scaled-700x933.webp",
+            "sizes": [
+              { "size": "EECH", "sku": "C-CO5-11-EECH", "stock": 20 },
+              { "size": "ECH", "sku": "C-CO5-11-ECH", "stock": 30 },
+              { "size": "CH", "sku": "C-CO5-11-CH", "stock": 50 },
+              { "size": "M", "sku": "C-CO5-11-M", "stock": 100 },
+              { "size": "G", "sku": "C-CO5-11-G", "stock": 80 },
+              { "size": "EG", "sku": "C-CO5-11-EG", "stock": 40 },
+              { "size": "EEG", "sku": "C-CO5-11-EEG", "stock": 10 }
+            ]
+          },
+          {
+            "color": {
+              "name": "Rojo",
+              "class": "bg-[#FF0000]"
+            },
+            "image": "/images/Producto/D-CO1-3-camiseta-manga-larga-outdoor-signature-azul-marino-maja-sportswear-01-scaled-700x933.webp",
+            "sizes": [
+              { "size": "EECH", "sku": "C-CO5-12-EECH", "stock": 20 },
+              { "size": "ECH", "sku": "C-CO5-12-ECH", "stock": 30 },
+              { "size": "CH", "sku": "C-CO5-12-CH", "stock": 50 },
+              { "size": "M", "sku": "C-CO5-12-M", "stock": 100 },
+              { "size": "G", "sku": "C-CO5-12-G", "stock": 80 },
+              { "size": "EG", "sku": "C-CO5-12-EG", "stock": 40 },
+              { "size": "EEG", "sku": "C-CO5-12-EEG", "stock": 10 }
+            ]
+          }
+        ],
+        "metadata": {
+          "tags": ["outdoor", "mujeres", "camiseta"]
+        }
+      }
+    ]
+  }

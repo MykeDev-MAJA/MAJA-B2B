@@ -1,4 +1,4 @@
-import NavigationButtonInApp from "../shared/NavigationButton/NavigationButtonInApp";
+import { Button } from "../ui/button";
 
 const FullScreenContent = () => {
     return (
@@ -13,19 +13,21 @@ const FullScreenContent = () => {
             />
             <div className="relative z-10 flex flex-col items-center justify-center gap-12 h-full">
                 <h1 
-                    className="text-white py-3 sm:py-0 text-4xl sm:text-7xl md:text-7xl font-semibold text-center w-1/2"
+                    className="text-white py-3 sm:py-0 text-2xl sm:text-4xl md:text-6xl font-semibold text-center w-[88%] md:w-[64%]"
                     style={{ textRendering: 'optimizeLegibility' }}
                 >
-                    Representa el valor de tu empresa
+                    REPRESENTA EL VALOR DE TU EMPRESA
                 </h1>
                 <h2 
-                    className="text-white py-3 sm:py-0 text-xl sm:text-2xl md:text-2xl font-light text-center w-1/2"
+                    className="text-white py-3 sm:py-0 text-sm sm:text-2xl md:text-2xl font-light text-center w-[88%] md:w-1/2 "
                     style={{ textRendering: 'optimizeLegibility' }}
                 >
-                    Un catálogo con la mejor selección de nuestras prendas, especiales para tu empresa y equipo de trabajo
-                </h2>
-                <NavigationButtonInApp scrollTo="productsSeccion" buttonText="CONÓCENOS" />
-            </div>
+UN CATÁLOGO CON LA MEJOR SELECCIÓN DE NUESTRAS PRENDAS, ESPECIALES PARA TU EMPRESA Y EQUIPO DE TRABAJO                </h2>
+
+                <Button variant="outline" className="bg-transparent text-white border-white hover:bg-white hover:text-black transition-colors">
+                    Iniciar sesión
+                </Button>
+|            </div>
         </div>
     );
 };

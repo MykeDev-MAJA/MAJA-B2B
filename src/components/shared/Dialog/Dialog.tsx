@@ -14,13 +14,13 @@ interface DialogProps {
   className?: string
 }
 
-export function Dialog({ children, trigger, title, className }: DialogProps) {
+export function Dialog({ children, trigger, title = "Dialog", className }: DialogProps) {
   return (
     <DialogPrimitive>
       <DialogTrigger asChild>
         {trigger}
       </DialogTrigger>
-      <DialogContent className={className}>
+      <DialogContent className={className} title={title}>
         {title && (
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>

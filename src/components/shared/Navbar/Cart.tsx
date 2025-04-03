@@ -19,15 +19,21 @@ export default function Cart() {
     }
 
     return (
-        <Link href="/carrito">
-            <div className="relative">
-                <FiShoppingCart className="h-6 w-6 text-gray-700" />
-                {totalItems > 0 && (
-                    <span className="absolute -top-[10px] -right-[10px] bg-red-500 text-white text-xs rounded-full h-5 w-auto min-w-5 flex items-center p-1 justify-center">
-                        {totalItems}
-                    </span>
-                )}
-            </div>
+        <Link 
+            href="/carrito" 
+            aria-label={`Ver carrito de compras${totalItems > 0 ? `, ${totalItems} ${totalItems === 1 ? 'artículo' : 'artículos'}` : ''}`}
+            className="relative inline-flex items-center rounded-md p-2"
+        >
+            <FiShoppingCart className="h-6 w-6 text-gray-700" aria-hidden="true" />
+            {totalItems > 0 && (
+                <span 
+                    className="absolute -top-[4px] -right-[4px] bg-red-500 text-white text-xs rounded-full h-5 w-auto min-w-5 flex items-center p-1 justify-center"
+                    role="status"
+                    aria-live="polite"
+                >
+                    {totalItems}
+                </span>
+            )}
         </Link>
     )
 }

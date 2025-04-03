@@ -43,7 +43,7 @@ const CategoriasComponent = () => {
               <div className="relative h-94 w-auto">
                 <Image 
                   src={categoria.imagen} 
-                  alt={categoria.nombre}
+                  alt={`Categoría de productos para ${categoria.nombre.toLowerCase()}`}
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   className="object-cover"
