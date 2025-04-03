@@ -5,7 +5,6 @@ import Image from "next/image"
 import { motion } from "framer-motion"
 import { ShoppingBag } from "lucide-react"
 import Link from "next/link"
-
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -79,7 +78,7 @@ export default function ProductCard({ product }: { product: Product }) {
 
       <div className="relative aspect-[4/5] overflow-hidden">
         <Link href={productUrl}>
-          <Image
+        <Image
             className="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-500"
             src={selectedColor ? selectedColor.image : product.colors[0].image}
             alt={`${product.name} en color ${selectedColor ? selectedColor.name : product.colors[0].name}`}
@@ -87,6 +86,7 @@ export default function ProductCard({ product }: { product: Product }) {
             sizes="(max-width: 320px) 100vw"
             priority
           />
+         
         </Link>
       </div>
 

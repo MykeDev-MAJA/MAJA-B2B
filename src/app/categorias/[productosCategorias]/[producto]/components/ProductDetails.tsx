@@ -10,6 +10,7 @@ import { Dialog } from '@/components/shared/Dialog/Dialog'
 import Customizer from './Customizer'
 import QuantitySelector from '@/components/shared/ProductLanding/quantity-selector'
 import AddToCartButton from './AddToCartButton'
+import { useUserStore } from '@/contexts/useUserContext'
 
 interface ProductDetailsProps {
   productName: string
@@ -41,6 +42,7 @@ const COLORS: ColorOption[] = [
 ]
 
 export default function ProductDetails({ productName, price, sku }: ProductDetailsProps) {
+  const isAuthenticated = useUserStore((state) => state.isAuthenticated)
   const [selectedColor, setSelectedColor] = useState<string>(COLORS[0].value)
   const [resetCounter, setResetCounter] = useState(0)
   // Instead of a single size, we now keep track of quantity for each size
@@ -179,7 +181,7 @@ export default function ProductDetails({ productName, price, sku }: ProductDetai
                 <div className="w-9 h-9 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800">
                   <span className="text-xs font-light">{size}</span>
                 </div>
-                <span className="text-xs font-medium">Stock {123}</span>
+                {isAuthenticated && <span className="text-xs font-medium">Stock {123}</span>}
               </div>
               <QuantitySelector
                 initialValue={sizeQuantities.find((sq) => sq.size === size)?.quantity || 0}

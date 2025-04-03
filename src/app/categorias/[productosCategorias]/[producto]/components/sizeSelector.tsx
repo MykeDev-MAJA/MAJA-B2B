@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { Plus, Minus } from "lucide-react"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogHeader, DialogTrigger } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -82,9 +82,8 @@ export default function SizeSelector() {
                 Guía de bordado
               </Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent title="Guía de bordado">
               <DialogHeader>
-                <DialogTitle>Guía de bordado</DialogTitle>
               </DialogHeader>
               <Customizer />
             </DialogContent>

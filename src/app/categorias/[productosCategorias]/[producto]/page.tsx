@@ -3,10 +3,8 @@ import Image from "next/image"
 import Link from "next/link"
 import { ChevronRight} from "lucide-react"
 import { Metadata } from "next/types"
-
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-
 import ProductDetails from "./components/ProductDetails"
 import ProductInfo from "./components/ProductInfo"
 // Función para convertir el slug a nombre de producto
@@ -18,16 +16,7 @@ function slugToProductName(slug: string): string {
   return decodedSlug.replace(/-/g, " ")
 }
 
-// Tamaños disponibles
-// const sizes = ["ECH", "CH", "M", "G", "EG", "EEG"]
 
-// Colores disponibles
-// const colors = [
-  // { name: "Azul", value: "azul", hex: "#1e40af" },
-  // { name: "Negro", value: "negro", hex: "#171717" },
-  // { name: "Rojo", value: "rojo", hex: "#b91c1c" },
-  // { name: "Verde", value: "verde", hex: "#15803d" },
-// ]
 
 // Agregar el array de productos relacionados
 const productosRelacionados = ["Azul.webp", "Rojo.webp", "verde.jpg", "Jeep_verde.jpg"]
@@ -176,14 +165,14 @@ export default async function Page(props: {
             <div className="w-full h-[400px] sm:h-[500px]">
               <TabsContent value="azul" className="h-full mt-0">
                 <div className="relative w-full h-full">
-                  <Image
+                <Image
                     src="/images/Producto/azul.webp"
                     alt={`${productName} - Azul`}
                     fill
-                    sizes="(max-width: 768px) 100vw, 800px"
                     className="object-contain"
                     priority
                   />
+                 
                 </div>
               </TabsContent>
               <TabsContent value="negro" className="h-full mt-0">
