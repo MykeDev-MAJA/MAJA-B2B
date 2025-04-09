@@ -3,7 +3,7 @@ import Image from 'next/image'
 const PaymentBanner = () => {
   return (
     <>
-        <div className="flex items-center justify-evenly h-auto bg-gray-100">
+        <div className=" mt-2 flex items-center justify-evenly h-auto bg-gray-100">
             <div className="flex items-center justify-center">
                 <Image style={{width: 'auto', height: '73px'}} src="/images/Logos/MercadoLibre.svg" alt="Visa" width={100} height={73} />
             </div>

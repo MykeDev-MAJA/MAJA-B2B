@@ -5,6 +5,7 @@ import Navbar from '@/components/shared/Navbar/Navbar';
 import { Footer } from "@/components/shared/Footer/Footer";
 import { Toaster } from 'sonner'
 import { inter } from '@/config/fonts';
+import { unstable_ViewTransition as ViewTransition } from 'react'
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -46,10 +47,12 @@ export const metadata: Metadata = {
 const Layout = ({ children }: { children: React.ReactNode }) => (
   <html lang="es" className={`${inter.variable} ${inter.className}`}>
     <body>
-      <Navbar />
-      {children}
-      <Footer />
-      <Toaster position="top-right" richColors closeButton />
+      <ViewTransition>
+        <Navbar />
+        {children}
+        <Footer />
+        <Toaster position="top-right" richColors closeButton />
+      </ViewTransition>
     </body>
   </html>
 );

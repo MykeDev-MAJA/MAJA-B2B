@@ -1,10 +1,11 @@
 'use client'
-import React, { useState } from 'react';
-import { ShoppingCart, Plus, Minus, Trash2, Send } from 'lucide-react';
+import React, { useState, useTransition } from 'react';
+import { ShoppingCart, Plus, Minus, Trash2, Send, User, Building2, Mail, Phone, FileText, ArrowRight } from 'lucide-react';
 import useCartStore from '@/contexts/useCartStore';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 import {
   Dialog,
   DialogContent,
@@ -12,15 +13,14 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
-
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
-import { toast } from 'sonner';
 import jsPDF from 'jspdf';
 
-function CartPage() {
+const CartPage = () => {
+  const [isPending, startTransition] = useTransition();
   const { 
     items, 
     updateQuantity, 
@@ -36,13 +36,15 @@ function CartPage() {
     fullName: '',
     email: '',
     phone: '',
-    rfc: ''
+    rfc: '',
+    companyName: ''
   });
   const [formErrors, setFormErrors] = useState({
     fullName: '',
     email: '',
     phone: '',
-    rfc: ''
+    rfc: '',
+    companyName: ''
   });
   const [editingQuantity, setEditingQuantity] = useState<{ id: number | string; value: string } | null>(null);
 
@@ -115,7 +117,8 @@ function CartPage() {
       fullName: '',
       email: '',
       phone: '',
-      rfc: ''
+      rfc: '',
+      companyName: ''
     };
     let isValid = true;
 
@@ -149,85 +152,91 @@ function CartPage() {
     return isValid;
   };
 
-  const handleQuoteSubmit = () => {
+
+ const handleQuoteSubmit = async () => {
     if (!validateForm()) {
       return;
     }
 
-    // Create PDF with A4 dimensions
     const doc = new jsPDF({
-      orientation: 'portrait',
-      unit: 'mm',
-      format: 'a4'
+      orientation: "portrait",
+      unit: "mm",
+      format: "a4",
     });
-    
-    // Set default font
-    doc.setFont('helvetica');
-    
-    // Add company header with modern styling
-    doc.setFillColor(0, 0, 0);
-    doc.rect(0, 0, 210, 30, 'F');
-    doc.setTextColor(255, 255, 255);
-    doc.setFontSize(24);
-    doc.text('Cotización', 20, 20);
-    
-    // Add customer information section with clean layout
-    doc.setTextColor(0, 0, 0);
-    doc.setFontSize(16);
-    doc.text('Información del Cliente', 20, 45);
-    
-    // Add subtle separator line
-    doc.setDrawColor(200, 200, 200);
-    doc.line(20, 48, 190, 48);
-    
-    // Customer details with improved typography
-    doc.setFontSize(10);
-    doc.setTextColor(100, 100, 100);
-    doc.text('Nombre:', 20, 60);
-    doc.text('Email:', 20, 70);
-    doc.text('Teléfono:', 20, 80);
-    doc.text('RFC:', 20, 90);
-    
-    // Customer values in bold
-    doc.setFont('helvetica', 'bold');
-    doc.setTextColor(0, 0, 0);
-    doc.text(formData.fullName, 60, 60);
-    doc.text(formData.email, 60, 70);
-    doc.text(formData.phone, 60, 80);
-    doc.text(formData.rfc || 'N/A', 60, 90);
 
-    // Add date with subtle styling
-    doc.setFont('helvetica', 'normal');
+    // Set default font
+    doc.setFont("helvetica");
+
+    // Primero dibujamos el rectángulo negro (fondo)
+    doc.setFillColor(50, 50, 50);
+    doc.rect(0, 0, 210, 25, "F");
+
+    // Luego el texto
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(20);
+    doc.text("Cotización", 20, 17);
+
+    // Por último, dibujamos la imagen para que aparezca encima
+    const imgUrl = "/images/maja_corp_logo.png";
+    doc.addImage(imgUrl, "PNG", 15, 15, 100, 60);
+
+    doc.setTextColor(50, 50, 50);
+    doc.setFontSize(14);
+    doc.text("Información del Cliente", 20, 40);
+
+    doc.setDrawColor(220, 220, 220);
+    doc.line(20, 43, 190, 43);
+
+    // Customer details with improved typography
+    doc.setFontSize(9);
+    doc.setTextColor(100, 100, 100);
+    doc.text("Nombre:", 20, 55);
+    doc.text("Empresa:", 20, 65);
+    doc.text("Email:", 20, 75);
+    doc.text("Teléfono:", 20, 85);
+    doc.text("RFC:", 20, 95);
+
+    // Customer values in bold
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(50, 50, 50);
+    doc.text(formData.fullName, 60, 55);
+    doc.text(formData.companyName || "N/A", 60, 65);
+    doc.text(formData.email, 60, 75);
+    doc.text(formData.phone, 60, 85);
+    doc.text(formData.rfc || "N/A", 60, 95);
+
+    // Date with subtle styling
+    doc.setFont("helvetica", "normal");
     doc.setFontSize(9);
     doc.setTextColor(150, 150, 150);
-    const currentDate = new Date().toLocaleDateString('es-MX');
-    doc.text(`Fecha: ${currentDate}`, 20, 100);
+    const currentDate = new Date().toLocaleDateString("es-MX");
+    doc.text(`Fecha: ${currentDate}`, 20, 105);
 
     // Products section header
-    doc.setFontSize(16);
-    doc.setTextColor(0, 0, 0);
-    doc.text('Productos', 20, 120);
-    
-    // Add subtle separator line
-    doc.setDrawColor(200, 200, 200);
-    doc.line(20, 123, 190, 123);
-    
-    // Table header with modern styling
-    let y = 140;
-    doc.setFillColor(245, 245, 245);
-    doc.rect(20, y, 170, 10, 'F');
-    
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(10);
-    doc.setTextColor(0, 0, 0);
-    doc.text('Descripción', 25, y + 7);
-    doc.text('SKU', 80, y + 7);
-    doc.text('Color', 100, y + 7);
-    doc.text('Cantidad', 130, y + 7);
-    doc.text('Precio Unit.', 150, y + 7);
-    doc.text('Subtotal', 170, y + 7);
+    doc.setFontSize(14);
+    doc.setTextColor(50, 50, 50);
+    doc.text("Productos", 20, 120);
 
-    // Add items with alternating row colors
+    // Separator line
+    doc.setDrawColor(220, 220, 220);
+    doc.line(20, 123, 190, 123);
+
+    // Table header with minimalist styling
+    let y = 135;
+    doc.setFillColor(240, 240, 240);
+    doc.rect(20, y, 170, 10, "F");
+
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(9);
+    doc.setTextColor(50, 50, 50);
+    doc.text("Descripción", 25, y + 7);
+    doc.text("SKU", 80, y + 7);
+    doc.text("Color", 100, y + 7);
+    doc.text("Cantidad", 130, y + 7);
+    doc.text("Precio Unit.", 150, y + 7);
+    doc.text("Subtotal", 170, y + 7);
+
+    // Add items with clean styling
     y += 15;
     items.forEach((item, index) => {
       // Check if we need a new page
@@ -236,101 +245,128 @@ function CartPage() {
         y = 20;
       }
 
-      // Alternate row colors for better readability
+      // Subtle alternating row colors
       if (index % 2 === 0) {
-        doc.setFillColor(250, 250, 250);
+        doc.setFillColor(248, 248, 248);
       } else {
         doc.setFillColor(255, 255, 255);
       }
-      doc.rect(20, y, 170, 10, 'F');
+      doc.rect(20, y, 170, 10, "F");
 
       // Item details
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(9);
-      doc.setTextColor(0, 0, 0);
-      doc.text(item.name.replace(/\s+[^\s/]+\s*\//, ' /'), 25, y + 7);
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(8);
+      doc.setTextColor(70, 70, 70);
+      doc.text(item.name.replace(/\s+[^\s/]+\s*\//, " /"), 25, y + 7);
       doc.text(item.SKU, 80, y + 7);
       doc.text(item.color, 100, y + 7);
       doc.text(item.quantity.toString(), 130, y + 7);
-      doc.text(new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(item.price), 150, y + 7);
-      doc.text(new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(item.price * item.quantity), 170, y + 7);
-      
-      y += 15;
+      doc.text(new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN" }).format(item.price), 150, y + 7);
+      doc.text(
+        new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN" }).format(item.price * item.quantity),
+        170,
+        y + 7,
+      );
+
+      y += 12;
     });
 
-    // Summary section with modern styling
+    // Summary section with minimalist styling
     y += 10;
-    doc.setFillColor(245, 245, 245);
-    doc.rect(20, y, 170, 55, 'F');
-    
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(12);
-    doc.setTextColor(0, 0, 0);
-    doc.text('Resumen', 25, y + 10);
-    
-    // Summary details
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(10);
-    doc.text('Subtotal:', 25, y + 25);
-    doc.text(new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(subtotal), 160, y + 25);
-    
-    if (currentDiscount > 0) {
-      doc.setTextColor(0, 150, 0);
-      doc.text(`Descuento (${(currentDiscount * 100)}%):`, 25, y + 35);
-      doc.text(`-${new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(subtotal * currentDiscount)}`, 160, y + 35);
-    }
-    
-    // Total with emphasis
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(12);
-    doc.setTextColor(0, 0, 0);
-    doc.text('Total:', 25, y + 45);
-    doc.text(new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(discountedTotal), 160, y + 45);
+    doc.setFillColor(248, 248, 248);
+    doc.rect(20, y, 170, 60, "F");
 
-    // Footer with company information
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(11);
+    doc.setTextColor(50, 50, 50);
+    doc.text("Resumen", 25, y + 10);
+
+    // Summary details
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(9);
+    doc.text("Subtotal:", 25, y + 25);
+    doc.text(new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN" }).format(subtotal), 160, y + 25);
+
+    if (currentDiscount > 0) {
+      doc.setTextColor(0, 130, 0);
+      doc.text(`Descuento (${currentDiscount * 100}%):`, 25, y + 35);
+      doc.text(
+        `-${new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN" }).format(subtotal * currentDiscount)}`,
+        160,
+        y + 35,
+      );
+    }
+
+    // Total with emphasis
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(11);
+    doc.setTextColor(50, 50, 50);
+    doc.text("Total:", 25, y + 45);
+    doc.text(new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN" }).format(discountedTotal), 160, y + 45);
+
+    // Add IVA note
+    doc.setFont("helvetica", "italic");
+    doc.setFontSize(8);
+    doc.setTextColor(100, 100, 100);
+    doc.text("*", 23, y + 55);
+    doc.text("Precios incluyen IVA", 25, y + 55);
+
+    // Footer with company information - moved to bottom of page with more space
     const pageCount = doc.internal.pages.length;
     for (let i = 1; i <= pageCount; i++) {
       doc.setPage(i);
       doc.setFontSize(8);
       doc.setTextColor(150, 150, 150);
-      doc.text('© 2025 MAJASPORTSWEAR. Todos los derechos reservados.', 20, 285);
+      // Add more space at the bottom by moving the footer up
+      doc.text("© 2025 MAJASPORTSWEAR. Todos los derechos reservados.", 20, 280);
     }
 
     // Save the PDF
-    doc.save(`cotizacion_${formData.fullName.replace(/\s+/g, '_')}_${currentDate.replace(/\//g, '-')}.pdf`);
+    doc.output('dataurlnewwindow'); // Abre una nueva ventana con previsualización
+    doc.save(`cotizacion_${formData.fullName.replace(/\s+/g, "_")}_${currentDate.replace(/\//g, "-")}.pdf`);
 
     // Handle quote submission
-    console.log('Quote Request:', {
+    console.log("Quote Request:", {
       customerInfo: formData,
       cartDetails: {
-        items: items.map(item => ({
+        items: items.map((item) => ({
           name: item.name,
           SKU: item.SKU,
           color: item.color,
           quantity: item.quantity,
           price: item.price,
-          totalPrice: item.price * item.quantity
-        }))
-      }
-    });
-    
-    setIsQuoteModalOpen(false);
-    setFormData({
-      fullName: '',
-      email: '',
-      phone: '',
-      rfc: ''
-    });
-    setFormErrors({
-      fullName: '',
-      email: '',
-      phone: '',
-      rfc: ''
+          totalPrice: item.price * item.quantity,
+        })),
+      },
     });
 
-    toast.success('Cotización enviada correctamente');
-    router.push('/');
+    setIsQuoteModalOpen(false);
+    setFormData({
+      fullName: "",
+      email: "",
+      phone: "",
+      rfc: "",
+      companyName: "",
+    });
+    setFormErrors({
+      fullName: "",
+      email: "",
+      phone: "",
+      rfc: "",
+      companyName: "",
+    });
+
+    toast.success("Cotización enviada correctamente");
+
+    // Navigate to home
+    await router.push("/");
+
+    // Clear cart after navigation
+    setTimeout(() => {
+      clearCart();
+    }, 100);
   };
+;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -351,7 +387,7 @@ function CartPage() {
             ) : (
               <div className="bg-white rounded-lg shadow-sm">
                 {items.map((item) => (
-                  <div key={item.id + item.color} className='border-b last:border-b-0'>
+        <div key={item.id + item.color} className='border-b last:border-b-0'>
                      <div  className="p-4 flex items-center gap-4  hover:bg-gray-50 transition-colors">
                     <Link href={`/categorias/hombres/${item.name.split('/')[0].trim().replace(/\s+/g, '-')}`}>
                     <Image
@@ -373,11 +409,7 @@ function CartPage() {
                       <p className="text-xs md:text-sm text-gray-500">Color: {item.color}</p> 
                     </div>
 
-
-
-                    
-              
-                    <div className='hidden md:flex items-center gap-4'>
+                     <div className='hidden md:flex items-center gap-4'>
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => updateQuantity(item.id, Math.max(1, item.quantity - 1))}
@@ -430,8 +462,9 @@ function CartPage() {
                       </div>
                     </div>
                     <button
-                      onClick={() => removeItem(item.id)}
-                      className="p-2 text-red-500 hover:bg-red-50 rounded-full transition-colors"
+                      onClick={() => startTransition(() => removeItem(item.id))}
+                      className={`p-2 text-black hover:bg-black-40 rounded-full transition-colors ${isPending ? 'opacity-50' : ''}`}
+                      disabled={isPending}
                     >
                       <Trash2 className="h-5 w-5" />
                     </button>
@@ -487,13 +520,15 @@ function CartPage() {
                       </div>
                     </div>
                     <button
-                      onClick={() => removeItem(item.id)}
-                      className="p-2 text-red-500 hover:bg-red-50 rounded-full transition-colors"
+                      onClick={() => startTransition(() => removeItem(item.id))}
+                      className={`p-2 text-red-500 hover:bg-red-50 rounded-full transition-colors ${isPending ? 'opacity-50' : ''}`}
+                      disabled={isPending}
                     >
                       <Trash2 className="h-5 w-5" />
                     </button>
                   </div>
                   </div>
+          
                
 
 
@@ -565,21 +600,24 @@ function CartPage() {
                   </div>
                 </div>
 
-                <button
-                  onClick={clearCart}
-                  className="w-full mt-6 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors flex items-center justify-center gap-2"
-                >
-                  <Trash2 className="h-4 w-4" />
-                  Vaciar Carrito
-                </button>
+          
 
-                <button
-                  onClick={() => setIsQuoteModalOpen(true)}
-                  className="w-full mt-3 px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors flex items-center justify-center gap-2"
-                >
-                  <Send className="h-4 w-4" />
-                  Solicitar Cotización
-                </button>
+                <div className="flex gap-2 mt-3">
+                  <Button
+                    onClick={() => setIsQuoteModalOpen(true)}
+                    className="flex-[3] px-4 py-2 bg-gradient-to-r from-zinc-800 to-black hover:from-zinc-600 hover:to-zinc-900 text-white rounded-lg transition-colors flex items-center justify-center gap-2 shadow-md hover:shadow-lg"
+                  >
+                    <Send className="h-4 w-4" />
+                    Solicitar Cotización
+                  </Button>
+
+                  <Button
+                    onClick={clearCart}
+                    className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors flex items-center justify-center"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </div>
               </div>
             </div>
           )}
@@ -588,36 +626,74 @@ function CartPage() {
 
       {/* Quote Modal */}
       <Dialog open={isQuoteModalOpen} onOpenChange={setIsQuoteModalOpen}>
-      <DialogContent className="max-w-md p-0 overflow-hidden border shadow-lg rounded-lg" title="Solicitar Cotización">
-        <DialogHeader className="px-6 py-5 border-b bg-card">
-          <DialogTitle className="text-xl font-semibold">Solicitar Cotización</DialogTitle>
-          <DialogDescription className="mt-1.5 text-sm text-muted-foreground">
+      <DialogContent 
+        title="Solicitar Cotización"
+        className="max-w-md p-0 overflow-hidden border-0 shadow-xl rounded-xl bg-gradient-to-b from-white to-slate-50 dark:from-slate-950 dark:to-slate-900"
+      >
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r "></div>
+
+        <DialogHeader className="px-7 pt-7 pb-5">
+          <DialogTitle className="text-2xl font-semibold tracking-tight text-slate-800 dark:text-slate-100">
+            Solicitar Cotización
+          </DialogTitle>
+          <DialogDescription className="mt-2 text-sm text-slate-600 dark:text-slate-400">
             Complete el formulario para recibir una cotización personalizada.
           </DialogDescription>
         </DialogHeader>
 
-        <div className="px-6 py-5 space-y-5">
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="fullName" className="text-sm font-medium">
-                Nombre Completo <span className="text-red-500">*</span>
+        <div className="px-7 py-5 space-y-6">
+          <div className="space-y-5">
+            <div className="space-y-2.5">
+              <Label
+                htmlFor="fullName"
+                className="text-sm font-medium text-slate-700 dark:text-slate-300 flex items-center gap-2"
+              >
+                <User size={14} className="text-emerald-500" />
+                Nombre Completo <span className="text-rose-500">*</span>
               </Label>
               <Input
                 id="fullName"
                 name="fullName"
                 value={formData.fullName}
                 onChange={handleFormChange}
-                className={`h-10 transition-all focus-visible:ring-1 ${formErrors.fullName ? 'border-red-500' : ''}`}
+                className={`h-11 px-4 bg-white dark:bg-slate-900 border transition-all duration-200 focus-visible:ring-1 focus-visible:ring-emerald-500 focus-visible:border-emerald-500 ${
+                  formErrors.fullName
+                    ? "border-rose-300 dark:border-rose-800 shadow-[0_0_0_1px_rgba(225,29,72,0.2)]"
+                    : "border-slate-200 dark:border-slate-800"
+                }`}
                 required
               />
               {formErrors.fullName && (
-                <p className="text-xs text-red-500">{formErrors.fullName}</p>
+                <p className="text-xs font-medium text-rose-500 flex items-center gap-1.5 mt-1.5 animate-fadeIn">
+                  {formErrors.fullName}
+                </p>
               )}
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="email" className="text-sm font-medium">
-                Correo Electrónico <span className="text-red-500">*</span>
+            <div className="space-y-2.5">
+              <Label
+                htmlFor="companyName"
+                className="text-sm font-medium text-slate-700 dark:text-slate-300 flex items-center gap-2"
+              >
+                <Building2 size={14} className="text-emerald-500" />
+                Nombre de la Empresa
+              </Label>
+              <Input
+                id="companyName"
+                name="companyName"
+                value={formData.companyName}
+                onChange={handleFormChange}
+                className="h-11 px-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 transition-all duration-200 focus-visible:ring-1 focus-visible:ring-emerald-500 focus-visible:border-emerald-500"
+              />
+            </div>
+
+            <div className="space-y-2.5">
+              <Label
+                htmlFor="email"
+                className="text-sm font-medium text-slate-700 dark:text-slate-300 flex items-center gap-2"
+              >
+                <Mail size={14} className="text-emerald-500" />
+                Correo Electrónico <span className="text-rose-500">*</span>
               </Label>
               <Input
                 id="email"
@@ -625,17 +701,27 @@ function CartPage() {
                 type="email"
                 value={formData.email}
                 onChange={handleFormChange}
-                className={`h-10 transition-all focus-visible:ring-1 ${formErrors.email ? 'border-red-500' : ''}`}
+                className={`h-11 px-4 bg-white dark:bg-slate-900 border transition-all duration-200 focus-visible:ring-1 focus-visible:ring-emerald-500 focus-visible:border-emerald-500 ${
+                  formErrors.email
+                    ? "border-rose-300 dark:border-rose-800 shadow-[0_0_0_1px_rgba(225,29,72,0.2)]"
+                    : "border-slate-200 dark:border-slate-800"
+                }`}
                 required
               />
               {formErrors.email && (
-                <p className="text-xs text-red-500">{formErrors.email}</p>
+                <p className="text-xs font-medium text-rose-500 flex items-center gap-1.5 mt-1.5 animate-fadeIn">
+                  {formErrors.email}
+                </p>
               )}
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="phone" className="text-sm font-medium">
-                Teléfono <span className="text-red-500">*</span>
+            <div className="space-y-2.5">
+              <Label
+                htmlFor="phone"
+                className="text-sm font-medium text-slate-700 dark:text-slate-300 flex items-center gap-2"
+              >
+                <Phone size={14} className="text-emerald-500" />
+                Teléfono <span className="text-rose-500">*</span>
               </Label>
               <Input
                 id="phone"
@@ -643,16 +729,26 @@ function CartPage() {
                 type="tel"
                 value={formData.phone}
                 onChange={handleFormChange}
-                className={`h-10 transition-all focus-visible:ring-1 ${formErrors.phone ? 'border-red-500' : ''}`}
+                className={`h-11 px-4 bg-white dark:bg-slate-900 border transition-all duration-200 focus-visible:ring-1 focus-visible:ring-emerald-500 focus-visible:border-emerald-500 ${
+                  formErrors.phone
+                    ? "border-rose-300 dark:border-rose-800 shadow-[0_0_0_1px_rgba(225,29,72,0.2)]"
+                    : "border-slate-200 dark:border-slate-800"
+                }`}
                 required
               />
               {formErrors.phone && (
-                <p className="text-xs text-red-500">{formErrors.phone}</p>
+                <p className="text-xs font-medium text-rose-500 flex items-center gap-1.5 mt-1.5 animate-fadeIn">
+                  {formErrors.phone}
+                </p>
               )}
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="rfc" className="text-sm font-medium">
+            <div className="space-y-2.5">
+              <Label
+                htmlFor="rfc"
+                className="text-sm font-medium text-slate-700 dark:text-slate-300 flex items-center gap-2"
+              >
+                <FileText size={14} className="text-emerald-500" />
                 RFC
               </Label>
               <Input
@@ -660,18 +756,26 @@ function CartPage() {
                 name="rfc"
                 value={formData.rfc}
                 onChange={handleFormChange}
-                className="h-10 transition-all focus-visible:ring-1"
+                className="h-11 px-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 transition-all duration-200 focus-visible:ring-1 focus-visible:ring-emerald-500 focus-visible:border-emerald-500"
               />
             </div>
           </div>
         </div>
 
-        <DialogFooter className="px-6 py-4 border-t bg-muted/30 flex justify-end gap-3">
-          <Button variant="outline" onClick={() => setIsQuoteModalOpen(false)} className="h-10 px-4 transition-colors">
+        <DialogFooter className="px-7 py-5 border-t border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900/50 flex flex-col sm:flex-row justify-end gap-3">
+          <Button
+            variant="outline"
+            onClick={() => setIsQuoteModalOpen(false)}
+            className="h-9 px-4 border border-zinc-800 hover:bg-zinc-200 transition-all duration-200 "
+          >
             Cancelar
           </Button>
-          <Button onClick={handleQuoteSubmit} className="h-10 px-4 bg-primary hover:bg-primary/90 transition-colors">
+          <Button
+            onClick={handleQuoteSubmit}
+            className="h-9 px-4 bg-gradient-to-r from-zinc-800 to-black hover:from-zinc-700 hover:to-zinc-900 text-white border-0 transition-all duration-200 shadow-md hover:shadow-lg group"
+          >
             Enviar Cotización
+            <ArrowRight size={16} className="ml-2 transition-transform duration-200 group-hover:translate-x-1" />
           </Button>
         </DialogFooter>
       </DialogContent>
@@ -679,6 +783,6 @@ function CartPage() {
 
     </div>
   );
-}
+};
 
 export default CartPage;

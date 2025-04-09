@@ -58,8 +58,22 @@ Culiacán, Sinaloa México
            </p>
            <div className='flex gap-8 mt-6'>
            <FaWhatsapp className="h-6 w-6 text-white mx-2 cursor-pointer" />
-           <FaFacebookF className="h-6 w-6 text-white mx-2 cursor-pointer" />
-           <FaInstagram className="h-6 w-6 text-white mx-2 cursor-pointer" />
+           <a 
+             href="https://www.facebook.com/majasportswear/" 
+             target="_blank" 
+             rel="noopener noreferrer"
+             className="flex items-center justify-center hover:opacity-80 transition-opacity"
+           >
+             <FaFacebookF className="h-6 w-6 text-white cursor-pointer" />
+           </a>
+           <a 
+             href="https://www.instagram.com/majasportswear/" 
+             target="_blank" 
+             rel="noopener noreferrer"
+             className="flex items-center justify-center hover:opacity-80 transition-opacity"
+           >
+             <FaInstagram className="h-6 w-6 text-white cursor-pointer" />
+           </a>
            </div>
          </div>
         </div>

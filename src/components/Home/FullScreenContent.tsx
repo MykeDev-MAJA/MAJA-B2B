@@ -1,8 +1,11 @@
-import { Button } from "../ui/button";
+import IniciarSesion from "./Components/IniciarSesion";
 
 const FullScreenContent = () => {
     return (
-        <div className="relative bg-gray-200" style={{ height: 'calc(100vh - 60px)', overflow: 'hidden' }}>
+        <>
+        <div className="flex items-center text-sm justify-center bg-gray-200 w-full h-9">
+Envio gratis a todo México       </div>
+              <div className="relative bg-gray-200" style={{ height: 'calc(100vh - 60px - 36px)', overflow: 'hidden' }}>
             <video 
                 src="https://majasportswear.com/wp-content/uploads/2024/09/MAJA_CORP_BANNER_WEBSITE_AdobeExpress1.mp4" 
                 autoPlay 
@@ -23,12 +26,11 @@ const FullScreenContent = () => {
                     style={{ textRendering: 'optimizeLegibility' }}
                 >
 UN CATÁLOGO CON LA MEJOR SELECCIÓN DE NUESTRAS PRENDAS, ESPECIALES PARA TU EMPRESA Y EQUIPO DE TRABAJO                </h2>
-
-                <Button variant="outline" className="bg-transparent text-white border-white hover:bg-white hover:text-black transition-colors">
-                    Iniciar sesión
-                </Button>
-|            </div>
+                <IniciarSesion />
+           </div>
         </div>
+        </>
+  
     );
 };
 

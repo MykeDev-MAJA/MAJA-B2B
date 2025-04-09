@@ -28,14 +28,15 @@ const CategoriasComponent = () => {
 
   return (
     <div className=" flex flex-col items-center py-8 px-8 ">
-      <h1 className="text-4xl font-normal mb-8">Categorías</h1>
+      <h1 className="text-4xl font-normal mb-8">CATEGORÍAS</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8 w-[100%]">
         {categorias.map((categoria, index) => (
           <Link 
+          prefetch={true}
             href={`/categorias/${categoria.id}`} 
             key={categoria.id}
-            className={`transition-transform hover:scale-105 ${
+            className={`transition-transform hover:scale-105  ${
               index === 0 ? 'md:col-start-2' : 'md:col-start-3'
             }`}
           >
@@ -46,15 +47,15 @@ const CategoriasComponent = () => {
                   alt={`Categoría de productos para ${categoria.nombre.toLowerCase()}`}
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  className="object-cover"
+                  className="object-cover object-top"
                 />
               </div>
              
               <h2
-        className="absolute bottom-5 left-0 px-4 py-2 text-white text-2xl font-normal 
-                     bg-black rounded-tr-sm rounded-br-sm shadow-2xl"
+        className="absolute bottom-5 left-0 px-10 py-2 text-white text-2xl font-semibold 
+                     bg-black rounded-tr-full rounded-br-full shadow-2xl"
       >
-        {categoria.nombre}
+        {categoria.nombre.toUpperCase()}
       </h2>             
             </div>
           </Link>

@@ -6,42 +6,40 @@ interface ServerProductsProps {
   filterCategory?: string; // Parámetro opcional para filtrar por categoría
 }
 
-export async function ServerProducts({ filterCategory }: ServerProductsProps = {}) {
+export const ServerProducts = async ({ filterCategory }: ServerProductsProps = {}) => {
   // Fetch products data from the JSON file
   const products = await getProducts();
 
-  // Filtrar categorías si se proporciona filterCategory
+  // Using modern object shorthand and optional chaining
   const filteredProducts = filterCategory 
-    ? { [filterCategory]: products[filterCategory] || [] } 
+    ? { [filterCategory]: products[filterCategory] ?? [] } 
     : products;
 
   return (
-    <div id="productsSeccion" className="min-h-screen flex flex-col items-center py-8 px-8">
+    <div id="productsSeccion" className="min-h-screen flex flex-col items-center py-1 pb-8 px-8">
       <h1 className="text-4xl font-normal">
-        {filterCategory ? `${filterCategory.charAt(0).toUpperCase() + filterCategory.slice(1)}` : 'Nuestros Productos'}
+        {filterCategory ? `` : 'NUESTROS PRODUCTOS'}
       </h1>
 
       {/* COMPONENTE REACTIVO PARA MOSTRAR CATEGORIAS */}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 pt-8">
-        {Object.entries(filteredProducts).flatMap(([category, categoryProducts]) => {
-          return categoryProducts.flatMap((product: Product) => {
-            if (product.agrupado) {
-              return <ProductCard key={`${category}-${product.id}`} product={product} />;
-            } else {
-              return product.colors.map((color: ColorOption) => (
-                <ProductCard
-                  key={`${category}-${product.id}-${color.name}`}
-                  product={{
-                    ...product,
-                    colors: [color],
-                    name: `${product.name}`,
-                  }}
-                />
-              ));
-            }
-          });
-        })}
+        {Object.entries(filteredProducts).flatMap(([category, categoryProducts]) => 
+          categoryProducts.flatMap((product: Product) => 
+            product.agrupado 
+              ? <ProductCard key={`${category}-${product.id}`} product={product} />
+              : product.colors.map((color: ColorOption) => (
+                  <ProductCard
+                    key={`${category}-${product.id}-${color.name}`}
+                    product={{
+                      ...product,
+                      colors: [color],
+                      name: product.name,
+                    }}
+                  />
+                ))
+          )
+        )}
       </div>
 
       {/* {!filterCategory && ( */}

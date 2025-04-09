@@ -21,7 +21,7 @@ interface AddToCartButtonProps {
   sizesWithQuantities: SizeQuantity[]
 }
 
-export default function AddToCartButton({
+const AddToCartButton = ({
   id,
   name,
   price,
@@ -29,7 +29,7 @@ export default function AddToCartButton({
   image,
   color,
   sizesWithQuantities
-}: AddToCartButtonProps) {
+}: AddToCartButtonProps) => {
   const [isLoading, setIsLoading] = useState(false)
   const { addItem } = useCartStore()
 
@@ -98,4 +98,7 @@ export default function AddToCartButton({
         : 'Selecciona cantidades'}
     </Button>
   )
-} 
+}
+
+AddToCartButton.displayName = 'AddToCartButton'
+export default AddToCartButton 

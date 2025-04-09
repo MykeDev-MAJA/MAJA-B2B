@@ -20,7 +20,7 @@ const ProductInfo = () => {
               value="descripcion" 
               className="relative z-20 transition-all duration-500 data-[state=active]:bg-black data-[state=active]:text-white"
             >
-              Descripción
+              Tecnologia
             </TabsTrigger>
             <TabsTrigger 
               value="caracteristicas" 
