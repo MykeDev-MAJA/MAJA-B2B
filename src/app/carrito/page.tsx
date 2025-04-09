@@ -176,9 +176,9 @@ const CartPage = () => {
     doc.setFontSize(20);
     doc.text("Cotización", 20, 17);
 
-    // Por último, dibujamos la imagen para que aparezca encima
+    // Por último, dibujamos la imagen
     const imgUrl = "/images/maja_corp_logo.png";
-    doc.addImage(imgUrl, "PNG", 15, 15, 100, 60);
+    doc.addImage(imgUrl, "PNG", 140, 9, 50, 10);
 
     doc.setTextColor(50, 50, 50);
     doc.setFontSize(14);
