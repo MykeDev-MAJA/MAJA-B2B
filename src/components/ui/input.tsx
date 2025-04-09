@@ -7,7 +7,7 @@ interface InputProps extends React.ComponentProps<"input"> {
   error?: string
 }
 
-function Input({ 
+const Input = ({ 
   className, 
   type, 
   label,
@@ -16,7 +16,7 @@ function Input({
   "aria-label": ariaLabel,
   "aria-describedby": ariaDescribedby,
   ...props 
-}: InputProps) {
+}: InputProps) => {
   const generatedId = React.useId()
   const inputId = id || generatedId
   const errorId = error ? `${inputId}-error` : undefined

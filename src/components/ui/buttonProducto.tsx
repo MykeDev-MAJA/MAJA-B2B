@@ -5,13 +5,13 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   size?: "default" | "sm" | "lg" | "icon"
 }
 
-export const Button: React.FC<ButtonProps> = ({
+export const Button = ({
   children,
   className = "",
   variant = "default",
   size = "default",
   ...props
-}) => {
+}: ButtonProps) => {
   const baseStyles = "font-medium rounded-md transition-colors flex justify-center items-center"
   const variantStyles = {
     default: "bg-primary text-primary-foreground hover:bg-primary/90",

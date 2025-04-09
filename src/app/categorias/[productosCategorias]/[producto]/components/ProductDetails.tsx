@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { Heart, Share2, Truck } from 'lucide-react'
+import { Heart, Share2, Truck, Headset } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
@@ -11,6 +11,7 @@ import Customizer from './Customizer'
 import QuantitySelector from '@/components/shared/ProductLanding/quantity-selector'
 import AddToCartButton from './AddToCartButton'
 import { useUserStore } from '@/contexts/useUserContext'
+
 
 interface ProductDetailsProps {
   productName: string
@@ -178,10 +179,10 @@ export default function ProductDetails({ productName, price, sku }: ProductDetai
               className="flex items-center justify-between p-2.5 rounded-lg border border-black-600 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors"
             >
               <div className="flex items-center space-x-2">
-                <div className="w-9 h-9 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800">
-                  <span className="text-xs font-light">{size}</span>
+                <div className="w-9 h-9 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-800">
+                  <span className="text-[0.625rem] font-medium">{size}</span>
                 </div>
-                {isAuthenticated && <span className="text-xs font-medium">Stock {123}</span>}
+                {isAuthenticated && <span className="text-xs font-medium">Stock {Math.floor(Math.random() * (300 - 10 + 1)) + 10}</span>}
               </div>
               <QuantitySelector
                 initialValue={sizeQuantities.find((sq) => sq.size === size)?.quantity || 0}
@@ -235,7 +236,10 @@ export default function ProductDetails({ productName, price, sku }: ProductDetai
             color={selectedColor}
             sizesWithQuantities={sizesForCart}
           />
-          <Button size="lg" variant="outline" className="w-full">
+          <Button size="lg" variant="outline" className="w-full flex items-center justify-center">
+            <span className="mr-2">
+              <Headset className="h-5 w-5" />
+            </span>
             Contactar a un asesor
           </Button>
         </div>

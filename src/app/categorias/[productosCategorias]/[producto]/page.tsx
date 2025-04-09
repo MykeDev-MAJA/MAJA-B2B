@@ -7,8 +7,9 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import ProductDetails from "./components/ProductDetails"
 import ProductInfo from "./components/ProductInfo"
+
 // Función para convertir el slug a nombre de producto
-function slugToProductName(slug: string): string {
+const slugToProductName = (slug: string): string => {
   // Decodificar la URL para manejar caracteres especiales como ®
   const decodedSlug = decodeURIComponent(slug)
 
@@ -16,14 +17,13 @@ function slugToProductName(slug: string): string {
   return decodedSlug.replace(/-/g, " ")
 }
 
-
-
 // Agregar el array de productos relacionados
 const productosRelacionados = ["Azul.webp", "Rojo.webp", "verde.jpg", "Jeep_verde.jpg"]
 
-export async function generateMetadata(props: {
+// Convert generateMetadata to an async arrow function
+export const generateMetadata: (props: {
   params: Promise<{ producto: string; productosCategorias: string }>
-}): Promise<Metadata> {
+}) => Promise<Metadata> = async (props) => {
   const params = await props.params
   const productName = slugToProductName(params.producto)
   
@@ -48,10 +48,11 @@ export async function generateMetadata(props: {
   }
 }
 
-export default async function Page(props: {
+// Convert the default export Page component to an async arrow function
+const Page = async (props: {
   params: Promise<{ producto: string; productosCategorias: string }>
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
-}) {
+}) => {
   const params = await props.params
   
   // Si no hay producto, mostrar 404
@@ -250,5 +251,7 @@ export default async function Page(props: {
     </div>
   )
 }
+
+export default Page;
 
   

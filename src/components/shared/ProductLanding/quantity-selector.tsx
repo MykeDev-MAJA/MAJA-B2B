@@ -14,13 +14,13 @@ interface QuantitySelectorProps {
   resetValue?: number
 }
 
-export default function QuantitySelector({
+const QuantitySelector = ({
   initialValue = 1,
   min = 1,
   max = 999,
   onChange,
   resetValue
-}: QuantitySelectorProps) {
+}: QuantitySelectorProps) => {
   const [quantity, setQuantity] = useState(initialValue)
   const [inputValue, setInputValue] = useState(initialValue.toString())
   const [isFocused, setIsFocused] = useState(false)
@@ -125,4 +125,6 @@ export default function QuantitySelector({
     </div>
   )
 }
+
+export default QuantitySelector
 

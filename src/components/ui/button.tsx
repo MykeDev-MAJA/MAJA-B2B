@@ -39,7 +39,7 @@ interface ButtonProps extends React.ComponentProps<"button">, VariantProps<typeo
   loading?: boolean
 }
 
-function Button({
+const Button = ({
   className,
   variant,
   size,
@@ -48,7 +48,7 @@ function Button({
   children,
   disabled,
   ...props
-}: ButtonProps) {
+}: ButtonProps) => {
   const Comp = asChild ? Slot : "button"
 
   return (

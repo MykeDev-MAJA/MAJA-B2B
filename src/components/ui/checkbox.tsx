@@ -10,12 +10,12 @@ interface CheckboxProps extends React.ComponentProps<typeof CheckboxPrimitive.Ro
   label?: string
 }
 
-function Checkbox({
+const Checkbox = ({
   className,
   label,
   id,
   ...props
-}: CheckboxProps) {
+}: CheckboxProps) => {
   return (
     <div className="flex items-center space-x-2">
       <CheckboxPrimitive.Root

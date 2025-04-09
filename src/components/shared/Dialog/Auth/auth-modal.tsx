@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Loader2, Eye, EyeOff, Mail, Facebook } from "lucide-react";
+import { Loader2, Eye, EyeOff} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -219,7 +219,7 @@ export function AuthModal({ onLoginSuccess, onClose }: AuthModalProps) {
                       )}
                     </Button>
 
-                    <div className="relative">
+                    {/* <div className="relative">
                       <div className="absolute inset-0 flex items-center">
                         <span className="w-full border-t" />
                       </div>
@@ -239,7 +239,7 @@ export function AuthModal({ onLoginSuccess, onClose }: AuthModalProps) {
                         <Mail className="mr-2 h-4 w-4" />
                         Google
                       </Button>
-                    </div>
+                    </div> */}
                   </div>
                 </form>
               </CardContent>
