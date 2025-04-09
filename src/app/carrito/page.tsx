@@ -273,6 +273,13 @@ const CartPage = () => {
 
     // Summary section with minimalist styling
     y += 10;
+
+    // Check if there's enough space for the entire summary section (approximately 70mm needed)
+    if (y + 70 > 270) { // 270mm is close to the bottom of the page, considering margins
+      doc.addPage();
+      y = 20; // Reset y to top of new page
+    }
+
     doc.setFillColor(248, 248, 248);
     doc.rect(20, y, 170, 60, "F");
 
