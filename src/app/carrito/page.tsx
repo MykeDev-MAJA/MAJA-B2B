@@ -5,7 +5,6 @@ import useCartStore from '@/contexts/useCartStore';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
 import {
   Dialog,
   DialogContent,
@@ -18,6 +17,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import jsPDF from 'jspdf';
+import { numeroATexto } from './components/ConvertidorTexto';
 
 const CartPage = () => {
   const [isPending, startTransition] = useTransition();
@@ -167,8 +167,7 @@ const CartPage = () => {
     // Set default font
     doc.setFont("helvetica");
 
-    // Primero dibujamos el rectángulo negro (fondo)
-    doc.setFillColor(50, 50, 50);
+    doc.setFillColor(0, 0, 0);
     doc.rect(0, 0, 210, 25, "F");
 
     // Luego el texto
@@ -177,7 +176,7 @@ const CartPage = () => {
     doc.text("Cotización", 20, 17);
 
     // Por último, dibujamos la imagen
-    const imgUrl = "/images/maja_corp_logo.png";
+    const imgUrl = "/images/Logos/MajaCorpBlanco.png";
     doc.addImage(imgUrl, "PNG", 140, 9, 50, 10);
 
     doc.setTextColor(50, 50, 50);
@@ -223,12 +222,12 @@ const CartPage = () => {
 
     // Table header with minimalist styling
     let y = 135;
-    doc.setFillColor(240, 240, 240);
+    doc.setFillColor(0, 0, 0);
     doc.rect(20, y, 170, 10, "F");
 
     doc.setFont("helvetica", "bold");
     doc.setFontSize(9);
-    doc.setTextColor(50, 50, 50);
+    doc.setTextColor(255, 255, 255);
     doc.text("Descripción", 25, y + 7);
     doc.text("SKU", 80, y + 7);
     doc.text("Color", 100, y + 7);
@@ -281,10 +280,10 @@ const CartPage = () => {
     }
 
     doc.setFillColor(248, 248, 248);
-    doc.rect(20, y, 170, 60, "F");
+    doc.rect(20, y, 170, 80, "F");
 
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(11);
+    doc.setFont("helvetica");
+    doc.setFontSize(14);
     doc.setTextColor(50, 50, 50);
     doc.text("Resumen", 25, y + 10);
 
@@ -304,19 +303,43 @@ const CartPage = () => {
       );
     }
 
+    if (currentDiscount > 0) {
+    doc.setTextColor(50, 50, 50);
+    doc.text("Subtotal con descuento:", 25, y + 45);
+    doc.text(
+      new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN" }).format(discountedTotal),
+      160,
+      y + 45,
+    )};
+
+    doc.text("IVA (16%):", 25, y + 55);
+    doc.text(
+      new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN" }).format(discountedTotal * 0.16),
+      160,
+      y + 55,
+    );
+
     // Total with emphasis
     doc.setFont("helvetica", "bold");
     doc.setFontSize(11);
-    doc.setTextColor(50, 50, 50);
-    doc.text("Total:", 25, y + 45);
-    doc.text(new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN" }).format(discountedTotal), 160, y + 45);
+    doc.text("Total:", 25, y + 65);
+    doc.text(
+      new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN" }).format(discountedTotal * 1.16),
+      160,
+      y + 65,
+    );
+
+    // Add amount in words
+    doc.setFont("helvetica", "italic");
+    doc.setFontSize(9);
+    doc.setTextColor(70, 70, 70);
+    doc.text(numeroATexto(discountedTotal * 1.16), 25, y + 72);
 
     // Add IVA note
     doc.setFont("helvetica", "italic");
     doc.setFontSize(8);
     doc.setTextColor(100, 100, 100);
-    doc.text("*", 23, y + 55);
-    doc.text("Precios incluyen IVA", 25, y + 55);
+   
 
     // Footer with company information - moved to bottom of page with more space
     const pageCount = doc.internal.pages.length;
@@ -325,7 +348,7 @@ const CartPage = () => {
       doc.setFontSize(8);
       doc.setTextColor(150, 150, 150);
       // Add more space at the bottom by moving the footer up
-      doc.text("© 2025 MAJASPORTSWEAR. Todos los derechos reservados.", 20, 280);
+      doc.text("© 2025 MAJASPORTSWEAR. Todos los derechos reservados.", 20, 290);
     }
 
     // Save the PDF
@@ -363,7 +386,6 @@ const CartPage = () => {
       companyName: "",
     });
 
-    toast.success("Cotización enviada correctamente");
 
     // Navigate to home
     await router.push("/");
@@ -577,7 +599,7 @@ const CartPage = () => {
 
                 <div className="space-y-2">
                   <div className="flex justify-between text-gray-600">
-                    <span>Subtotal</span>
+                    <span>{currentDiscount > 0 ? 'Neto' : 'Subtotal'}</span>
                     <span className={currentDiscount > 0 ? 'line-through' : ''}>
                       {new Intl.NumberFormat('es-MX', {
                         style: 'currency',
@@ -595,14 +617,34 @@ const CartPage = () => {
                         }).format(subtotal * currentDiscount)}
                       </span>
                     </div>
+                    
                   )}
+                   {currentDiscount > 0 && (
+                    <div className="flex justify-between text-gray-600">
+                    <span>Subtotal</span>
+                    <span>
+                        {new Intl.NumberFormat('es-MX', {
+                          style: 'currency',
+                          currency: 'MXN'
+                        }).format(subtotal - (subtotal * currentDiscount) )}
+                      </span>
+                  </div>)}
+                  <div className="flex justify-between text-gray-600">
+                    <span>IVA</span>
+                    <span>
+                        {new Intl.NumberFormat('es-MX', {
+                          style: 'currency',
+                          currency: 'MXN'
+                        }).format(discountedTotal * 0.16 )}
+                      </span>
+                  </div>
                   <div className="flex justify-between text-lg font-semibold pt-2 border-t">
                     <span>Total</span>
                     <span>
                       {new Intl.NumberFormat('es-MX', {
                         style: 'currency',
                         currency: 'MXN'
-                      }).format(discountedTotal)}
+                      }).format(discountedTotal * 1.16)}
                     </span>
                   </div>
                 </div>

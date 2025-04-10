@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 
 const TECHNOLOGIES = [
@@ -19,7 +19,6 @@ const TecnoBanner = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
 
-
   useEffect(() => {
     const checkIfMobile = () => setIsMobile(window.innerWidth < 768);
     
@@ -34,7 +33,15 @@ const TecnoBanner = () => {
 
   const MobileCarousel = () => (
     <div className="relative w-[90%] mx-auto px-4 drop-shadow-xl">
-  
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={currentIndex}
+          initial={{ opacity: 0, x: 100 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -100 }}
+          transition={{ duration: 0.3 }}
+          className="flex items-center h-[140px] bg-white rounded-lg shadow-lg p-4"
+        >
           <div className="w-1/4 flex justify-center items-center">
             <Image
               src={TECHNOLOGIES[currentIndex].src}
@@ -49,7 +56,8 @@ const TecnoBanner = () => {
           <div className="w-3/4 pl-4">
             <p className="text-xs">{TECHNOLOGIES[currentIndex].desc}</p>
           </div>
-
+        </motion.div>
+      </AnimatePresence>
       
       <button
         onClick={prevSlide}

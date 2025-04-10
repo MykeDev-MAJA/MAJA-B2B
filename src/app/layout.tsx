@@ -51,7 +51,12 @@ const Layout = ({ children }: { children: React.ReactNode }) => (
         <Navbar />
         {children}
         <Footer />
-        <Toaster position="top-right" richColors closeButton />
+        <Toaster 
+          position="bottom-right" 
+          richColors 
+          closeButton 
+          
+        />
       </ViewTransition>
     </body>
   </html>
