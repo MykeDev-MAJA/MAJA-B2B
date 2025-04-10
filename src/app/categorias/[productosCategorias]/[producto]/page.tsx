@@ -3,10 +3,10 @@ import Image from "next/image"
 import Link from "next/link"
 import { ChevronRight} from "lucide-react"
 import { Metadata } from "next/types"
-import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import ProductDetails from "./components/ProductDetails"
 import ProductInfo from "./components/ProductInfo"
+import { ServerProducts } from "@/components/Home/ServerProducts"
 
 // Función para convertir el slug a nombre de producto
 const slugToProductName = (slug: string): string => {
@@ -16,9 +16,6 @@ const slugToProductName = (slug: string): string => {
   // Luego reemplazamos los guiones por espacios
   return decodedSlug.replace(/-/g, " ")
 }
-
-// Agregar el array de productos relacionados
-const productosRelacionados = ["Azul.webp", "Rojo.webp", "verde.jpg", "Jeep_verde.jpg"]
 
 // Convert generateMetadata to an async arrow function
 export const generateMetadata: (props: {
@@ -73,7 +70,8 @@ const Page = async (props: {
   const categoria = params.productosCategorias;
 
   return (
-    <div className="container mx-auto py-6 px-4 lg:px-8">
+    <>
+        <div className="container mx-auto py-6 px-4 lg:px-8">
       {/* Breadcrumbs */}
       <nav className="flex items-center text-sm text-muted-foreground mb-6">
         <Link href="/" className="hover:text-primary transition-colors">
@@ -225,30 +223,17 @@ const Page = async (props: {
 
       <ProductInfo />
 
-      {/* Productos relacionados - se podría implementar en un componente separado */}
-      <div className="mt-16">
-        <h2 className="text-2xl font-bold mb-6">Productos relacionados</h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {productosRelacionados.map((producto) => (
-            <Card key={producto} className="overflow-hidden">
-              <div className="aspect-square relative">
-                <Image
-                  src={`/images/Producto/${producto}`}
-                  width={300}
-                  height={300}
-                  alt={`Producto relacionado - ${producto}`}
-                  className="object-cover"
-                />
-              </div>
-              <CardContent className="p-4">
-                <h3 className="font-medium truncate">Producto Relacionado</h3>
-                <p className="text-sm text-muted-foreground">$1,700.00</p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </div>
+
     </div>
+           {/* Productos relacionados - se podría implementar en un componente separado */}
+           <div className="mt-16 w-full flex justify-center items-center flex-col">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-6">PRODUCTOS RELACIONADOS</h2>
+           <ServerProducts filterCategory={categoria} />
+        </div>
+    </>
+
+   
+    
   )
 }
 
