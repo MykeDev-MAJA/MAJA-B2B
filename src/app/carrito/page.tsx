@@ -1,7 +1,10 @@
 'use client'
 import React, { useState, useTransition } from 'react';
-import { ShoppingCart, Plus, Minus, Trash2, Send, User, Building2, Mail, Phone, FileText, ArrowRight } from 'lucide-react';
+import { ShoppingCart, Plus, Minus, Trash2, Send, User, Building2, Mail, Phone, FileText, ArrowRight, ShoppingBag, Package, MapPin } from 'lucide-react';
 import useCartStore from '@/contexts/useCartStore';
+import { Card, CardContent } from "@/components/ui/card"
+
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -18,6 +21,13 @@ import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import jsPDF from 'jspdf';
 import { numeroATexto } from './components/ConvertidorTexto';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 const CartPage = () => {
   const [isPending, startTransition] = useTransition();
@@ -37,16 +47,29 @@ const CartPage = () => {
     email: '',
     phone: '',
     rfc: '',
-    companyName: ''
+    companyName: '',
+    postalCode: '',
+    city: '',
+    state: '',
+    colony: ''
   });
   const [formErrors, setFormErrors] = useState({
     fullName: '',
     email: '',
     phone: '',
     rfc: '',
-    companyName: ''
+    companyName: '',
+    postalCode: '',
+    colony: ''
   });
   const [editingQuantity, setEditingQuantity] = useState<{ id: number | string; value: string } | null>(null);
+
+  const [colonies, setColonies] = useState<Array<{
+    clave: number;
+    colonia: string;
+    ciudad: string;
+    estado: string;
+  }>>([]);
 
   // Calculate totals using context methods
   const totalItems = getTotalItems();
@@ -110,6 +133,18 @@ const CartPage = () => {
       ...prev,
       [name]: value
     }));
+
+    // Handle postal code changes
+    if (name === 'postalCode' && value.length === 5) {
+      fetchPostalCodeData(value);
+    }
+  };
+
+  const handleColonyChange = (value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      colony: value
+    }));
   };
 
   const validateForm = () => {
@@ -118,7 +153,9 @@ const CartPage = () => {
       email: '',
       phone: '',
       rfc: '',
-      companyName: ''
+      companyName: '',
+      postalCode: '',
+      colony: ''
     };
     let isValid = true;
 
@@ -148,10 +185,57 @@ const CartPage = () => {
       isValid = false;
     }
 
+    // Validate companyName
+    if (!formData.companyName.trim()) {
+      errors.companyName = 'La empresa es requerida';
+      isValid = false;
+    }
+
+    // Validate postalCode
+    if (!formData.postalCode.trim()) {
+      errors.postalCode = 'El código postal es requerido';
+      isValid = false;
+    } else if (!/^\d{5}$/.test(formData.postalCode)) {
+      errors.postalCode = 'El código postal debe tener 5 dígitos';
+      isValid = false;
+    }
+
+    // Validate colony
+    if (!formData.colony) {
+      errors.colony = 'La colonia es requerida';
+      isValid = false;
+    }
+
     setFormErrors(errors);
     return isValid;
   };
 
+  const fetchPostalCodeData = async (postalCode: string) => {
+    try {
+      const response = await fetch(`https://api.pktuno.mx/Api/Cobertura/${postalCode}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch postal code data');
+      }
+      const data = await response.json();
+      if (data && data.length > 0) {
+        setColonies(data);
+        setFormData(prev => ({
+          ...prev,
+          city: data[0].ciudad,
+          state: data[0].estado
+        }));
+      }
+    } catch (error) {
+      console.error('Error fetching postal code data:', error);
+      setColonies([]);
+      setFormData(prev => ({
+        ...prev,
+        city: '',
+        state: '',
+        colony: ''
+      }));
+    }
+  };
 
  const handleQuoteSubmit = async () => {
     if (!validateForm()) {
@@ -377,6 +461,10 @@ const CartPage = () => {
       phone: "",
       rfc: "",
       companyName: "",
+      postalCode: "",
+      city: "",
+      state: "",
+      colony: ""
     });
     setFormErrors({
       fullName: "",
@@ -384,6 +472,8 @@ const CartPage = () => {
       phone: "",
       rfc: "",
       companyName: "",
+      postalCode: "",
+      colony: ""
     });
 
 
@@ -404,15 +494,42 @@ const CartPage = () => {
           {/* Product List */}
           <div className="flex-grow">
             {items.length === 0 ? (
-              <div className="text-center py-16 bg-white rounded-lg shadow-sm">
-                <ShoppingCart className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-                <p className="text-gray-500">Tu carrito está vacío</p>
-                <Link href="/">
-                  <button  className="mt-4 px-6 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors">
-                    Continuar Comprando
-                  </button>
-                </Link>
-              </div>
+              <div className="flex items-center justify-center min-h-[400px] p-6">
+              <Card className="w-full max-w-md border-none shadow-md bg-white/50 backdrop-blur-sm">
+                <CardContent className="pt-10 pb-10 px-8">
+                  <div className="relative mb-6">
+                    <div className="absolute -top-2 -left-2 w-16 h-16 bg-primary/10 rounded-full" />
+                    <ShoppingBag className="h-12 w-12 text-primary relative z-10" />
+                  </div>
+        
+                  <h3 className="text-2xl font-medium tracking-tight mb-2">Tu carrito está vacío</h3>
+        
+                  <p className="text-muted-foreground mb-8">Parece que aún no has añadido productos a tu carrito de compras.</p>
+        
+                  <div className="space-y-4">
+                    <Link href="/categorias" className="block w-full">
+                      <Button className="w-full group" size="lg">
+                        Explorar productos
+                        <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                      </Button> 
+                    </Link>
+{/*         
+                    <Link href="/featured" className="block w-full">
+                      <Button variant="outline" className="w-full" size="lg">
+                        <Package className="mr-2 h-4 w-4" />
+                        Ver destacados
+                      </Button>
+                    </Link> */}
+                  </div>
+        
+                  <div className="mt-8 pt-6 border-t border-border">
+                    <p className="text-sm text-muted-foreground text-center">
+                      Recuerda que el minimo de productos a agregar es 15.
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
             ) : (
               <div className="bg-white rounded-lg shadow-sm">
                 {items.map((item) => (
@@ -674,10 +791,10 @@ const CartPage = () => {
       </main>
 
       {/* Quote Modal */}
-      <Dialog open={isQuoteModalOpen} onOpenChange={setIsQuoteModalOpen}>
+      <Dialog  open={isQuoteModalOpen} onOpenChange={setIsQuoteModalOpen}>
       <DialogContent 
         title="Solicitar Cotización"
-        className="max-w-md p-0 overflow-hidden border-0 shadow-xl rounded-xl bg-gradient-to-b from-white to-slate-50 dark:from-slate-950 dark:to-slate-900"
+        className="max-w-md max-h-[80vh] p-0 overflow-y-auto border-0 shadow-xl rounded-xl bg-gradient-to-b from-white to-slate-50 dark:from-slate-950 dark:to-slate-900"
       >
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r "></div>
 
@@ -687,18 +804,20 @@ const CartPage = () => {
           </DialogTitle>
           <DialogDescription className="mt-2 text-sm text-slate-600 dark:text-slate-400">
             Complete el formulario para recibir una cotización personalizada.
+            <span className="block text-xs mt-1 text-rose-500">Los campos con * son obligatorios</span>
           </DialogDescription>
         </DialogHeader>
 
-        <div className="px-7 py-5 space-y-6">
-          <div className="space-y-5">
-            <div className="space-y-2.5">
+        <div className="px-7">
+          <div className="grid grid-cols-2 gap-4 mb-4">
+            {/* Primera fila: Nombre */}
+            <div className="space-y-2 col-span-2">
               <Label
                 htmlFor="fullName"
                 className="text-sm font-medium text-slate-700 dark:text-slate-300 flex items-center gap-2"
               >
                 <User size={14} className="text-emerald-500" />
-                Nombre Completo <span className="text-rose-500">*</span>
+                Nombre <span className="text-rose-500">*</span>
               </Label>
               <Input
                 id="fullName"
@@ -713,36 +832,47 @@ const CartPage = () => {
                 required
               />
               {formErrors.fullName && (
-                <p className="text-xs font-medium text-rose-500 flex items-center gap-1.5 mt-1.5 animate-fadeIn">
+                <p className="text-xs font-medium text-rose-500 flex items-center gap-1.5 mt-1 animate-fadeIn">
                   {formErrors.fullName}
                 </p>
               )}
             </div>
 
-            <div className="space-y-2.5">
+            {/* Segunda fila: Empresa y Email */}
+            <div className="space-y-2">
               <Label
                 htmlFor="companyName"
                 className="text-sm font-medium text-slate-700 dark:text-slate-300 flex items-center gap-2"
               >
                 <Building2 size={14} className="text-emerald-500" />
-                Nombre de la Empresa
+                Empresa <span className="text-rose-500">*</span>
               </Label>
               <Input
                 id="companyName"
                 name="companyName"
                 value={formData.companyName}
                 onChange={handleFormChange}
-                className="h-11 px-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 transition-all duration-200 focus-visible:ring-1 focus-visible:ring-emerald-500 focus-visible:border-emerald-500"
+                className={`h-11 px-4 bg-white dark:bg-slate-900 border transition-all duration-200 focus-visible:ring-1 focus-visible:ring-emerald-500 focus-visible:border-emerald-500 ${
+                  formErrors.companyName
+                    ? "border-rose-300 dark:border-rose-800 shadow-[0_0_0_1px_rgba(225,29,72,0.2)]"
+                    : "border-slate-200 dark:border-slate-800"
+                }`}
+                required
               />
+              {formErrors.companyName && (
+                <p className="text-xs font-medium text-rose-500 flex items-center gap-1.5 mt-1 animate-fadeIn">
+                  {formErrors.companyName}
+                </p>
+              )}
             </div>
 
-            <div className="space-y-2.5">
+            <div className="space-y-2">
               <Label
                 htmlFor="email"
                 className="text-sm font-medium text-slate-700 dark:text-slate-300 flex items-center gap-2"
               >
                 <Mail size={14} className="text-emerald-500" />
-                Correo Electrónico <span className="text-rose-500">*</span>
+                Email <span className="text-rose-500">*</span>
               </Label>
               <Input
                 id="email"
@@ -758,13 +888,13 @@ const CartPage = () => {
                 required
               />
               {formErrors.email && (
-                <p className="text-xs font-medium text-rose-500 flex items-center gap-1.5 mt-1.5 animate-fadeIn">
+                <p className="text-xs font-medium text-rose-500 flex items-center gap-1.5 mt-1 animate-fadeIn">
                   {formErrors.email}
                 </p>
               )}
             </div>
 
-            <div className="space-y-2.5">
+            <div className="space-y-2">
               <Label
                 htmlFor="phone"
                 className="text-sm font-medium text-slate-700 dark:text-slate-300 flex items-center gap-2"
@@ -786,13 +916,14 @@ const CartPage = () => {
                 required
               />
               {formErrors.phone && (
-                <p className="text-xs font-medium text-rose-500 flex items-center gap-1.5 mt-1.5 animate-fadeIn">
+                <p className="text-xs font-medium text-rose-500 flex items-center gap-1.5 mt-1 animate-fadeIn">
                   {formErrors.phone}
                 </p>
               )}
             </div>
 
-            <div className="space-y-2.5">
+            {/* Tercera fila: RFC */}
+            <div className="space-y-2">
               <Label
                 htmlFor="rfc"
                 className="text-sm font-medium text-slate-700 dark:text-slate-300 flex items-center gap-2"
@@ -808,6 +939,107 @@ const CartPage = () => {
                 className="h-11 px-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 transition-all duration-200 focus-visible:ring-1 focus-visible:ring-emerald-500 focus-visible:border-emerald-500"
               />
             </div>
+
+            {/* Cuarta fila: Código Postal y Ciudad */}
+            <div className="space-y-2">
+              <Label
+                htmlFor="postalCode"
+                className="text-sm font-medium text-slate-700 dark:text-slate-300 flex items-center gap-2"
+              >
+                <MapPin size={14} className="text-emerald-500" />
+                Código Postal <span className="text-rose-500">*</span>
+              </Label>
+              <Input
+                id="postalCode"
+                name="postalCode"
+                value={formData.postalCode}
+                onChange={handleFormChange}
+                maxLength={5}
+                pattern="[0-9]*"
+                inputMode="numeric"
+                className={`h-11 px-4 bg-white dark:bg-slate-900 border transition-all duration-200 focus-visible:ring-1 focus-visible:ring-emerald-500 focus-visible:border-emerald-500 ${
+                  formErrors.postalCode
+                    ? "border-rose-300 dark:border-rose-800 shadow-[0_0_0_1px_rgba(225,29,72,0.2)]"
+                    : "border-slate-200 dark:border-slate-800"
+                }`}
+                required
+              />
+              {formErrors.postalCode && (
+                <p className="text-xs font-medium text-rose-500 flex items-center gap-1.5 mt-1 animate-fadeIn">
+                  {formErrors.postalCode}
+                </p>
+              )}
+            </div>
+
+              <div className="space-y-2">
+              <Label
+                htmlFor="colony"
+                className="text-sm font-medium text-slate-700 dark:text-slate-300 flex items-center gap-2"
+              >
+                <MapPin size={14} className="text-emerald-500" />
+                Colonia <span className="text-rose-500">*</span>
+              </Label>
+              <Select value={formData.colony} onValueChange={handleColonyChange}>
+                <SelectTrigger
+                  className={`h-11 px-4 bg-white dark:bg-slate-900 border transition-all duration-200 focus-visible:ring-1 focus-visible:ring-emerald-500 focus-visible:border-emerald-500 ${
+                    formErrors.colony
+                      ? "border-rose-300 dark:border-rose-800 shadow-[0_0_0_1px_rgba(225,29,72,0.2)]"
+                      : "border-slate-200 dark:border-slate-800"
+                  }`}
+                >
+                  <SelectValue placeholder="Selecciona una colonia" />
+                </SelectTrigger>
+                <SelectContent>
+                  {colonies.map((colony) => (
+                    <SelectItem key={colony.clave} value={colony.colonia}>
+                      {colony.colonia}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              {formErrors.colony && (
+                <p className="text-xs font-medium text-rose-500 flex items-center gap-1.5 mt-1 animate-fadeIn">
+                  {formErrors.colony}
+                </p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <Label
+                htmlFor="city"
+                className="text-sm font-medium text-slate-700 dark:text-slate-300 flex items-center gap-2"
+              >
+                <Building2 size={14} className="text-emerald-500" />
+                Ciudad
+              </Label>
+              <Input
+                id="city"
+                name="city"
+                value={formData.city}
+                disabled
+                className="h-11 px-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 cursor-not-allowed"
+              />
+            </div>
+
+            {/* Quinta fila: Estado y Colonia */}
+            <div className="space-y-2">
+              <Label
+                htmlFor="state"
+                className="text-sm font-medium text-slate-700 dark:text-slate-300 flex items-center gap-2"
+              >
+                <MapPin size={14} className="text-emerald-500" />
+                Estado
+              </Label>
+              <Input
+                id="state"
+                name="state"
+                value={formData.state}
+                disabled
+                className="h-11 px-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 cursor-not-allowed"
+              />
+            </div>
+
+         
           </div>
         </div>
 

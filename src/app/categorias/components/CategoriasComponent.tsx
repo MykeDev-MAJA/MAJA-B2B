@@ -1,6 +1,7 @@
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
+import Breadcrumb from '@/app/components/Breadcrumb/Breadcrumb';
 
 // Definimos las categorías disponibles con sus imágenes
 interface Categoria {
@@ -29,7 +30,7 @@ const CategoriasComponent = () => {
   return (
     <div className=" flex flex-col items-center py-8 px-8 ">
       <h1 className="text-4xl font-normal mb-8">CATEGORÍAS</h1>
-
+    
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8 w-[100%]">
         {categorias.map((categoria, index) => (
           <Link 

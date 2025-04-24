@@ -88,7 +88,7 @@ export default function ProductDetails({ productName, price, sku }: ProductDetai
       <div className="space-y-2">
         <div className="flex items-center justify-between">
           <Badge variant="outline" className="text-xs font-medium">
-            En stock
+            Dispobible
           </Badge>
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="icon" className="rounded-full">
@@ -182,7 +182,7 @@ export default function ProductDetails({ productName, price, sku }: ProductDetai
                 <div className="w-9 h-9 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-800">
                   <span className="text-[0.625rem] font-medium">{size}</span>
                 </div>
-                {isAuthenticated && <span className="text-xs font-medium">Stock {Math.floor(Math.random() * (300 - 10 + 1)) + 10}</span>}
+                {isAuthenticated && <span className="text-xs font-medium">Stock 150</span>}
               </div>
               <QuantitySelector
                 initialValue={sizeQuantities.find((sq) => sq.size === size)?.quantity || 0}

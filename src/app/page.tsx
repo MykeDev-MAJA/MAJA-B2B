@@ -7,8 +7,7 @@ export default function Home() {
   return (
     <>
       <FullScreenContent />
-   
-      <CategoriasComponent />
+   <CategoriasComponent />
       <TecnoBanner />
       <ServerProducts />
       {/* <PaymentBanner /> */}
