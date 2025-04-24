@@ -43,7 +43,7 @@ export default function Breadcrumb() {
           </BreadcrumbLink>
         </BreadcrumbItem>
         
-        {breadcrumbItems.map((item: BreadcrumbItemType, index: number) => (
+        {breadcrumbItems.map((item: BreadcrumbItemType) => (
           <React.Fragment key={item.href}>
             <BreadcrumbSeparator />
             <BreadcrumbItem>

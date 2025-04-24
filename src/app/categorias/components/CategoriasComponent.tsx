@@ -1,7 +1,6 @@
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
-import Breadcrumb from '@/app/components/Breadcrumb/Breadcrumb';
 
 // Definimos las categorías disponibles con sus imágenes
 interface Categoria {
