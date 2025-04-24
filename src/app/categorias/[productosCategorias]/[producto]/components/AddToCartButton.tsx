@@ -92,7 +92,7 @@ const AddToCartButton = ({
       onClick={handleAddToCart}
       disabled={isLoading || !hasItems}
     >
-      <ShoppingCart className="mr-2 h-5 w-5" />
+      <ShoppingCart className="mr-2 h-5 w-5 mt-18" />
       {isLoading ? 'Agregando...' : hasItems 
         ? `Agregar ${totalQuantity} a cotización` 
         : 'Selecciona cantidades'}

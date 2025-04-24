@@ -88,6 +88,9 @@ const Navbar = () => {
           <Link href="/categorias/mujeres" prefetch={true}  >
           <div className="flex-1">MUJER</div>
           </Link>
+          <Link href="/nosotros" prefetch={true}  >
+          <div className="flex-1">NOSOTROS</div>
+          </Link>
         </div>
 
 

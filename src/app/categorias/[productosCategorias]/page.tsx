@@ -1,6 +1,7 @@
 import React from 'react'
 import { ServerProducts } from '@/components/Home/ServerProducts'
 import Image from 'next/image'
+import Breadcrumb from '@/app/components/Breadcrumb/Breadcrumb'
 // PAGINA DE PRODUCTOS SEGUN CATEGORIA
 
 const ProductosCategorias = async (props: {
@@ -25,7 +26,9 @@ const ProductosCategorias = async (props: {
       </div>
       <h1 className='relative z-20 text-white text-4xl font-semibold capitalize'>{productosCategorias.toUpperCase()}</h1>
     </div>
+    <Breadcrumb />
     <ServerProducts filterCategory={productosCategorias} />
+
     </>
   );
 }
