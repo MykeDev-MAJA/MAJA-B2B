@@ -37,16 +37,24 @@ export default function AboutPage() {
       { threshold: 0.2 }
     );
     
-    if (historyRef.current) observer.observe(historyRef.current);
-    if (panoramaRef.current) observer.observe(panoramaRef.current);
-    if (commitmentRef.current) observer.observe(commitmentRef.current);
-    if (missionRef.current) observer.observe(missionRef.current);
+    // Capture current ref values inside the effect
+    const historyElement = historyRef.current;
+    const panoramaElement = panoramaRef.current;
+    const commitmentElement = commitmentRef.current;
+    const missionElement = missionRef.current;
     
+    // Observe elements if they exist
+    if (historyElement) observer.observe(historyElement);
+    if (panoramaElement) observer.observe(panoramaElement);
+    if (commitmentElement) observer.observe(commitmentElement);
+    if (missionElement) observer.observe(missionElement);
+    
+    // Cleanup function using captured elements
     return () => {
-      if (historyRef.current) observer.unobserve(historyRef.current);
-      if (panoramaRef.current) observer.unobserve(panoramaRef.current);
-      if (commitmentRef.current) observer.unobserve(commitmentRef.current);
-      if (missionRef.current) observer.unobserve(missionRef.current);
+      if (historyElement) observer.unobserve(historyElement);
+      if (panoramaElement) observer.unobserve(panoramaElement);
+      if (commitmentElement) observer.unobserve(commitmentElement);
+      if (missionElement) observer.unobserve(missionElement);
     };
   }, []);
   
@@ -131,9 +139,9 @@ export default function AboutPage() {
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-gray-900">Algo tiene la baja</h2>
               <div className="w-20 h-1 bg-amber-500 mb-8"></div>
               <p className="text-lg text-gray-700 leading-relaxed mb-6">
-              En MAJA® se representa el concepto "Mexican Baja". Nuestra línea de ropa outdoor captura la esencia, paisajes y actividades que ofrece este terruño abrazado por El Pacífico y El Mar de Cortés.
+              En MAJA® se representa el concepto &ldquo;Mexican Baja&rdquo;. Nuestra línea de ropa outdoor captura la esencia, paisajes y actividades que ofrece este terruño abrazado por El Pacífico y El Mar de Cortés.
 
-Algo tiene "La Baja", nos llama a la exploración, la pesca, la montaña, el surfear las olas y respirar su aire fresco.
+Algo tiene &ldquo;La Baja&rdquo;, nos llama a la exploración, la pesca, la montaña, el surfear las olas y respirar su aire fresco.
               </p>
               <p className="text-lg text-gray-700 leading-relaxed">
               Somos una marca mexicana hecha con muchas ganas y respeto por conservar este territorio como un tesoro nacional.

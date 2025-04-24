@@ -1,6 +1,6 @@
 'use client'
 import React, { useState, useTransition } from 'react';
-import { ShoppingCart, Plus, Minus, Trash2, Send, User, Building2, Mail, Phone, FileText, ArrowRight, ShoppingBag, Package, MapPin } from 'lucide-react';
+import { ShoppingCart, Plus, Minus, Trash2, Send, User, Building2, Mail, Phone, FileText, ArrowRight, ShoppingBag, MapPin } from 'lucide-react';
 import useCartStore from '@/contexts/useCartStore';
 import { Card, CardContent } from "@/components/ui/card"
 
