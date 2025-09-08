@@ -32,7 +32,7 @@ const QuantitySelector = ({
       setInputValue("0")
       onChange?.(0)
     }
-  }, [resetValue])
+  }, [resetValue, quantity, onChange])
 
   const handleDecrease = () => {
     if (quantity > min) {
