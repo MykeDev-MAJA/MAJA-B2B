@@ -1,0 +1,31 @@
+{
+    "id": 1,
+    "name": "Camisa MAJA corp",
+    "price": 1799.00,
+    "categoria": "hombres",
+    "agrupado": true,
+    "colors": [
+      {
+        "name": "Cafe",
+        "SKU": "X-CO1-10",
+        "class": "bg-[#C5BEA8]",
+        "image": "/images/Producto/Jeep_cafe.jpg",
+        "stock": 4
+      },
+      {
+        "name": "Negro",
+        "SKU": "X-CO1-11",
+        "class": "bg-[#000000]",
+        "image": "/images/Producto/Jeep_negro.jpg",
+        "stock": 1347
+      },
+      {
+        "name": "Verde",
+        "SKU": "X-CO1-12",
+        "class": "bg-[#607C4C]",
+        "image": "/images/Producto/Jeep_verde.jpg",
+        "stock": 621
+      }
+    ],
+    "isNew": false
+  }

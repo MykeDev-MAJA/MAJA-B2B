@@ -1,0 +1,25 @@
+.perspective1000 {
+  perspective: 1000px;
+}
+
+.transformStyle3d {
+  transform-style: preserve-3d;
+}
+
+.backfaceHidden {
+  backface-visibility: hidden;
+}
+
+.rotateY180 {
+  transform: rotateY(180deg);
+}
+
+.cardContainer {
+  position: relative;
+  transition-property: transform;
+  transition-duration: 700ms;
+}
+
+.flipped {
+  transform: rotateY(180deg);
+} 

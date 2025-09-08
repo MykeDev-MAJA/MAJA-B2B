@@ -3,38 +3,47 @@
 import { useState } from "react"
 import Image from "next/image"
 import { motion } from "framer-motion"
-import { Heart, ShoppingBag } from "lucide-react"
+import { ShoppingBag } from "lucide-react"
 import Link from "next/link"
-
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 
-interface ColorOption {
-  name: string
-  class: string
-  image: string
-  stock: number
-  link: string
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+  colors: ColorOption[];
+  isNew: boolean;
+  categoria: string;
 }
 
-const colorOptions: ColorOption[] = [
-    { name: "Azul", class: "bg-[#004963]", image: "/images/Producto/azul.webp", stock: 500 , link: "/hombre/camisa-azul" },
-    { name: "Rojo", class: "bg-[#A91A26]", image: "/images/Producto/rojo.webp", stock: 1347 , link: "/hombre/camisa-roja" },
-    { name: "Verde", class: "bg-[#607C4C]", image: "/images/Producto/verde.jpg", stock: 621 , link: "/hombre/camisa-verde" },
-]
+interface ColorOption {
+  name: string;
+  class: string;
+  image: string;
+  stock: number;
+}
 
-export default function ProductCard() {
-  const [selectedColor, setSelectedColor] = useState<ColorOption | null>(null)
-  const [isFavorite, setIsFavorite] = useState(false)
+// Create a motion button by extending the Button component
+const MotionButton = motion(Button);
 
-  const handleFavoriteClick = () => {
-    setIsFavorite(!isFavorite)
-  }
+export default function ProductCard({ product }: { product: Product }) {
+  const [selectedColor, setSelectedColor] = useState<ColorOption | null>(product.colors[0]);
+  
+  const colorName = selectedColor ? selectedColor.name : product.colors[0].name;
+  const productUrl = `/categorias/${product.categoria}/${product.name}-${colorName}`.replace(/\s+/g, '-');
+  
+
+  
+  // const currentStock = selectedColor ? selectedColor.stock : product.colors[0].stock;
 
   return (
-    <div className="group relative max-w-sm rounded-xl overflow-hidden shadow-lg bg-white hover:shadow-xl transition-all duration-300">
-      <div className="absolute top-3 right-3 z-10">
+    <div className="group relative max-w-[310px] rounded-lg overflow-hidden shadow-lg bg-white hover:shadow-2xl transition-all duration-200">
+
+      {/* ESTE ES EL BOTON PARA AÑADIR A FAVORITOS */}
+
+      {/* <div className="absolute top-3 right-3 z-10">
         <Button
           variant="ghost"
           size="icon"
@@ -45,61 +54,78 @@ export default function ProductCard() {
             <Heart
               className={cn(
                 "h-5 w-5 transition-all duration-300 ease-in-out",
-                isFavorite ? "text-rose-500 fill-rose-500" : "text-gray-600 hover:text-rose-500",
+                isFavorite ? "text-rose-500 fill-rose-500" : "text-gray-600 hover:text-rose-500"
               )}
             />
           </motion.div>
           <span className="sr-only">Añadir a favoritos</span>
         </Button>
-      </div>
+      </div> */}
+      
 
-      <Badge className="absolute top-3 left-3 z-10 bg-primary/90 hover:bg-primary">Nuevo</Badge>
+      {/* ESTE ES EL BOTON PARA AÑADIR A NUEVOS */}
 
-      <div className="relative h-92 overflow-hidden">
-        <Link href={selectedColor ? selectedColor.link : colorOptions[0].link}>
-          <Image
+      {product.isNew && (
+        <Badge className="absolute rounded-[35px] top-3 left-3 z-10 bg-primary/90 hover:bg-primary">Nuevo</Badge>
+      )}
+
+
+{selectedColor && selectedColor.stock <= 5 && (
+          <Badge className="absolute top-3 right-3 text-xs text-white bg-primary/90 z-10 font-medium ">
+            ¡Últimas unidades disponibles!
+          </Badge>
+        )}
+
+      <div className="relative aspect-[4/5] overflow-hidden">
+        <Link href={productUrl}>
+        <Image
             className="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-500"
-            src={selectedColor ? selectedColor.image : "/images/Producto/azul.webp"}
-            alt="Camisa manga larga outdoor"
-            width={500}
-            height={600}
+            src={selectedColor ? selectedColor.image : product.colors[0].image}
+            alt={`${product.name} en color ${selectedColor ? selectedColor.name : product.colors[0].name}`}
+            fill
+            sizes="(max-width: 320px) 100vw"
             priority
           />
+         
         </Link>
       </div>
 
       <div className="p-5">
         <div className="flex justify-between items-start">
           <h2 className="text-lg font-medium text-gray-900 group-hover:text-primary transition-colors">
-            Camisa Outdoor Equipo
+            {product.name}
           </h2>
         </div>
 
         <p className="text-gray-500 text-sm mb-2">
-          {selectedColor ? selectedColor.name : colorOptions[1].name}
+          {selectedColor ? selectedColor.name : product.colors[0].name}
         </p>
 
-        <p className="text-primary text-sm font-bold mb-1">
-          <span className="font-light">Desde</span> $1,799.00 <span className="font-light">hasta</span> $1,199.00
+        <p className="text-primary font-light mb-1">
+          {product.price.toLocaleString('es-MX', { style: 'currency', currency: 'MXN' })}
         </p>
 
-        <p className="text-sm text-gray-600 font-extralight mb-3">
-          {selectedColor ? selectedColor.stock : colorOptions[1].stock} unidades disponibles
-        </p>
+        {/* <p className="text-sm text-gray-600 font-extralight mb-3">
+          {selectedColor ? selectedColor.stock : product.colors[0].stock} unidades disponibles
+        </p> */}
 
-        <div className="space-y-3">
-          <p className="text-xs font-medium text-gray-700">Colores disponibles</p>
+        
+
+
+        <div className="space-y-2 mt-3">
+          <p className="text-xs font-medium text-gray-700">Color seleccionado</p>
           <div className="flex gap-2">
-            {colorOptions.map((color) => (
+            {product.colors.map((color) => (
               <button
                 key={color.name}
                 onClick={() => setSelectedColor(color)}
                 className={cn(
                   "relative w-4 h-4 rounded-full transition-all duration-200",
                   color.class,
-                  selectedColor?.name === color.name ? "ring-2 ring-offset-2 ring-primary" : "hover:scale-110",
+                  selectedColor?.name === color.name ? "ring-2 ring-offset-2 ring-primary" : "hover:scale-110"
                 )}
                 aria-label={`Color ${color.name}`}
+                title={`${color.name} - ${color.stock} disponibles`}
               >
                 {selectedColor?.name === color.name && (
                   <motion.div
@@ -115,16 +141,23 @@ export default function ProductCard() {
           </div>
         </div>
 
-        <div className="mt-5">
-        <Link href={selectedColor ? selectedColor.link : colorOptions[0].link}>
-          <Button className="w-full gap-2 group">
-            <ShoppingBag className="h-4 w-4 group-hover:scale-110 transition-transform" />
-            Realizar pedido
-          </Button>
+    
+
+        <div className="absolute bottom-3 right-3">
+          <Link href={productUrl}>
+            <MotionButton
+              className="w-full gap-2 group rounded-[35px] hover:cursor-pointer"
+              whileHover={{ y: [0, -3, 0] }}
+              transition={{ duration: 0.8, repeat: Infinity, repeatType: 'reverse', ease: 'easeInOut' }}
+              aria-label={`Ver detalles de ${product.name}`}
+            >
+              <ShoppingBag className="h-4 w-4 group-hover:scale-110 transition-transform" />
+              Ver producto
+            </MotionButton>
           </Link>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
