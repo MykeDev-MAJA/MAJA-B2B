@@ -37,19 +37,16 @@ export default function AboutPage() {
       { threshold: 0.2 }
     );
     
-    // Capture current ref values inside the effect
     const historyElement = historyRef.current;
     const panoramaElement = panoramaRef.current;
     const commitmentElement = commitmentRef.current;
     const missionElement = missionRef.current;
     
-    // Observe elements if they exist
     if (historyElement) observer.observe(historyElement);
     if (panoramaElement) observer.observe(panoramaElement);
     if (commitmentElement) observer.observe(commitmentElement);
     if (missionElement) observer.observe(missionElement);
     
-    // Cleanup function using captured elements
     return () => {
       if (historyElement) observer.unobserve(historyElement);
       if (panoramaElement) observer.unobserve(panoramaElement);
@@ -64,7 +61,6 @@ export default function AboutPage() {
 
   return (
     <main className="w-full overflow-x-hidden bg-neutral-50">
-      {/* Hero Section - Enhanced with overlay text and CTA */}
       <section className="w-full relative h-[calc(100vh-36px)] flex items-center justify-center">
         <div className="absolute inset-0 bg-black/30 z-10" />
         
@@ -118,12 +114,11 @@ export default function AboutPage() {
             alt="Social Responsibility Icon"
             width={300}
             height={300}
-            className="w-[150px] h-[150px] sm:w-[200px] sm:h-[200px] md:w-[300px] md:h-[300px]"
+            className="w-[150px] h-[150px] sm:w-[200px] sm:h-[200px] md:w-[300px] md:h-[300px] "
           />
         </motion.div>
       </section>
 
-      {/* History Section - Enhanced with animations and better spacing */}
       <section 
         ref={historyRef}
         className="w-full py-16 md:py-24 bg-white"
@@ -158,7 +153,7 @@ Algo tiene &ldquo;La Baja&rdquo;, nos llama a la exploración, la pesca, la mont
                 src="/images/Nosotros/Lentes-Jeep.webp"
                 alt="Imagen sobre nuestra historia"
                 fill
-                className="object-cover hover:scale-105 transition-transform duration-700"
+                className="object-cover object-top hover:scale-105 transition-transform duration-700"
                 sizes="(max-width: 768px) 100vw, 50vw"
               />
             </motion.div>
@@ -168,24 +163,19 @@ Algo tiene &ldquo;La Baja&rdquo;, nos llama a la exploración, la pesca, la mont
 
  
 
-      {/* Panorama Section - Enhanced with parallax effect */}
       <section 
         ref={panoramaRef}
-        className="w-full h-[50vh] md:h-[70vh] lg:h-screen relative overflow-hidden"
+        className="w-full h-[50vh] md:h-[70vh] lg:h-[80vh] relative overflow-hidden"
       >
         <motion.div
           className="absolute inset-0"
-          style={{
-            y: isVisible.panorama ? -50 : 0,
-            transition: "transform 0.5s cubic-bezier(0.33, 1, 0.68, 1)"
-          }}
+
         >
           <Image
             src="/images/Nosotros/Razor-Per.webp"
             alt="Imagen panorámica de nuestra empresa"
             fill
-            className="object-cover"
-            sizes="100vw"
+            className="object-cover object-top"
           />
           <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
             <motion.div 
@@ -200,7 +190,7 @@ Algo tiene &ldquo;La Baja&rdquo;, nos llama a la exploración, la pesca, la mont
               <div className="w-24 h-1 bg-amber-500 mx-auto mb-8"></div>
                <div className="flex flex-col gap-4">
 
-              <p className="text-lg md:text-xl text-white max-w-3xl mx-auto">
+<p className="text-lg md:text-xl text-white max-w-3xl mx-auto">
 Respeto por el medio ambiente.              </p>
               <p className="text-lg md:text-xl text-white max-w-3xl mx-auto">
 Nunca dejes de ser tú.              </p>
@@ -209,6 +199,7 @@ La vida es una búsqueda constante.              </p>
               <p className="text-lg md:text-xl text-white max-w-3xl mx-auto">
 Moda NO, utilidad SÍ.
               </p>
+          
               </div>
             </motion.div>
           </div>
@@ -231,7 +222,7 @@ Moda NO, utilidad SÍ.
                 src="/images/Nosotros/Per-Cactus.webp"
                 alt="Imagen de nuestro equipo"
                 fill
-                className="object-cover hover:scale-105 transition-transform duration-700"
+                className="object-cover object-top hover:scale-105 transition-transform duration-700"
                 sizes="(max-width: 768px) 100vw, 50vw"
               />
             </motion.div>
@@ -322,7 +313,7 @@ Moda NO, utilidad SÍ.
             ].map((value, index) => (
               <motion.div 
                 key={index}
-                className="bg-white/50 backdrop-blur-sm p-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
+                className="bg-white/80 backdrop-blur-sm p-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}

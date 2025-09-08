@@ -33,10 +33,10 @@ export const metadata: Metadata = {
     siteName: "MAJA Corp",
     images: [ 
       {
-        url: "https://b2b-maja-corp.netlify.app/images/ImagesOg/Home/capibara_nadando.webp", 
-        width: 1200,
+        url: "https://b2b-maja-corp.netlify.app/images/Nosotros/Lentes-Jeep.webp", 
+        width: 1200,  
         height: 630,
-        alt: "Imagen de capibara nadando",
+        alt: "Imagen de lentes jeep",
       },
     ],
     locale: "es_ES",
