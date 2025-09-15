@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState, useEffect } from "react"
-import { Minus, Plus, Trash2 } from "lucide-react"
+import { Minus, Plus } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -15,8 +15,8 @@ interface QuantitySelectorProps {
 }
 
 const QuantitySelector = ({
-  initialValue = 1,
-  min = 1,
+  initialValue = 0,
+  min = 0,
   max = 999,
   onChange,
   resetValue
@@ -25,64 +25,79 @@ const QuantitySelector = ({
   const [inputValue, setInputValue] = useState(initialValue.toString())
   const [isFocused, setIsFocused] = useState(false)
 
+  // Sync with initialValue changes
+  useEffect(() => {
+    setQuantity(initialValue)
+    setInputValue(initialValue.toString())
+  }, [initialValue])
+
   // Reset effect when resetValue changes
   useEffect(() => {
-    if (resetValue !== undefined && quantity !== 0) {
+    if (resetValue !== undefined) {
       setQuantity(0)
       setInputValue("0")
       onChange?.(0)
     }
-  }, [resetValue, quantity, onChange])
+  }, [resetValue])
+
+  const updateQuantity = (newQuantity: number) => {
+    // Clamp value between min and max
+    const clampedQuantity = Math.max(min, Math.min(max, newQuantity))
+    setQuantity(clampedQuantity)
+    setInputValue(clampedQuantity.toString())
+    onChange?.(clampedQuantity)
+  }
 
   const handleDecrease = () => {
-    if (quantity > min) {
-      const newQuantity = quantity - 1
-      setQuantity(newQuantity)
-      setInputValue(newQuantity.toString())
-      onChange?.(newQuantity)
-    }
+    updateQuantity(quantity - 1)
   }
 
   const handleIncrease = () => {
-    if (quantity < max) {
-      const newQuantity = quantity + 1
-      setQuantity(newQuantity)
-      setInputValue(newQuantity.toString())
-      onChange?.(newQuantity)
-    }
+    updateQuantity(quantity + 1)
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     setInputValue(value)
     
+    // Allow empty input while typing
+    if (value === "") {
+      setQuantity(0)
+      onChange?.(0)
+      return
+    }
+
     const numValue = parseInt(value, 10)
-    // Si es un número válido y está dentro del rango
-    if (!isNaN(numValue) && numValue >= min && numValue <= max) {
-      setQuantity(numValue)
-      onChange?.(numValue)
+    if (!isNaN(numValue)) {
+      const clampedQuantity = Math.max(min, Math.min(max, numValue))
+      setQuantity(clampedQuantity)
+      onChange?.(clampedQuantity)
     }
   }
 
   const handleFocus = () => {
     setIsFocused(true)
-    if (inputValue === "0") {
+    // Clear input if value is 0
+    if (quantity === 0) {
       setInputValue("")
     }
   }
 
   const handleBlur = () => {
     setIsFocused(false)
+    // If input is empty, set to 0
     if (inputValue === "" || isNaN(parseInt(inputValue, 10))) {
       setInputValue("0")
       setQuantity(0)
       onChange?.(0)
+    } else {
+      // Update display value to match actual quantity
+      setInputValue(quantity.toString())
     }
   }
 
   return (
     <div className="space-y-2">
-      {/* <Label htmlFor="quantity">Cantidad</Label> */}
       <div className="flex items-center">
         <Button
           variant="outline"
@@ -91,23 +106,16 @@ const QuantitySelector = ({
           onClick={handleDecrease}
           disabled={quantity <= min}
         >
-          {quantity === 1 ? (
-            <Trash2 className="h-3 w-3" />
-          ) : (
-            <Minus className="h-3 w-3" />
-          )}
-          <span className="sr-only">
-            {quantity === 1 ? "Remove item" : "Decrease quantity"}
-          </span>
+          <Minus className="h-3 w-3" />
+          <span className="sr-only">Decrease quantity</span>
         </Button>
         <Input
-          id="quantity"
           type="number"
           min={min}
           max={max}
           className="h-8 w-14 rounded-none border-x-0 text-center [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-          value={isFocused && inputValue === "" ? "" : inputValue}
-          onChange={handleChange}
+          value={inputValue}
+          onChange={handleInputChange}
           onFocus={handleFocus}
           onBlur={handleBlur}
         />

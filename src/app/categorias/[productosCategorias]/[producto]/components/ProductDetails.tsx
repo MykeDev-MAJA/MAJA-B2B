@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useCallback } from 'react'
 import { Heart, Share2, Truck, Headset } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -57,18 +57,18 @@ export default function ProductDetails({ productName, price, sku }: ProductDetai
   }, [sizeQuantities])
 
   // Handle quantity change for a specific size
-  const handleQuantityChange = (size: string, newQuantity: number) => {
+  const handleQuantityChange = useCallback((size: string, newQuantity: number) => {
     setSizeQuantities(prev => 
       prev.map(item => 
         item.size === size ? { ...item, quantity: newQuantity } : item
       )
     )
-  }
+  }, [])
 
-  const handleReset = () => {
+  const handleReset = useCallback(() => {
     setSizeQuantities(SIZES.map(size => ({ size, quantity: 0 })))
     setResetCounter(prev => prev + 1)
-  }
+  }, [])
 
   // Handle color change
   const handleColorChange = (color: string) => {
