@@ -23,7 +23,6 @@ const QuantitySelector = ({
 }: QuantitySelectorProps) => {
   const [quantity, setQuantity] = useState(initialValue)
   const [inputValue, setInputValue] = useState(initialValue.toString())
-  const [isFocused, setIsFocused] = useState(false)
 
   // Sync with initialValue changes
   useEffect(() => {
@@ -38,6 +37,7 @@ const QuantitySelector = ({
       setInputValue("0")
       onChange?.(0)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resetValue])
 
   const updateQuantity = (newQuantity: number) => {
@@ -76,7 +76,6 @@ const QuantitySelector = ({
   }
 
   const handleFocus = () => {
-    setIsFocused(true)
     // Clear input if value is 0
     if (quantity === 0) {
       setInputValue("")
@@ -84,7 +83,6 @@ const QuantitySelector = ({
   }
 
   const handleBlur = () => {
-    setIsFocused(false)
     // If input is empty, set to 0
     if (inputValue === "" || isNaN(parseInt(inputValue, 10))) {
       setInputValue("0")
